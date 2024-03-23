@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Quantum-Safe Cryptosuites v0.3</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <!--
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     -->
+    <script src="//www.w3.org/Tools/respec/respec-w3c" class="remove"></script>
+
+    <script type="text/javascript" class="remove">
+      var respecConfig = {
+        subtitle: "Achieving Data Integrity using Post-Quantum Cryptography",
+        // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
+        group: "credentials",
+        specStatus: "CG-DRAFT",
+
+        // the specification's short name, as in http://www.w3.org/TR/short-name/
+        shortName: "di-quantum-safe",
+
+        // if you wish the publication date to be other than today, set this
+        //publishDate:  "2023-11-14",
+
+        // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
+        // and its maturity status
+        // previousPublishDate:  "1977-03-15",
+        // previousMaturity:  "WD",
+
+        // if there a publicly available Editor's Draft, this is the link
+        edDraftURI: "https://w3c-ccg.github.io/di-quantum-safe/",
+        //latestVersion: "https://www.w3.org/community/reports/credentials/CG-FINAL-di-ecdsa-2019-20220724/",
+
+        // if this is a LCWD, uncomment and set the end of its review period
+        //implementationReportURI: "https://w3c.github.io/vc-data-integrity/implementations/",
+        //crEnd: "2024-01-17",
+
+        // if you want to have extra CSS, append them to this list
+        // it is recommended that the respec.css stylesheet be kept
+        //extraCSS:             ["spec.css", "prettify.css"],
+
+        // editors, add as many as you like
+        // only "name" is required
+        editors: [{
+          name: "Andrea D'Intino",
+          url: "https://www.linkedin.com/in/andrea-d-intino/",
+          company: "Forkbomb",
+          companyURL: "https://forkbomb.eu/",
+          w3cid: 0
+        }, {
+          name: "Will Abramson",
+          url: "https://drwip.com/",
+          company: "Legendary Requirements",
+          companyURL: "https://legreq.com/",
+          w3cid: 0
+        }, {
+          name: "Denis \"Jaromil\" Roio",
+          url: "https://jaromil.dyne.org/",
+          company: "Dyne",
+          companyURL: "https://dyne.org/",
+          w3cid: 0
+        }, {
+          name: "Manu Sporny",
+          url: "https://www.linkedin.com/in/manusporny/",
+          company: "Digital Bazaar",
+          companyURL: "https://digitalbazaar.com/",
+          w3cid: 41758
+        }],
+
+        // authors, add as many as you like.
+        // This is optional, uncomment if you have authors as well as editors.
+        // only "name" is required. Same format as editors.
+
+        authors: [{
+          name: "Andrea D'Intino",
+          url: "https://www.linkedin.com/in/andrea-d-intino/",
+          company: "Forkbomb",
+          companyURL: "https://forkbomb.eu/",
+          w3cid: 0
+        }, {
+          name: "Will Abramson",
+          url: "https://drwip.com/",
+          company: "Legendary Requirements",
+          companyURL: "https://legreq.com/",
+          w3cid: 0
+        }, {
+          name: "Denis \"Jaromil\" Roio",
+          url: "https://jaromil.dyne.org/",
+          company: "Dyne",
+          companyURL: "https://dyne.org/",
+          w3cid: 0
+        }, {
+          name: "Dave Longley", url: "https://digitalbazaar.com/",
+          company: "Digital Bazaar", companyURL: "https://digitalbazaar.com/",
+          w3cid: 48025
+        }, {
+          name: "Manu Sporny",
+          url: "https://www.linkedin.com/in/manusporny/",
+          company: "Digital Bazaar",
+          companyURL: "https://digitalbazaar.com/",
+          w3cid: 41758
+        }],
+
+        // extend the bibliography entries
+        //localBiblio: webpayments.localBiblio,
+
+        // name of the WG
+        //wg:           "W3C Credentials Community Group",
+
+        // URI of the public WG page
+        //wgURI:        "https://www.w3.org/community/credentials/",
+
+        // name (with the @w3c.org) of the public mailing to which comments are due
+        //wgPublicList: "public-credentials",
+
+        github: "https://github.com/w3c/vc-di-ecdsa/",
+
+        otherLinks: [],
+
+        // URI of the patent status for this WG, for Rec-track documents
+        // !!!! IMPORTANT !!!!
+        // This is important for Rec-track documents, do not copy a patent URI from a random
+        // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
+        // Team Contact.
+        // wgPatentURI:  "",
+        maxTocLevel: 4,
+        /*preProcess: [ webpayments.preProcess ],
+        alternateFormats: [ {uri: "diff-20111214.html", label: "diff to previous version"} ],
+        */
+        localBiblio: {
+          MULTIBASE: {
+            title: "Multibase",
+            href: "https://datatracker.ietf.org/doc/html/draft-multiformats-multibase-01",
+          },
+          MULTICODEC: {
+            title: "Multicodec",
+            href: "https://github.com/multiformats/multicodec/",
+          },
+          SECG2: {
+            title: "SEC 2: Recommended Elliptic Curve Domain Parameters",
+            href: "https://www.secg.org/sec2-v2.pdf",
+            date: "January 27, 2010",
+            publisher: "Certicom Research"
+          },
+          "NIST-SP-800-186": {
+            title: "Recommendations for Discrete Logarithm-based Cryptography: Elliptic Curve Domain Parameters",
+            authors: ["Lily Chen", "Dustin Moody", "Karen Randall", "Andrew Regenscheid", "Angela Robinson"],
+            date: "February 2023",
+            publisher: "National Institute of Standards and Technology"
+          },
+          "NIST-SP-800-186": {
+            title: "Recommendations for Discrete Logarithm-based Cryptography: Elliptic Curve Domain Parameters",
+            authors: ["Lily Chen", "Dustin Moody", "Karen Randall", "Andrew Regenscheid", "Angela Robinson"],
+            date: "February 2023",
+            publisher: "National Institute of Standards and Technology"
+          },
+          "NIST-SP-800-57-Part-1": {
+            title: "Recommendation for Key Management: Part 1 – General",
+            authors: ["Elaine Barker"],
+            date: "May 2020",
+            publisher: "National Institute of Standards and Technology",
+            href: "https://doi.org/10.6028/NIST.SP.800-57pt1r5"
+          }
+        },
+        xref: ["INFRA", "VC-DATA-MODEL-2.0", "VC-DATA-INTEGRITY"],
+        lint: { "informative-dfn": false },
+        otherLinks: [{
+          key: "Related Specifications",
+          data: [{
+            value: "The Verifiable Credentials Data Model v2.0",
+            href: "https://www.w3.org/TR/vc-data-model-2.0/"
+          }, {
+            value: "Verifiable Credential Data Integrity v1.0",
+            href: "https://www.w3.org/TR/vc-data-integrity/"
+          }, {
+            value: "The Elliptic Curve Digital Signature Algorithm Cryptosuites v1.0",
+            href: "https://www.w3.org/TR/vc-di-ecdsa/"
+          }, {
+            value: "The Edwards Digital Signature Algorithm Cryptosuites v1.0",
+            href: "https://www.w3.org/TR/vc-di-eddsa/"
+          }, {
+            value: "The BBS Digital Signature Algorithm Cryptosuites v1.0",
+            href: "https://www.w3.org/TR/vc-di-bbs/"
+          }]
+        }]
+      };
+    </script>
+    <style>
+code {
+  color: rgb(199, 73, 0);
+  font-weight: bold;
+}
+pre.nohighlight {
+  overflow-x: auto;
+  white-space: pre-wrap;
+}
+pre .highlight {
+  font-weight: bold;
+  color: green;
+}
+pre .comment {
+  font-weight: bold;
+  color: Gray;
+}
+.color-text {
+  font-weight: bold;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+ol.algorithm {
+  counter-reset: numsection;
+  list-style-type: none;
+}
+ol.algorithm li {
+  margin: 0.5em 0;
+}
+ol.algorithm li:before {
+  font-weight: bold;
+  counter-increment: numsection;
+  content: counters(numsection, ".") ") ";
+}
+    </style>
+  </head>
+  <body>
+    <section id="abstract">
+      <p>
+This specification describes several Data Integrity Cryptosuites for use when
+generating a digital signature using Post-Quantum digital signature algorithms.
+      </p>
+    </section>
+
+    <section id="sotd">
+
+      <p>
+This specification is experimental, do not use it in any production setting.
+      </p>
+
+    </section>
+
+    <section>
+      <h2>Introduction</h2>
+      <p>
+This specification defines several cryptographic suites for the purpose of
+creating, and verifying proofs for Post-Quantum signatures in conformance with
+the Data Integrity [[VC-DATA-INTEGRITY]] specification.
+      </p>
+      <p>
+This specification uses either the RDF Dataset Canonicalization Algorithm
+[[RDF-CANON]] or the JSON Canonicalization Scheme [[RFC8785]] to transform the
+input document into its canonical form. It uses SHA-256 [[RFC6234]] as the
+message digest algorithm and Dilithium as the signature algorithm.
+      </p>
+
+      <section id="terminology">
+        <h3>Terminology</h3>
+
+        <p>
+Terminology used throughout this document is defined in the
+<a data-cite="VC-DATA-INTEGRITY#terminology">Terminology</a> section of the
+[[[VC-DATA-INTEGRITY]]] specification.
+        </p>
+
+      </section>
+
+      <section id="conformance">
+        <p>
+A <dfn>conforming proof</dfn> is any concrete expression of the data model
+that complies with the normative statements in this specification. Specifically,
+all relevant normative statements in Sections [[[#data-model]]] and
+[[[#algorithms]]] of this document MUST be enforced.
+        </p>
+
+        <p>
+A <dfn class="lint-ignore">conforming processor</dfn> is any algorithm realized
+as software and/or hardware that generates or consumes a
+[=conforming proof=]. Conforming processors MUST produce errors when
+non-conforming documents are consumed.
+        </p>
+	<p>
+This document contains examples of JSON and JSON-LD data. Some of these examples
+are invalid JSON, as they include features such as inline comments (`//`)
+explaining certain portions and ellipses (`...`) indicating the omission of
+information that is irrelevant to the example. Such parts need to be
+removed if implementers want to treat the examples as valid JSON or JSON-LD.
+        </p>
+      </section>
+
+    </section>
+
+    <section>
+      <h2>Data Model</h2>
+
+      <p>
+The following sections outline the data model that is used by this specification
+to express verification methods, such as cryptographic public keys, and
+data integrity proofs, such as digital signatures.
+      </p>
+
+      <section>
+        <h3>Verification Methods</h3>
+
+        <p>
+These verification methods are used to verify Data Integrity Proofs
+[[VC-DATA-INTEGRITY]] produced using Dilithium cryptographic key material
+that is compliant with <span class="issue">cite Dilithium spec</span>.
+The encoding formats for these key types are provided in this section. Lossless
+cryptographic key transformation processes that result in equivalent
+cryptographic key material MAY be used during the processing of digital
+signatures.
+        </p>
+
+        <section>
+          <h4>Multikey</h4>
+
+          <p>
+The <a data-cite="VC-DATA-INTEGRITY#multikey">Multikey format</a>, as defined in
+[[VC-DATA-INTEGRITY]], is used to express public keys for the cryptographic
+suites defined in this specification.
+          </p>
+
+          <p>
+The `publicKeyMultibase` property represents a Multibase-encoded Multikey
+expression of a Dilithium public key.
+<span class="issue">Specify acceptable Dilithium key sizes</span>
+          </p>
+
+          <p>
+The Multikey encoding of a Dilithium public key MUST start with the two-byte
+prefix `0x8724` (the varint expression of `0x1207`) followed by the 1312-byte
+compressed public key data. The resulting 1314-byte value MUST then be encoded
+using the base-64-url alphabet, according to the
+<a data-cite="VC-DATA-INTEGRITY#multibase-0">Multibase</a> section in the
+[[VC-DATA-INTEGRITY]] specification, and then prepended with the base-64-url
+Multibase header (`u`).
+          </p>
+
+          <p class="advisement">
+Developers are advised to not accidentally publish a representation of a private
+key. Implementations of this specification will raise errors in the event of a
+Multicodec value other than `0x1207` being used in a `publicKeyMultibase` value.
+          </p>
+
+          <pre class="example nohighlight"
+            title="An P-256 public key encoded as a Multikey">
+{
+  "id": "https://example.com/issuer/123#key-0",
+  "type": "Multikey",
+  "controller": "https://example.com/issuer/123",
+  "publicKeyMultibase": "u"
+}
+          </pre>
+
+          <pre class="example nohighlight"
+            title="A Dilithium-2 public key encoded as a Multikey">
+{
+  "id": "https://example.com/issuer/123#key-0",
+  "type": "Multikey",
+  "controller": "https://example.com/issuer/123",
+  "publicKeyMultibase": "uPGHVsCZXDE40VylpEwQ0QlAnLkw2empYUxtIK9SGegFgU0NdSWc
+                         vShMlZ3EzETQ2ejMKBixPJjV4M0AqGtmDBEUZVsasUhMsKg4lUGf
+                         enhckEmQKZ1AEeHZXEHQBJ2NTCwR9cg7Wll1yc3BEKBLasDtSCSQ
+                         tCiRhEUJMSGIMbgZOAgYvfGUsCt2RCmoaSiFGCk9YP0hMfUUGDx4
+                         mdMOPJTVKPjIzI0JJDCsCUDgdFn7UpVhkPcWd1rt7zpE5JjJ53os
+                         OW2cBFHAeI82DQRhvPhw9Xmk2WCt5FRxE060GbgFY1aFVOQnEm2Z
+                         jyZkDXjnHrwZHAloCBGsZP9KjWHsjR1pnIyVmNUlebCMdKXQpW2I
+                         oIAc-VWQyVzBRfE4ocRUZPStrwqEcbXZGUVAeehkGUg5TNgN4ZUX
+                         KvFxTFg"
+}
+          </pre>
+
+          <pre class="example nohighlight" title="Two public keys (P-256 and
+            Dilithium-2) encoded as Multikeys in a controller document">
+{
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    "https://w3id.org/security/multikey/v1"
+  ],
+  "id": "did:example:123",
+  "verificationMethod": [{
+    "id": "did:example:123#key-1",
+    "type": "Multikey",
+    "controller": "did:example:123",
+    "publicKeyMultibase": "zDnaerx9CtbPJ1q36T5Ln5wYt3MQYeGRG5ehnPAmxcf5mDZpv"
+  }, {
+    "id": "did:example:123#key-2",
+    "type": "Multikey",
+    "controller": "did:example:123",
+    "publicKeyMultibase": "uPGHVsCZXDE40VylpEwQ0QlAnLkw2empYUxtIK9SGegFgU0NdSWc
+                           vShMlZ3EzETQ2ejMKBixPJjV4M0AqGtmDBEUZVsasUhMsKg4lUGf
+                           enhckEmQKZ1AEeHZXEHQBJ2NTCwR9cg7Wll1yc3BEKBLasDtSCSQ
+                           tCiRhEUJMSGIMbgZOAgYvfGUsCt2RCmoaSiFGCk9YP0hMfUUGDx4
+                           mdMOPJTVKPjIzI0JJDCsCUDgdFn7UpVhkPcWd1rt7zpE5JjJ53os
+                           OW2cBFHAeI82DQRhvPhw9Xmk2WCt5FRxE060GbgFY1aFVOQnEm2Z
+                           jyZkDXjnHrwZHAloCBGsZP9KjWHsjR1pnIyVmNUlebCMdKXQpW2I
+                           oIAc-VWQyVzBRfE4ocRUZPStrwqEcbXZGUVAeehkGUg5TNgN4ZUX
+                           KvFxTFg"
+  }],
+  "authentication": [
+    "did:example:123#key-1"
+  ],
+  "assertionMethod": [
+    "did:example:123#key-2"
+  ],
+  "capabilityDelegation": [
+    "did:example:123#key-2"
+  ],
+  "capabilityInvocation": [
+    "did:example:123#key-2"
+  ]
+}
+          </pre>
+
+          <p>
+The `secretKeyMultibase` property represents a Multibase-encoded Multikey
+expression of a Dilithium-2 secret key (also sometimes referred to as a
+private key).
+          </p>
+          <p>
+The encoding of a Dilithium=2 secret key MUST start with the two-byte prefix
+`0x8726` (the varint expression of `0x1307`) followed by the 2528-byte secret
+key data. The 2530-byte value MUST then be encoded using the base-64-url-nopad
+alphabet, according to
+the <a data-cite="VC-DATA-INTEGRITY#multibase-0">Multibase</a> section in the
+[[VC-DATA-INTEGRITY]] specification, and then prepended with the
+base-64-url-nopad Multibase header (`u`). Any other encodings MUST NOT be
+allowed.
+          </p>
+
+          <p class="advisement">
+Developers are advised to prevent accidental publication of a representation of
+a secret key, and to not export the `secretKeyMultibase` property by default,
+when serializing key pairs as Multikey.
+          </p>
+
+        </section>
+
+      </section>
+
+      <section>
+        <h3>Proof Representations</h3>
+
+        <p>
+This section details the proof representation formats that are defined by
+this specification.
+        </p>
+
+        <section>
+          <h4>DataIntegrityProof</h4>
+
+          <p>
+A proof contains the attributes specified in the
+<a href="https://www.w3.org/TR/vc-data-integrity/#proofs">Proofs section</a>
+of [[VC-DATA-INTEGRITY]] with the following restrictions.
+          </p>
+          <p>
+The `type` property of the proof MUST be `DataIntegrityProof`.
+          </p>
+          <p>
+The `cryptosuite` property of the proof MUST be
+`experimental-quantum-safe-dilithium-2024`.
+          </p>
+          <p>
+The value of the `proofValue` property of the proof MUST be an Dilithium-2
+signature produced according to using the algorithms specified in section
+[[[#algorithms]]], encoded according
+to ??? encoded using the base-64-url-nopad header and
+alphabet as described in the
+<a href="https://www.w3.org/TR/vc-data-integrity/#multibase-0">
+Multibase section</a> of [[VC-DATA-INTEGRITY]].
+          </p>
+
+          <pre class="example nohighlight"
+            title="A Dilithium-2 quantum-safe digital signature expressed as a
+              DataIntegrityProof">
+{
+  "@context": [
+    {"myWebsite": "https://vocabulary.example/myWebsite"},
+    "https://www.w3.org/ns/credentials/v2"
+  ],
+  "myWebsite": "https://hello.world.example/",
+  "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "experimental-quantum-safe-dilithium-2024",
+    "created": "2024-04-24T23:36:38Z",
+    "verificationMethod": "https://vc.example/issuers/5678#key-3",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "uNfN/BvBY47LbvgK44078ZKLz7UgNDwOm09PJnn4jxNAVD6mKRG+Hl7VH/vE
+                   gyRMrRK2FP+rnwsmo8B0XhRN/Z8kPeXxNR/ho2Y9GrTLoZCMPmIygVd1mLAs
+                   z11lz7XEQQdgOMgjtl5HFylpGoC12urUBOeRrMF/eEC4qWrWttQeVs4oHrFf
+                   IV44H6kuu5DvW86JxgfhRskbnc1gcRWyq3rS8o2Oie6p8otDgwzhOUvRRqok
+                   Vq5j2fmZC6IJN2L6PCVOu7oory8GVGUm3j+rrKen5saA7sWjbD/ud0w0Yj+K
+                   R2X4UGCiVSjKkZmnwt2XsMmastQZq+LtkPV6IhCRYbylEJpAiSFjbjjyR7ya
+                   pRKJJdswcb9LFWGVai/fSd5uJd4cjPIcrj6EGtsUefp3nmiHE02tdk4M50v6
+                   Fj2LbC1yXyOqGyDU8y1zACU4AAy4foFEeV6KFDDAQRxlL7CLqJ1NYvcXyi6Y
+                   /8+3kfYQPjZMcDShhfpdEfsOGPuU3/7LJN8IFD/M8UOvY5u9Z2WdKKCFj2YS
+                   um74Ux6KONy0gQtWzmIrvllQhoKSinGArrFlGdv+ni6ZQ/kY0/nBmVT/lhvq
+                   Ib5M9NqO11BnN76DUgt5M8ji+tew6GqfIDXf3s32dQxopsCE2yv3x1mTs/M0
+                   iDftpDBMHy5sGyBNmcU+2zbQ4uoN0+VIEGUJxmOKMsdsi3h3uLmEjryKKkGR
+                   q186qQihvQl5CMBPJzkRFSA0LKMscuYltZ+f+u2lcw9tTRGK++MUpJijN6J+
+                   NbBZtLsgOIjofeKY/jyNOBqpIjHrdMWg9jHsakPLMnbLaGvTiJ+8FzilUUZh
+                   RkFF3fildZEZyNmDUdeSoN8xeQduj1sPopB8yLmIizi7gVFx7qzWMUi2J7Uw
+                   ShP6GiLhlBPpDkM2zaX0lflPhp0gAypyZSgfBBCVDBsZ72wXf+ap+2TGHzOF
+                   VTITTN7x7FBHf0WGoDMOUdKkdfPyQA+SZj9VbTsSknMwVccir/oeWCuaYqfH
+                   aJWtqSLDdnsXiOS1sJVxmyTpZaye4uuJ36OtwcpLypVGnbbzvffwHoIUHqsY
+                   jLxQVyG916n3WN7bchfdK5TVGBqpH7ZHD6iY64xP3Ujvs7G8pYKyoVkrHzAr
+                   8nxd7mctJYr6ApJLpvtHj/PldaW3nJ3jwT3lUXTIL5WPePlZVE43r6bMIvX+
+                   p4kDTIRu7+9DlB7cju0IpaJtAEmqDgUSvqEqSeHuSw5/Nu6OQKPlmukrKLdX
+                   QYOsVve4MqJzNvU5QsElNzI+UK6MSJ6/3qekZXhAUfy2Yc2SyLXw3IaNyxi2
+                   4BqMqwlpUzuuYWAFTC4NLG20IuKLKrtc4TR8VBROmx5nGDrlDMyLo6WcyDyD
+                   8iCNgeGhWTrjk6gSlLu8R+qWHyyYCUTAdU/zGf1cztclJYH8wRL7ZuxySrx+
+                   tc1BiRJswZvLyJS2u9QckZyKPQwvmJqnYPUFDhrC3DxQRRiWvD0iPQ0vHBEv
+                   jSKWXg/Dw25A/nVM+A54Sw5/q3OsGMoT8OzzV90YFoPNNSlTT7Qcx75T1MQS
+                   8dgRhd6swFzo1w4aq6Ye5orBnLOF719J8on/1GkWEbCiF08bLJ+5Cxa5MF9K
+                   jwjouLu6kkNSHgZR8BfOI2iLxi0MGH4q53g/ukCKR3oqF1huOdQZxtWIGorc
+                   Zp0UIWeRXKK68AlHVYtFtveYsWl8iDzEv2c+O3+uKEUt4kc022s0NGUfwKvU
+                   ecBIfkivjq/9zZOwCbY0xC8wgJykTDtPUgAH9bWtk4A0LvsciScY3wjeB6RW
+                   osW4kn1666N2Tc+V/hK6OYPJZQ8dl4qdS/ZTxH2piLAeX3d/ZA2AirQckcfc
+                   ToZCudKnWRwbxXJX03i9gMVKhVECgyLiAsgMkLlp0Jhc/0MFtrTwns2L3aRx
+                   EWwZiqu8YNi4S4zLvX9FCpTk00ReYhh0DrOUpL3tuQSiDcqeqSIAmlUT5sLp
+                   aNSDH3qEZiOLPHhAKFEjbUndt6BgYnX1OmJQ5fn6Qb5BUcvngJJXXAS0Q0XP
+                   e/Y1cBxhKyPQldwZlnh2VG6INob9auR05Q4w8SeZSzPxD6XeuGyDPj97H3BF
+                   FmhpDGL6W66lffilwq4/nQo4wyjaVVwHUNdEShfDgYj+NI+dAizoWs1lV0Ym
+                   8A4MTCWESQoMYndF+6Y7ABoOW3JoXAi/an6cpZCqVjwUaftEmZqI62xTnIcy
+                   UGHv6ISog3HhLFQV8Hyx0Y9uAmoWH9DcgYidficv8eWQG87INKd4igV1Hrla
+                   3AOxF7S3HsSnbscvHHX2PDEUEkceSpzbNq7EMjR7XQDTEh9aZifnK8oKaKEt
+                   CaABI/ElOXHfULlObjX7GtgmKpPegjTUgrxrI+5pVJK3T9QUhvQRT8j783W1
+                   z5/RSgVb1aCcl/7/wv3lAFWIDiW2Su+J9zvNYAKQCm/kwK8gGnMq8pp/1Hoj
+                   B3X6Mt6Jf6MlyV/HYpPrpegXB8A+c5yv2HSNyf1iEeEPPRXRr/SKUx6+9rXi
+                   /RUsMky0nUSibDyutcOmZg24guSsq4VFAiuARCbPaMy37rqrLLIJMOf82+Nk
+                   qUtmzPh+Zpt+tOOwypRVVMs+SRAZfvKapEUaanXfBR/j7X4SRBz+b0zNthEB
+                   eZsC4DGdBcvjct9A+bFvKTsRDUUxNb+OGWxTFh+E9cb1beYA6zoMK/Hfm2+r
+                   UC2zA7NQtMEP09E7QUE18gCqf61JHDk7pb7Nk5qyOyBoZ5wTu20t1D5wJdaI
+                   6fxtRIg8IfNgWUvGPaGFCwMNtuLKg3fu267DEYwOTvet6DAKV/Wf3AE4CKzx
+                   wPfz/kpHyMywKMytjxelN0yuof1v7JlYzxXDFG1iU9BgVS266eY9/q2Kafbl
+                   XNowD9FCuWjRSER6cMXe8TSS5duNGcahMLOAyLwLHwUs1kAB7UQKB+o/TiOl
+                   wQzQmemiPko4ShJVSMUJTQy6pgL0FpY/f6AoJ6YGUAvK3cfkLjihvSGqoWW+
+                   A14Cn/LzC0v4dJTlah/3+UJMlFrpfiBeQwMfCOSgCqZ2fTvx1eaRWmebQPgR
+                   73oMg835Oh5cdLP3GVekoFGogUnOLPuJcURHItdmsw4j984hwy5l2ibvuBwP
+                   35glcmKcBL+ALf+d+zeakV8xq5M2LJwrrZF597wPTfK0N3rgzfCOGh51nEPT
+                   JvmIXzSgNHi8WnjUNxbJ/gUaqfgCjwaSeWnvPlhhHgrhfS0g"
+  }
+}
+          </pre>
+
+        </section>
+      </section>
+    </section>
+
+    <section>
+      <h2>Algorithms</h2>
+
+      <p>
+The following section describes multiple Data Integrity cryptographic suites
+that utilize the Dilithium-2 signature algorithm.
+      </p>
+
+      <p>
+Implementations SHOULD fetch and cache verification method information as
+early as possible when adding or verifying proofs. Parameters passed to
+functions in this section use information from the verification method
+&mdash; such as the public key size &mdash; to determine function parameters
+&mdash; such as the cryptographic hashing algorithm.
+      </p>
+
+      <p>
+When the RDF Dataset Canonicalization Algorithm [[RDF-CANON]] is used with
+Dilithium-2 algorithms, the cryptographic hashing function that is passed to the
+algorithm MUST be SHA-2 with 256 bits of output is utilized.
+      </p>
+
+      <p class="advisement">
+When the RDF Dataset Canonicalization Algorithm [[RDF-CANON]] is used,
+implementations of that algorithm will detect
+<a data-cite="RDF-CANON#dataset-poisoning">dataset poisoning</a>
+by default, and abort processing upon detection.
+      </p>
+
+      <section>
+        <h3>Instantiate Cryptosuite</h3>
+
+        <p>
+This algorithm is used to configure a cryptographic suite to be used by the
+<a data-cite="VC-DATA-INTEGRITY#add-proof">Add Proof</a> and
+<a href="VC-DATA-INTEGRITY#verify-proof">Verify Proof</a>
+functions in [[[VC-DATA-INTEGRITY]]]. The algorithm takes an options object
+([=map=] |options|) as input and returns a [=data integrity cryptographic suite
+instance|cryptosuite instance=] ([=struct=] |cryptosuite|).
+        </p>
+
+        <ol class="algorithm">
+          <li>
+Initialize |cryptosuite| to an empty [=struct=].
+          </li>
+          <li>
+If |options|.|type| does not equal `DataIntegrityProof`, return |cryptosuite|.
+          </li>
+          <li>
+If |options|.|cryptosuite| is `experimental-dilithium-quantum-safe-2024` then:
+            <ol class="algorithm">
+              <li>
+Set |cryptosuite|.|createProof| to the algorithm in Section
+[[[#create-proof-experimental-dilithium-quantum-safe-2024]]].
+              </li>
+              <li>
+Set |cryptosuite|.|verifyProof| to the algorithm in Section
+[[[#proof-verification-experimental-dilithium-quantum-safe-2024]]].
+              </li>
+            </ol>
+          </li>
+          <li>
+Return |cryptosuite|.
+          </li>
+        </ol>
+
+      </section>
+
+      <section>
+        <h3>experimental-dilithium-quantum-safe-2024</h3>
+
+        <p>
+The `experimental-dilithium-quantum-safe-2024` cryptographic suite takes an
+input document, canonicalizes the document using the Universal RDF Dataset
+Canonicalization Algorithm [[RDF-CANON]], and then cryptographically hashes and
+signs the output resulting in the production of a data integrity proof. The
+algorithms in this section also include the verification of such a data
+integrity proof.
+        </p>
+
+        <section>
+          <h4>Create Proof (experimental-dilithium-quantum-safe-2024)</h4>
+
+          <p>
+The following algorithm specifies how to create a [=data integrity proof=] given
+an <a>unsecured data document</a>. Required inputs are an
+<a>unsecured data document</a> ([=map=] |unsecuredDocument|), and a set of proof
+options ([=map=] |options|). A [=data integrity proof=] ([=map=]), or an error,
+is produced as output.
+          </p>
+
+          <ol class="algorithm">
+            <li>
+Let |proof| be a clone of the proof options, |options|.
+            </li>
+            <li>
+Let |proofConfig| be the result of running the algorithm in
+Section [[[#proof-configuration-experimental-dilithium-quantum-safe-2024]]] with
+|options| passed as a parameter.
+            </li>
+            <li>
+Let |transformedData| be the result of running the algorithm in Section <a
+href="#transformation-experimental-dilithium-quantum-safe-2024"></a> with |unsecuredDocument|,
+|proofConfig|, and |options| passed as parameters.
+            </li>
+            <li>
+Let |hashData| be the result of running the algorithm in Section
+[[[#hashing-experimental-dilithium-quantum-safe-2024]]] with |transformedData| and |proofConfig|
+passed as a parameters.
+            </li>
+            <li>
+Let |proofBytes| be the result of running the algorithm in Section
+[[[#proof-serialization-experimental-dilithium-quantum-safe-2024]]] with |hashData| and
+|options| passed as parameters.
+            </li>
+            <li>
+Let |proof|.|proofValue| be a <a data-cite="VC-DATA-INTEGRITY#multibase-0">
+base58-btc-encoded Multibase value</a> of the |proofBytes|.
+            </li>
+            <li>
+Return |proof| as the [=data integrity proof=].
+            </li>
+          </ol>
+
+        </section>
+
+        <section>
+          <h4>Verify Proof (experimental-dilithium-quantum-safe-2024)</h4>
+
+          <p>
+The following algorithm specifies how to verify a [=data integrity proof=] given
+an <a>secured data document</a>. Required inputs are an
+<a>secured data document</a> ([=map=] |securedDocument|). This algorithm returns
+a <dfn>verification result</dfn>, which is a [=struct=] whose
+[=struct/items=] are:
+          </p>
+          <dl>
+            <dt><dfn data-dfn-for="verification result">verified</dfn></dt>
+            <dd>`true` or `false`</dd>
+            <dt><dfn data-dfn-for="verification result">verifiedDocument</dfn></dt>
+            <dd>
+<a data-cite="INFRA#nulls">Null</a>, if [=verification result/verified=] is
+`false`; otherwise, an [=unsecured data document=]
+            </dd>
+          </dl>
+
+          <ol class="algorithm">
+          <li>
+Let |unsecuredDocument| be a copy of |securedDocument| with
+the `proof` value removed.
+          </li>
+          <li>
+Let |proofConfig| be a copy of |securedDocument|.|proof| with `proofValue`
+removed.
+          </li>
+          <li>
+Let |proofBytes| be the
+<a data-cite="VC-DATA-INTEGRITY#multibase-0">Multibase decoded base58-btc
+value</a> in |securedDocument|.|proof|.|proofValue|.
+          </li>
+          <li>
+Let |transformedData| be the result of running the algorithm in Section <a
+href="#transformation-experimental-dilithium-quantum-safe-2024"></a> with |unsecuredDocument| and
+|proofConfig| passed as parameters.
+          </li>
+          <li>
+Let |hashData| be the result of running the algorithm in Section
+[[[#hashing-experimental-dilithium-quantum-safe-2024]]] with |transformedData| and |proofConfig|
+passed as a parameters.
+          </li>
+          <li>
+Let |verified:boolean| be the result of running the algorithm in Section
+[[[#proof-verification-experimental-dilithium-quantum-safe-2024]]] algorithm on |hashData|,
+|proofBytes|, and |proofConfig|.
+            </li>
+            <li>
+Return a [=verification result=] with [=struct/items=]:
+              <dl data-link-for="verification result">
+                <dt>[=verified=]</dt>
+                <dd>|verified|</dd>
+                <dt>[=verifiedDocument=]</dt>
+                <dd>
+|unsecuredDocument| if |verified| is `true`, otherwise <a data-cite="INFRA#nulls">Null</a></dd>
+              </dl>
+            </li>
+          </ol>
+
+        </section>
+
+        <section>
+          <h4>Transformation (experimental-dilithium-quantum-safe-2024)</h4>
+
+          <p>
+The following algorithm specifies how to transform an unsecured input document
+into a transformed document that is ready to be provided as input to the
+hashing algorithm in Section [[[#hashing-experimental-dilithium-quantum-safe-2024]]].
+          </p>
+
+          <p>
+Required inputs to this algorithm are an
+<a data-cite="vc-data-integrity#dfn-unsecured-data-document">
+unsecured data document</a> (|unsecuredDocument|) and
+transformation options (|options|). The
+transformation options MUST contain a type identifier for the
+<a data-cite="vc-data-integrity#dfn-cryptosuite">
+cryptographic suite</a> (|type|) and a cryptosuite
+identifier (|cryptosuite|). A <em>transformed data document</em> is
+produced as output. Whenever this algorithm encodes strings, it MUST use UTF-8
+encoding.
+          </p>
+
+          <ol class="algorithm">
+            <li>
+If |options|.|type| is not set to the string
+`DataIntegrityProof` and |options|.|cryptosuite| is not
+set to the string `experimental-dilithium-quantum-safe-2024` then a `PROOF_TRANSFORMATION_ERROR` MUST be
+raised.
+            </li>
+            <li>
+Let |canonicalDocument| be the result of applying the
+Universal RDF Dataset Canonicalization Algorithm
+[[RDF-CANON]] to the |unsecuredDocument|.
+            </li>
+            <li>
+Set |output| to the value of |canonicalDocument|.
+            </li>
+            <li>
+Return |canonicalDocument| as the <em>transformed data document</em>.
+            </li>
+          </ol>
+        </section>
+
+        <section>
+          <h4>Hashing (experimental-dilithium-quantum-safe-2024)</h4>
+
+          <p>
+The following algorithm specifies how to cryptographically hash a
+<em>transformed data document</em> and <em>proof configuration</em>
+into cryptographic hash data that is ready to be provided as input to the
+algorithms in Section [[[#proof-serialization-experimental-dilithium-quantum-safe-2024]]] or
+Section [[[#proof-verification-experimental-dilithium-quantum-safe-2024]]].
+          </p>
+
+          <p>
+The required inputs to this algorithm are a <em>transformed data document</em>
+(|transformedDocument|) and <em>canonical proof configuration</em>
+(|canonicalProofConfig|). A single <em>hash data</em> value represented as
+series of bytes is produced as output.
+          </p>
+
+          <ol class="algorithm">
+            <li>
+Let |transformedDocumentHash| be the result of applying the
+SHA-256 (SHA-2 with 256-bit output)
+cryptographic hashing algorithm [[RFC6234]] to the
+respective |transformedDocument|.
+Respective |transformedDocumentHash| will be exactly 32 bytes
+in size.
+            </li>
+            <li>
+Let |proofConfigHash| be the result of applying the
+SHA-256 (SHA-2 with 256-bit output)
+cryptographic hashing algorithm [[RFC6234]] to the
+|canonicalProofConfig|. Respective |proofConfigHash|
+will be exactly 32 bytes in size.
+            </li>
+            <li>
+Let |hashData| be the result of joining |proofConfigHash| (the
+first hash) with |transformedDocumentHash| (the second hash).
+            </li>
+            <li>
+Return |hashData| as the <em>hash data</em>.
+            </li>
+          </ol>
+
+        </section>
+
+        <section>
+          <h4>Proof Configuration (experimental-dilithium-quantum-safe-2024)</h4>
+
+          <p>
+The following algorithm specifies how to generate a
+<em>proof configuration</em> from a set of <em>proof options</em>
+that is used as input to the <a href="#hashing-experimental-dilithium-quantum-safe-2024">proof hashing algorithm</a>.
+          </p>
+
+          <p>
+The required inputs to this algorithm are <em>proof options</em>
+(|options|). The <em>proof options</em> MUST contain a type identifier
+for the
+<a data-cite="vc-data-integrity#dfn-cryptosuite">
+cryptographic suite</a> (|type|) and MUST contain a cryptosuite
+identifier (|cryptosuite|). A <em>proof configuration</em>
+object is produced as output.
+          </p>
+
+          <ol class="algorithm">
+            <li>
+Let |proofConfig| be a clone of the |options| object.
+            </li>
+            <li>
+If |proofConfig|.|type| is not set to `DataIntegrityProof` and/or
+|proofConfig|.|cryptosuite| is not set to `experimental-dilithium-quantum-safe-2024`, an
+`INVALID_PROOF_CONFIGURATION` error MUST be raised.
+            </li>
+            <li>
+If |proofConfig|.|created| is set and if the value is not a
+valid [[XMLSCHEMA11-2]] datetime, an `INVALID_PROOF_DATETIME` error MUST be
+raised.
+            </li>
+            <li>
+Set |proofConfig|.|@context| to |unsecuredDocument|.|@context|.
+            </li>
+            <li>
+Let |canonicalProofConfig| be the result of applying the
+Universal RDF Dataset Canonicalization Algorithm
+[[RDF-CANON]] to the |proofConfig|.
+            </li>
+            <li>
+Return |canonicalProofConfig|.
+            </li>
+          </ol>
+
+        </section>
+
+        <section>
+          <h4>Proof Serialization (experimental-dilithium-quantum-safe-2024)</h4>
+
+          <p>
+The following algorithm specifies how to serialize a digital signature from
+a set of cryptographic hash data. This
+algorithm is designed to be used in conjunction with the algorithms defined
+in the Data Integrity [[VC-DATA-INTEGRITY]] specification,
+<a data-cite="vc-data-integrity#algorithms">
+Section 4: Algorithms</a>. Required inputs are
+cryptographic hash data (|hashData|) and
+<em>proof options</em> (|options|). The
+<em>proof options</em> MUST contain a type identifier for the
+<a data-cite="vc-data-integrity#dfn-cryptosuite">
+cryptographic suite</a> (|type|) and MAY contain a cryptosuite
+identifier (|cryptosuite|). A single <em>digital proof</em> value
+represented as series of bytes is produced as output.
+          </p>
+
+          <ol class="algorithm">
+            <li>
+Let |privateKeyBytes| be the result of retrieving the
+private key bytes (or a signing interface enabling the use of the private key
+bytes) associated with the verification method identified by the
+|options|.|verificationMethod| value.
+            </li>
+            <li>
+Let |proofBytes| be the result of applying the Dilithium-2
+Signature Algorithm [???REF???], with |hashData| as the data
+to be signed using the private key specified by |privateKeyBytes|.
+|proofBytes| will be exactly 2420 bytes in size.
+            </li>
+            <li>
+Return |proofBytes| as the <em>digital proof</em>.
+            </li>
+          </ol>
+
+        </section>
+
+        <section>
+          <h4>Proof Verification (experimental-dilithium-quantum-safe-2024)</h4>
+
+          <p>
+The following algorithm specifies how to verify a digital signature from
+a set of cryptographic hash data. This
+algorithm is designed to be used in conjunction with the algorithms defined
+in the Data Integrity [[VC-DATA-INTEGRITY]] specification,
+<a data-cite="vc-data-integrity#algorithms">
+Section 4: Algorithms</a>. Required inputs are
+cryptographic hash data (|hashData|),
+a digital signature (|proofBytes|) and
+proof options (|options|). A <em>verification result</em>
+represented as a boolean value is produced as output.
+          </p>
+
+          <ol class="algorithm">
+            <li>
+Let |publicKeyBytes| be the result of retrieving the
+public key bytes associated with the
+|options|.|verificationMethod| value as described in the
+Data Integrity [[VC-DATA-INTEGRITY]] specification,
+<a data-cite="vc-data-integrity#algorithms">
+Section 4: Retrieve Verification Method</a>.
+            </li>
+            <li>
+Let |verificationResult| be the result of applying the verification
+algorithm Dilithium-2 Digital Signature Algorithm [???REF???],
+with |hashData| as the data to be verified against the
+|proofBytes| using the public key specified by
+|publicKeyBytes|.
+            </li>
+            <li>
+Return |verificationResult| as the <em>verification result</em>.
+            </li>
+          </ol>
+
+        </section>
+      </section>
+    </section>
+
+    <section class="informative">
+      <h2>Revision History</h2>
+
+      <p>
+This section contains the substantive changes that have been made to this
+specification over time.
+      </p>
+
+      <p>
+TBD...
+      </p>
+
+    </section>
+
+  </body>
+</html>
