@@ -309,7 +309,7 @@ data integrity proofs, such as digital signatures.
         <p>
 These verification methods are used to verify Data Integrity Proofs
 [[VC-DATA-INTEGRITY]] produced using ML-DSA-44 cryptographic key material
-that is compliant with <span class="issue">cite ML-DSA spec - I belive this is FIPS-204</span>.
+that is compliant with [[FIPS-204]].
 The encoding formats for these key types are provided in this section. Lossless
 cryptographic key transformation processes that result in equivalent
 cryptographic key material MAY be used during the processing of digital
@@ -470,7 +470,7 @@ The `cryptosuite` property of the proof MUST be
 The value of the `proofValue` property of the proof MUST be an ML-DSA-44
 signature produced according to using the algorithms specified in section
 [[[#algorithms]]], encoded according
-to <span class="issue">What is the encoding?</span>??? encoded using the base-64-url-nopad header and
+to [[FIPS-204]], then encoded using the base-64-url-nopad header and
 alphabet as described in the
 <a href="https://www.w3.org/TR/vc-data-integrity/#multibase-0">
 Multibase section</a> of [[VC-DATA-INTEGRITY]].
@@ -905,8 +905,8 @@ bytes) associated with the verification method identified by the
 |options|.|verificationMethod| value.
             </li>
             <li>
-Let |proofBytes| be the result of applying the ML_DSA_44
-Signature Algorithm [???REF???], with |hashData| as the data
+Let |proofBytes| be the result of applying the ML-DSA-44
+Signature Algorithm [[FIPS-204]], with |hashData| as the data
 to be signed using the private key specified by |privateKeyBytes|.
 |proofBytes| will be exactly 2420 bytes in size.
             </li>
@@ -944,7 +944,7 @@ Section 4: Retrieve Verification Method</a>.
             </li>
             <li>
 Let |verificationResult| be the result of applying the verification
-algorithm ML-DSA-44 Digital Signature Algorithm [???REF???],
+algorithm ML-DSA-44 Digital Signature Algorithm [[FIPS-204]],
 with |hashData| as the data to be verified against the
 |proofBytes| using the public key specified by
 |publicKeyBytes|.
