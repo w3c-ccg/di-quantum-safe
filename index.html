@@ -423,7 +423,7 @@ expression of a ML-DSA secret key (also sometimes referred to as a
 private key).
           </p>
           <p>
-The encoding of a <span class="issue">What should this be now we have moved to ML-DSA</span>ML-DSA=44 secret key MUST start with the two-byte prefix
+The encoding of a ML-DSA-44 secret key MUST start with the two-byte prefix
 `0x8726` (the varint expression of `0x1307`) followed by the 2528-byte secret
 key data. The 2530-byte value MUST then be encoded using the base-64-url-nopad
 alphabet, according to
