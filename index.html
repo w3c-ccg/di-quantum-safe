@@ -463,8 +463,9 @@ of [[VC-DATA-INTEGRITY]] with the following restrictions.
 The `type` property of the proof MUST be `DataIntegrityProof`.
           </p>
           <p>
-The `cryptosuite` property of the proof MUST be
-`experimental-ml-dsa-2024`.
+The `cryptosuite` property of the proof MUST be on of the following
+`experimental-mldsa-2024`, `experimental-shs-2025`, `experimental-falcon-2025` 
+or `experimental-sqi-2025`.
           </p>
           <p>
 The value of the `proofValue` property of the proof MUST be an ML-DSA-44
@@ -611,6 +612,61 @@ Set |cryptosuite|.|createProof| to the algorithm in Section
               <li>
 Set |cryptosuite|.|verifyProof| to the algorithm in Section
 [[[#proof-verification-experimental-mldsa44-2024]]].
+              </li>
+            </ol>
+          </li>
+          <li>
+If |options|.|cryptosuite| is `experimental-mldsa44-2024` then:
+            <ol class="algorithm">
+              <li>
+Set |cryptosuite|.|createProof| to the algorithm in Section
+[[[#create-proof-experimental-mldsa44-2024]]].
+              </li>
+              <li>
+Set |cryptosuite|.|verifyProof| to the algorithm in Section
+[[[#proof-verification-experimental-mldsa44-2024]]].
+              </li>
+            </ol>
+          </li>
+          <li>
+            <li>
+              If |options|.|cryptosuite| is `experimental-shs-2025` then:
+            <ol class="algorithm">
+              <li>
+Set |cryptosuite|.|createProof| to the algorithm in Section
+[[[#create-proof-experimental-shs-2025]]].
+              </li>
+              <li>
+Set |cryptosuite|.|verifyProof| to the algorithm in Section
+[[[#proof-verification-experimental-shs-2025]]].
+              </li>
+            </ol>
+          </li>
+          <li>
+            <li>
+              If |options|.|cryptosuite| is `experimental-falcon-2025` then:
+            <ol class="algorithm">
+              <li>
+Set |cryptosuite|.|createProof| to the algorithm in Section
+[[[#create-proof-experimental-falcon-2025]]].
+              </li>
+              <li>
+Set |cryptosuite|.|verifyProof| to the algorithm in Section
+[[[#proof-verification-experimental-falcon-2025]]].
+              </li>
+            </ol>
+          </li>
+          <li>
+            <li>
+              If |options|.|cryptosuite| is `experimental-sqi-2025` then:
+            <ol class="algorithm">
+              <li>
+Set |cryptosuite|.|createProof| to the algorithm in Section
+[[[#create-proof-experimental-sqi-2025]]].
+              </li>
+              <li>
+Set |cryptosuite|.|verifyProof| to the algorithm in Section
+[[[#proof-verification-experimental-sqi-2025]]].
               </li>
             </ol>
           </li>
