@@ -655,12 +655,12 @@ Section [[[#proof-configuration-experimental-mldsa44-2024]]] with
             </li>
             <li>
 Let |transformedData| be the result of running the algorithm in Section <a
-href="#transformation-experimental-mldsa44-2024"></a> with |unsecuredDocument|,
+href="#transformation"></a> with |unsecuredDocument|,
 |proofConfig|, and |options| passed as parameters.
             </li>
             <li>
 Let |hashData| be the result of running the algorithm in Section
-[[[#hashing-experimental-mldsa44-2024]]] with |transformedData| and |proofConfig|
+[[[#hashing]]] with |transformedData| and |proofConfig|
 passed as a parameters.
             </li>
             <li>
@@ -715,12 +715,12 @@ value</a> in |securedDocument|.|proof|.|proofValue|.
           </li>
           <li>
 Let |transformedData| be the result of running the algorithm in Section <a
-href="#transformation-experimental-mldsa44-2024"></a> with |unsecuredDocument| and
+href="#transformation"></a> with |unsecuredDocument| and
 |proofConfig| passed as parameters.
           </li>
           <li>
 Let |hashData| be the result of running the algorithm in Section
-[[[#hashing-experimental-mldsa44-2024]]] with |transformedData| and |proofConfig|
+[[[#hashing]]] with |transformedData| and |proofConfig|
 passed as a parameters.
           </li>
           <li>
@@ -742,101 +742,14 @@ Return a [=verification result=] with [=struct/items=]:
 
         </section>
 
-        <section>
-          <h4>Transformation (experimental-mldsa44-2024)</h4>
-
-          <p>
-The following algorithm specifies how to transform an unsecured input document
-into a transformed document that is ready to be provided as input to the
-hashing algorithm in Section [[[#hashing-experimental-mldsa44-2024]]].
-          </p>
-
-          <p>
-Required inputs to this algorithm are an
-<a data-cite="vc-data-integrity#dfn-unsecured-data-document">
-unsecured data document</a> (|unsecuredDocument|) and
-transformation options (|options|). The
-transformation options MUST contain a type identifier for the
-<a data-cite="vc-data-integrity#dfn-cryptosuite">
-cryptographic suite</a> (|type|) and a cryptosuite
-identifier (|cryptosuite|). A <em>transformed data document</em> is
-produced as output. Whenever this algorithm encodes strings, it MUST use UTF-8
-encoding.
-          </p>
-
-          <ol class="algorithm">
-            <li>
-If |options|.|type| is not set to the string
-`DataIntegrityProof` and |options|.|cryptosuite| is not
-set to the string `experimental-mldsa44-2024` then a `PROOF_TRANSFORMATION_ERROR` MUST be
-raised.
-            </li>
-            <li>
-Let |canonicalDocument| be the result of applying the
-Universal RDF Dataset Canonicalization Algorithm
-[[RDF-CANON]] to the |unsecuredDocument|.
-            </li>
-            <li>
-Set |output| to the value of |canonicalDocument|.
-            </li>
-            <li>
-Return |canonicalDocument| as the <em>transformed data document</em>.
-            </li>
-          </ol>
-        </section>
-
-        <section>
-          <h4>Hashing (experimental-mldsa44-2024)</h4>
-
-          <p>
-The following algorithm specifies how to cryptographically hash a
-<em>transformed data document</em> and <em>proof configuration</em>
-into cryptographic hash data that is ready to be provided as input to the
-algorithms in Section [[[#proof-serialization-experimental-mldsa44-2024]]] or
-Section [[[#proof-verification-experimental-mldsa44-2024]]].
-          </p>
-
-          <p>
-The required inputs to this algorithm are a <em>transformed data document</em>
-(|transformedDocument|) and <em>canonical proof configuration</em>
-(|canonicalProofConfig|). A single <em>hash data</em> value represented as
-series of bytes is produced as output.
-          </p>
-
-          <ol class="algorithm">
-            <li>
-Let |transformedDocumentHash| be the result of applying the
-SHA-256 (SHA-2 with 256-bit output)
-cryptographic hashing algorithm [[RFC6234]] to the
-respective |transformedDocument|.
-Respective |transformedDocumentHash| will be exactly 32 bytes
-in size.
-            </li>
-            <li>
-Let |proofConfigHash| be the result of applying the
-SHA-256 (SHA-2 with 256-bit output)
-cryptographic hashing algorithm [[RFC6234]] to the
-|canonicalProofConfig|. Respective |proofConfigHash|
-will be exactly 32 bytes in size.
-            </li>
-            <li>
-Let |hashData| be the result of joining |proofConfigHash| (the
-first hash) with |transformedDocumentHash| (the second hash).
-            </li>
-            <li>
-Return |hashData| as the <em>hash data</em>.
-            </li>
-          </ol>
-
-        </section>
-
+        
         <section>
           <h4>Proof Configuration (experimental-mldsa44-2024)</h4>
 
           <p>
 The following algorithm specifies how to generate a
 <em>proof configuration</em> from a set of <em>proof options</em>
-that is used as input to the <a href="#hashing-experimental-mldsa44-2024">proof hashing algorithm</a>.
+that is used as input to the <a href="#hashing">proof hashing algorithm</a>.
           </p>
 
           <p>
@@ -990,12 +903,12 @@ Section [[[#proof-configuration-experimental-shs-2025]]] with
             </li>
             <li>
 Let |transformedData| be the result of running the algorithm in Section <a
-href="#transformation-experimental-shs-2025"></a> with |unsecuredDocument|,
+href="#transformation"></a> with |unsecuredDocument|,
 |proofConfig|, and |options| passed as parameters.
             </li>
             <li>
 Let |hashData| be the result of running the algorithm in Section
-[[[#hashing-experimental-shs-2025]]] with |transformedData| and |proofConfig|
+[[[#hashing]]] with |transformedData| and |proofConfig|
 passed as a parameters.
             </li>
             <li>
@@ -1050,12 +963,12 @@ value</a> in |securedDocument|.|proof|.|proofValue|.
           </li>
           <li>
 Let |transformedData| be the result of running the algorithm in Section <a
-href="#transformation-experimental-shs-2025"></a> with |unsecuredDocument| and
+href="#transformation"></a> with |unsecuredDocument| and
 |proofConfig| passed as parameters.
           </li>
           <li>
 Let |hashData| be the result of running the algorithm in Section
-[[[#hashing-experimental-shs-2025]]] with |transformedData| and |proofConfig|
+[[[#hashing]]] with |transformedData| and |proofConfig|
 passed as a parameters.
           </li>
           <li>
@@ -1077,101 +990,14 @@ Return a [=verification result=] with [=struct/items=]:
 
         </section>
 
-        <section>
-          <h4>Transformation (experimental-shs-2025)</h4>
-
-          <p>
-The following algorithm specifies how to transform an unsecured input document
-into a transformed document that is ready to be provided as input to the
-hashing algorithm in Section [[[#hashing-experimental-shs-2025]]].
-          </p>
-
-          <p>
-Required inputs to this algorithm are an
-<a data-cite="vc-data-integrity#dfn-unsecured-data-document">
-unsecured data document</a> (|unsecuredDocument|) and
-transformation options (|options|). The
-transformation options MUST contain a type identifier for the
-<a data-cite="vc-data-integrity#dfn-cryptosuite">
-cryptographic suite</a> (|type|) and a cryptosuite
-identifier (|cryptosuite|). A <em>transformed data document</em> is
-produced as output. Whenever this algorithm encodes strings, it MUST use UTF-8
-encoding.
-          </p>
-
-          <ol class="algorithm">
-            <li>
-If |options|.|type| is not set to the string
-`DataIntegrityProof` and |options|.|cryptosuite| is not
-set to the string `experimental-shs-2025` then a `PROOF_TRANSFORMATION_ERROR` MUST be
-raised.
-            </li>
-            <li>
-Let |canonicalDocument| be the result of applying the
-Universal RDF Dataset Canonicalization Algorithm
-[[RDF-CANON]] to the |unsecuredDocument|.
-            </li>
-            <li>
-Set |output| to the value of |canonicalDocument|.
-            </li>
-            <li>
-Return |canonicalDocument| as the <em>transformed data document</em>.
-            </li>
-          </ol>
-        </section>
-
-        <section>
-          <h4>Hashing (experimental-shs-2025)</h4>
-
-          <p>
-The following algorithm specifies how to cryptographically hash a
-<em>transformed data document</em> and <em>proof configuration</em>
-into cryptographic hash data that is ready to be provided as input to the
-algorithms in Section [[[#proof-serialization-experimental-shs-2025]]] or
-Section [[[#proof-verification-experimental-shs-2025]]].
-          </p>
-
-          <p>
-The required inputs to this algorithm are a <em>transformed data document</em>
-(|transformedDocument|) and <em>canonical proof configuration</em>
-(|canonicalProofConfig|). A single <em>hash data</em> value represented as
-series of bytes is produced as output.
-          </p>
-
-          <ol class="algorithm">
-            <li>
-Let |transformedDocumentHash| be the result of applying the
-SHA-256 (SHA-2 with 256-bit output)
-cryptographic hashing algorithm [[RFC6234]] to the
-respective |transformedDocument|.
-Respective |transformedDocumentHash| will be exactly 32 bytes
-in size.
-            </li>
-            <li>
-Let |proofConfigHash| be the result of applying the
-SHA-256 (SHA-2 with 256-bit output)
-cryptographic hashing algorithm [[RFC6234]] to the
-|canonicalProofConfig|. Respective |proofConfigHash|
-will be exactly 32 bytes in size.
-            </li>
-            <li>
-Let |hashData| be the result of joining |proofConfigHash| (the
-first hash) with |transformedDocumentHash| (the second hash).
-            </li>
-            <li>
-Return |hashData| as the <em>hash data</em>.
-            </li>
-          </ol>
-
-        </section>
-
+        
         <section>
           <h4>Proof Configuration (experimental-shs-2025)</h4>
 
           <p>
 The following algorithm specifies how to generate a
 <em>proof configuration</em> from a set of <em>proof options</em>
-that is used as input to the <a href="#hashing-experimental-shs-2025">proof hashing algorithm</a>.
+that is used as input to the <a href="#hashing">proof hashing algorithm</a>.
           </p>
 
           <p>
@@ -1327,12 +1153,12 @@ Section [[[#proof-configuration-experimental-falcon-2025]]] with
             </li>
             <li>
 Let |transformedData| be the result of running the algorithm in Section <a
-href="#transformation-experimental-falcon-2025"></a> with |unsecuredDocument|,
+href="#transformation"></a> with |unsecuredDocument|,
 |proofConfig|, and |options| passed as parameters.
             </li>
             <li>
 Let |hashData| be the result of running the algorithm in Section
-[[[#hashing-experimental-falcon-2025]]] with |transformedData| and |proofConfig|
+[[[#hashing]]] with |transformedData| and |proofConfig|
 passed as a parameters.
             </li>
             <li>
@@ -1387,12 +1213,12 @@ value</a> in |securedDocument|.|proof|.|proofValue|.
           </li>
           <li>
 Let |transformedData| be the result of running the algorithm in Section <a
-href="#transformation-experimental-falcon-2025"></a> with |unsecuredDocument| and
+href="#transformation"></a> with |unsecuredDocument| and
 |proofConfig| passed as parameters.
           </li>
           <li>
 Let |hashData| be the result of running the algorithm in Section
-[[[#hashing-experimental-falcon-2025]]] with |transformedData| and |proofConfig|
+[[[#hashing]]] with |transformedData| and |proofConfig|
 passed as a parameters.
           </li>
           <li>
@@ -1415,100 +1241,12 @@ Return a [=verification result=] with [=struct/items=]:
         </section>
 
         <section>
-          <h4>Transformation (experimental-falcon-2025)</h4>
-
-          <p>
-The following algorithm specifies how to transform an unsecured input document
-into a transformed document that is ready to be provided as input to the
-hashing algorithm in Section [[[#hashing-experimental-falcon-2025]]].
-          </p>
-
-          <p>
-Required inputs to this algorithm are an
-<a data-cite="vc-data-integrity#dfn-unsecured-data-document">
-unsecured data document</a> (|unsecuredDocument|) and
-transformation options (|options|). The
-transformation options MUST contain a type identifier for the
-<a data-cite="vc-data-integrity#dfn-cryptosuite">
-cryptographic suite</a> (|type|) and a cryptosuite
-identifier (|cryptosuite|). A <em>transformed data document</em> is
-produced as output. Whenever this algorithm encodes strings, it MUST use UTF-8
-encoding.
-          </p>
-
-          <ol class="algorithm">
-            <li>
-If |options|.|type| is not set to the string
-`DataIntegrityProof` and |options|.|cryptosuite| is not
-set to the string `experimental-falcon-2025` then a `PROOF_TRANSFORMATION_ERROR` MUST be
-raised.
-            </li>
-            <li>
-Let |canonicalDocument| be the result of applying the
-Universal RDF Dataset Canonicalization Algorithm
-[[RDF-CANON]] to the |unsecuredDocument|.
-            </li>
-            <li>
-Set |output| to the value of |canonicalDocument|.
-            </li>
-            <li>
-Return |canonicalDocument| as the <em>transformed data document</em>.
-            </li>
-          </ol>
-        </section>
-
-        <section>
-          <h4>Hashing (experimental-falcon-2025)</h4>
-
-          <p>
-The following algorithm specifies how to cryptographically hash a
-<em>transformed data document</em> and <em>proof configuration</em>
-into cryptographic hash data that is ready to be provided as input to the
-algorithms in Section [[[#proof-serialization-experimental-falcon-2025]]] or
-Section [[[#proof-verification-experimental-falcon-2025]]].
-          </p>
-
-          <p>
-The required inputs to this algorithm are a <em>transformed data document</em>
-(|transformedDocument|) and <em>canonical proof configuration</em>
-(|canonicalProofConfig|). A single <em>hash data</em> value represented as
-series of bytes is produced as output.
-          </p>
-
-          <ol class="algorithm">
-            <li>
-Let |transformedDocumentHash| be the result of applying the
-SHA-256 (SHA-2 with 256-bit output)
-cryptographic hashing algorithm [[RFC6234]] to the
-respective |transformedDocument|.
-Respective |transformedDocumentHash| will be exactly 32 bytes
-in size.
-            </li>
-            <li>
-Let |proofConfigHash| be the result of applying the
-SHA-256 (SHA-2 with 256-bit output)
-cryptographic hashing algorithm [[RFC6234]] to the
-|canonicalProofConfig|. Respective |proofConfigHash|
-will be exactly 32 bytes in size.
-            </li>
-            <li>
-Let |hashData| be the result of joining |proofConfigHash| (the
-first hash) with |transformedDocumentHash| (the second hash).
-            </li>
-            <li>
-Return |hashData| as the <em>hash data</em>.
-            </li>
-          </ol>
-
-        </section>
-
-        <section>
           <h4>Proof Configuration (experimental-falcon-2025)</h4>
 
           <p>
 The following algorithm specifies how to generate a
 <em>proof configuration</em> from a set of <em>proof options</em>
-that is used as input to the <a href="#hashing-experimental-falcon-2025">proof hashing algorithm</a>.
+that is used as input to the <a href="#hashing">proof hashing algorithm</a>.
           </p>
 
           <p>
@@ -1664,12 +1402,12 @@ Section [[[#proof-configuration-experimental-sqi-2025]]] with
             </li>
             <li>
 Let |transformedData| be the result of running the algorithm in Section <a
-href="#transformation-experimental-sqi-2025"></a> with |unsecuredDocument|,
+href="#transformation"></a> with |unsecuredDocument|,
 |proofConfig|, and |options| passed as parameters.
             </li>
             <li>
 Let |hashData| be the result of running the algorithm in Section
-[[[#hashing-experimental-sqi-2025]]] with |transformedData| and |proofConfig|
+[[[#hashing]]] with |transformedData| and |proofConfig|
 passed as a parameters.
             </li>
             <li>
@@ -1724,12 +1462,12 @@ value</a> in |securedDocument|.|proof|.|proofValue|.
           </li>
           <li>
 Let |transformedData| be the result of running the algorithm in Section <a
-href="#transformation-experimental-sqi-2025"></a> with |unsecuredDocument| and
+href="#transformation"></a> with |unsecuredDocument| and
 |proofConfig| passed as parameters.
           </li>
           <li>
 Let |hashData| be the result of running the algorithm in Section
-[[[#hashing-experimental-sqi-2025]]] with |transformedData| and |proofConfig|
+[[[#hashing]]] with |transformedData| and |proofConfig|
 passed as a parameters.
           </li>
           <li>
@@ -1751,141 +1489,7 @@ Return a [=verification result=] with [=struct/items=]:
 
         </section>
 
-        <section>
-          <h4>Transformation (experimental-sqi-2025)</h4>
-
-          <p>
-The following algorithm specifies how to transform an unsecured input document
-into a transformed document that is ready to be provided as input to the
-hashing algorithm in Section [[[#hashing-experimental-sqi-2025]]].
-          </p>
-
-          <p>
-Required inputs to this algorithm are an
-<a data-cite="vc-data-integrity#dfn-unsecured-data-document">
-unsecured data document</a> (|unsecuredDocument|) and
-transformation options (|options|). The
-transformation options MUST contain a type identifier for the
-<a data-cite="vc-data-integrity#dfn-cryptosuite">
-cryptographic suite</a> (|type|) and a cryptosuite
-identifier (|cryptosuite|). A <em>transformed data document</em> is
-produced as output. Whenever this algorithm encodes strings, it MUST use UTF-8
-encoding.
-          </p>
-
-          <ol class="algorithm">
-            <li>
-If |options|.|type| is not set to the string
-`DataIntegrityProof` and |options|.|cryptosuite| is not
-set to the string `experimental-sqi-2025` then a `PROOF_TRANSFORMATION_ERROR` MUST be
-raised.
-            </li>
-            <li>
-Let |canonicalDocument| be the result of applying the
-Universal RDF Dataset Canonicalization Algorithm
-[[RDF-CANON]] to the |unsecuredDocument|.
-            </li>
-            <li>
-Set |output| to the value of |canonicalDocument|.
-            </li>
-            <li>
-Return |canonicalDocument| as the <em>transformed data document</em>.
-            </li>
-          </ol>
-        </section>
-
-        <section>
-          <h4>Hashing (experimental-sqi-2025)</h4>
-
-          <p>
-The following algorithm specifies how to cryptographically hash a
-<em>transformed data document</em> and <em>proof configuration</em>
-into cryptographic hash data that is ready to be provided as input to the
-algorithms in Section [[[#proof-serialization-experimental-sqi-2025]]] or
-Section [[[#proof-verification-experimental-sqi-2025]]].
-          </p>
-
-          <p>
-The required inputs to this algorithm are a <em>transformed data document</em>
-(|transformedDocument|) and <em>canonical proof configuration</em>
-(|canonicalProofConfig|). A single <em>hash data</em> value represented as
-series of bytes is produced as output.
-          </p>
-
-          <ol class="algorithm">
-            <li>
-Let |transformedDocumentHash| be the result of applying the
-SHA-256 (SHA-2 with 256-bit output)
-cryptographic hashing algorithm [[RFC6234]] to the
-respective |transformedDocument|.
-Respective |transformedDocumentHash| will be exactly 32 bytes
-in size.
-            </li>
-            <li>
-Let |proofConfigHash| be the result of applying the
-SHA-256 (SHA-2 with 256-bit output)
-cryptographic hashing algorithm [[RFC6234]] to the
-|canonicalProofConfig|. Respective |proofConfigHash|
-will be exactly 32 bytes in size.
-            </li>
-            <li>
-Let |hashData| be the result of joining |proofConfigHash| (the
-first hash) with |transformedDocumentHash| (the second hash).
-            </li>
-            <li>
-Return |hashData| as the <em>hash data</em>.
-            </li>
-          </ol>
-
-        </section>
-
-        <section>
-          <h4>Proof Configuration (experimental-sqi-2025)</h4>
-
-          <p>
-The following algorithm specifies how to generate a
-<em>proof configuration</em> from a set of <em>proof options</em>
-that is used as input to the <a href="#hashing-experimental-sqi-2025">proof hashing algorithm</a>.
-          </p>
-
-          <p>
-The required inputs to this algorithm are <em>proof options</em>
-(|options|). The <em>proof options</em> MUST contain a type identifier
-for the
-<a data-cite="vc-data-integrity#dfn-cryptosuite">
-cryptographic suite</a> (|type|) and MUST contain a cryptosuite
-identifier (|cryptosuite|). A <em>proof configuration</em>
-object is produced as output.
-          </p>
-
-          <ol class="algorithm">
-            <li>
-Let |proofConfig| be a clone of the |options| object.
-            </li>
-            <li>
-If |proofConfig|.|type| is not set to `DataIntegrityProof` and/or
-|proofConfig|.|cryptosuite| is not set to `experimental-sqi-2025`, an
-`INVALID_PROOF_CONFIGURATION` error MUST be raised.
-            </li>
-            <li>
-If |proofConfig|.|created| is set and if the value is not a
-valid [[XMLSCHEMA11-2]] datetime, an `INVALID_PROOF_DATETIME` error MUST be
-raised.
-            </li>
-            <li>
-Set |proofConfig|.|@context| to |unsecuredDocument|.|@context|.
-            </li>
-            <li>
-Let |canonicalProofConfig| be the result of applying the
-Universal RDF Dataset Canonicalization Algorithm
-[[RDF-CANON]] to the |proofConfig|.
-            </li>
-            <li>
-Return |canonicalProofConfig|.
-            </li>
-          </ol>
-
-        </section>
+        
 
         <section>
           <h4>Proof Serialization (experimental-sqi-2025)</h4>
@@ -1965,8 +1569,148 @@ Return |verificationResult| as the <em>verification result</em>.
 
         </section>
       </section>
+      <section>
+        <h3>Common Algorithms</h3>
+        <section>
+          <h4>Transformation</h4>
+
+          <p>
+The following algorithm specifies how to transform an unsecured input document
+into a transformed document that is ready to be provided as input to the
+hashing algorithm in Section [[[#hashing]]].
+          </p>
+
+          <p>
+Required inputs to this algorithm are an
+<a data-cite="vc-data-integrity#dfn-unsecured-data-document">
+unsecured data document</a> (|unsecuredDocument|) and
+transformation options (|options|). The
+transformation options MUST contain a type identifier for the
+<a data-cite="vc-data-integrity#dfn-cryptosuite">
+cryptographic suite</a> (|type|) and a cryptosuite
+identifier (|cryptosuite|). A <em>transformed data document</em> is
+produced as output. Whenever this algorithm encodes strings, it MUST use UTF-8
+encoding.
+          </p>
+
+          <ol class="algorithm">
+            <li>
+If |options|.|type| is not set to the string
+`DataIntegrityProof` and |options|.|cryptosuite| is not
+set to the string `experimental-sqi-2025` then a `PROOF_TRANSFORMATION_ERROR` MUST be
+raised.
+            </li>
+            <li>
+Let |canonicalDocument| be the result of applying the
+Universal RDF Dataset Canonicalization Algorithm
+[[RDF-CANON]] to the |unsecuredDocument|.
+            </li>
+            <li>
+Set |output| to the value of |canonicalDocument|.
+            </li>
+            <li>
+Return |canonicalDocument| as the <em>transformed data document</em>.
+            </li>
+          </ol>
+        </section>
+
+        <section>
+          <h4>Hashing</h4>
+
+          <p>
+The following algorithm specifies how to cryptographically hash a
+<em>transformed data document</em> and <em>proof configuration</em>
+into cryptographic hash data that is ready to be provided as input to the
+algorithms for proof serialization and proof verification of each of the 
+respective cryptosuites.
+          </p>
+
+          <p>
+The required inputs to this algorithm are a <em>transformed data document</em>
+(|transformedDocument|) and <em>canonical proof configuration</em>
+(|canonicalProofConfig|). A single <em>hash data</em> value represented as
+series of bytes is produced as output.
+          </p>
+
+          <ol class="algorithm">
+            <li>
+Let |transformedDocumentHash| be the result of applying the
+SHA-256 (SHA-2 with 256-bit output)
+cryptographic hashing algorithm [[RFC6234]] to the
+respective |transformedDocument|.
+Respective |transformedDocumentHash| will be exactly 32 bytes
+in size.
+            </li>
+            <li>
+Let |proofConfigHash| be the result of applying the
+SHA-256 (SHA-2 with 256-bit output)
+cryptographic hashing algorithm [[RFC6234]] to the
+|canonicalProofConfig|. Respective |proofConfigHash|
+will be exactly 32 bytes in size.
+            </li>
+            <li>
+Let |hashData| be the result of joining |proofConfigHash| (the
+first hash) with |transformedDocumentHash| (the second hash).
+            </li>
+            <li>
+Return |hashData| as the <em>hash data</em>.
+            </li>
+          </ol>
+
+        </section>
+
+        <section>
+          <h4>Proof Configuration</h4>
+
+          <p>
+The following algorithm specifies how to generate a
+<em>proof configuration</em> from a set of <em>proof options</em>
+that is used as input to the <a href="#hashing">proof hashing algorithm</a>.
+          </p>
+
+          <p>
+The required inputs to this algorithm are <em>proof options</em>
+(|options|). The <em>proof options</em> MUST contain a type identifier
+for the
+<a data-cite="vc-data-integrity#dfn-cryptosuite">
+cryptographic suite</a> (|type|) and MUST contain a cryptosuite
+identifier (|cryptosuite|). A <em>proof configuration</em>
+object is produced as output.
+          </p>
+
+          <ol class="algorithm">
+            <li>
+Let |proofConfig| be a clone of the |options| object.
+            </li>
+            <li>
+If |proofConfig|.|type| is not set to `DataIntegrityProof` and/or
+|proofConfig|.|cryptosuite| is not set to TODO: `cryptosuite`, an
+`INVALID_PROOF_CONFIGURATION` error MUST be raised.
+            </li>
+            <li>
+If |proofConfig|.|created| is set and if the value is not a
+valid [[XMLSCHEMA11-2]] datetime, an `INVALID_PROOF_DATETIME` error MUST be
+raised.
+            </li>
+            <li>
+Set |proofConfig|.|@context| to |unsecuredDocument|.|@context|.
+            </li>
+            <li>
+Let |canonicalProofConfig| be the result of applying the
+Universal RDF Dataset Canonicalization Algorithm
+[[RDF-CANON]] to the |proofConfig|.
+            </li>
+            <li>
+Return |canonicalProofConfig|.
+            </li>
+          </ol>
+
+        </section>
+    </section>
+
     </section>
     </section>
+
     </section>
 </section>
     
