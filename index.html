@@ -706,8 +706,8 @@ Let |proof| be a clone of the proof options, |options|.
             </li>
             <li>
 Let |proofConfig| be the result of running the algorithm in
-Section [[[#proof-configuration-experimental-mldsa44-2024]]] with
-|options| passed as a parameter.
+Section [[[#proof-configuration]]] with
+|options| and `experimental-mldsa44-2024` passed as parameters.
             </li>
             <li>
 Let |transformedData| be the result of running the algorithm in Section <a
@@ -793,55 +793,6 @@ Return a [=verification result=] with [=struct/items=]:
                 <dd>
 |unsecuredDocument| if |verified| is `true`, otherwise <a data-cite="INFRA#nulls">Null</a></dd>
               </dl>
-            </li>
-          </ol>
-
-        </section>
-
-        
-        <section>
-          <h4>Proof Configuration (experimental-mldsa44-2024)</h4>
-
-          <p>
-The following algorithm specifies how to generate a
-<em>proof configuration</em> from a set of <em>proof options</em>
-that is used as input to the <a href="#hashing">proof hashing algorithm</a>.
-          </p>
-
-          <p>
-The required inputs to this algorithm are <em>proof options</em>
-(|options|). The <em>proof options</em> MUST contain a type identifier
-for the
-<a data-cite="vc-data-integrity#dfn-cryptosuite">
-cryptographic suite</a> (|type|) and MUST contain a cryptosuite
-identifier (|cryptosuite|). A <em>proof configuration</em>
-object is produced as output.
-          </p>
-
-          <ol class="algorithm">
-            <li>
-Let |proofConfig| be a clone of the |options| object.
-            </li>
-            <li>
-If |proofConfig|.|type| is not set to `DataIntegrityProof` and/or
-|proofConfig|.|cryptosuite| is not set to `experimental-mldsa44-2024`, an
-`INVALID_PROOF_CONFIGURATION` error MUST be raised.
-            </li>
-            <li>
-If |proofConfig|.|created| is set and if the value is not a
-valid [[XMLSCHEMA11-2]] datetime, an `INVALID_PROOF_DATETIME` error MUST be
-raised.
-            </li>
-            <li>
-Set |proofConfig|.|@context| to |unsecuredDocument|.|@context|.
-            </li>
-            <li>
-Let |canonicalProofConfig| be the result of applying the
-Universal RDF Dataset Canonicalization Algorithm
-[[RDF-CANON]] to the |proofConfig|.
-            </li>
-            <li>
-Return |canonicalProofConfig|.
             </li>
           </ol>
 
@@ -954,8 +905,8 @@ Let |proof| be a clone of the proof options, |options|.
             </li>
             <li>
 Let |proofConfig| be the result of running the algorithm in
-Section [[[#proof-configuration-experimental-shs-2025]]] with
-|options| passed as a parameter.
+Section [[[#proof-configuration]]] with
+|options| and `experimental-shs-2025` passed as parameters.
             </li>
             <li>
 Let |transformedData| be the result of running the algorithm in Section <a
@@ -1041,55 +992,6 @@ Return a [=verification result=] with [=struct/items=]:
                 <dd>
 |unsecuredDocument| if |verified| is `true`, otherwise <a data-cite="INFRA#nulls">Null</a></dd>
               </dl>
-            </li>
-          </ol>
-
-        </section>
-
-        
-        <section>
-          <h4>Proof Configuration (experimental-shs-2025)</h4>
-
-          <p>
-The following algorithm specifies how to generate a
-<em>proof configuration</em> from a set of <em>proof options</em>
-that is used as input to the <a href="#hashing">proof hashing algorithm</a>.
-          </p>
-
-          <p>
-The required inputs to this algorithm are <em>proof options</em>
-(|options|). The <em>proof options</em> MUST contain a type identifier
-for the
-<a data-cite="vc-data-integrity#dfn-cryptosuite">
-cryptographic suite</a> (|type|) and MUST contain a cryptosuite
-identifier (|cryptosuite|). A <em>proof configuration</em>
-object is produced as output.
-          </p>
-
-          <ol class="algorithm">
-            <li>
-Let |proofConfig| be a clone of the |options| object.
-            </li>
-            <li>
-If |proofConfig|.|type| is not set to `DataIntegrityProof` and/or
-|proofConfig|.|cryptosuite| is not set to `experimental-shs-2025`, an
-`INVALID_PROOF_CONFIGURATION` error MUST be raised.
-            </li>
-            <li>
-If |proofConfig|.|created| is set and if the value is not a
-valid [[XMLSCHEMA11-2]] datetime, an `INVALID_PROOF_DATETIME` error MUST be
-raised.
-            </li>
-            <li>
-Set |proofConfig|.|@context| to |unsecuredDocument|.|@context|.
-            </li>
-            <li>
-Let |canonicalProofConfig| be the result of applying the
-Universal RDF Dataset Canonicalization Algorithm
-[[RDF-CANON]] to the |proofConfig|.
-            </li>
-            <li>
-Return |canonicalProofConfig|.
             </li>
           </ol>
 
@@ -1204,8 +1106,8 @@ Let |proof| be a clone of the proof options, |options|.
             </li>
             <li>
 Let |proofConfig| be the result of running the algorithm in
-Section [[[#proof-configuration-experimental-falcon-2025]]] with
-|options| passed as a parameter.
+Section [[[#proof-configuration]]] with
+|options| and `experimental-falcon-2025` passed as parameters.
             </li>
             <li>
 Let |transformedData| be the result of running the algorithm in Section <a
@@ -1291,54 +1193,6 @@ Return a [=verification result=] with [=struct/items=]:
                 <dd>
 |unsecuredDocument| if |verified| is `true`, otherwise <a data-cite="INFRA#nulls">Null</a></dd>
               </dl>
-            </li>
-          </ol>
-
-        </section>
-
-        <section>
-          <h4>Proof Configuration (experimental-falcon-2025)</h4>
-
-          <p>
-The following algorithm specifies how to generate a
-<em>proof configuration</em> from a set of <em>proof options</em>
-that is used as input to the <a href="#hashing">proof hashing algorithm</a>.
-          </p>
-
-          <p>
-The required inputs to this algorithm are <em>proof options</em>
-(|options|). The <em>proof options</em> MUST contain a type identifier
-for the
-<a data-cite="vc-data-integrity#dfn-cryptosuite">
-cryptographic suite</a> (|type|) and MUST contain a cryptosuite
-identifier (|cryptosuite|). A <em>proof configuration</em>
-object is produced as output.
-          </p>
-
-          <ol class="algorithm">
-            <li>
-Let |proofConfig| be a clone of the |options| object.
-            </li>
-            <li>
-If |proofConfig|.|type| is not set to `DataIntegrityProof` and/or
-|proofConfig|.|cryptosuite| is not set to `experimental-falcon-2025`, an
-`INVALID_PROOF_CONFIGURATION` error MUST be raised.
-            </li>
-            <li>
-If |proofConfig|.|created| is set and if the value is not a
-valid [[XMLSCHEMA11-2]] datetime, an `INVALID_PROOF_DATETIME` error MUST be
-raised.
-            </li>
-            <li>
-Set |proofConfig|.|@context| to |unsecuredDocument|.|@context|.
-            </li>
-            <li>
-Let |canonicalProofConfig| be the result of applying the
-Universal RDF Dataset Canonicalization Algorithm
-[[RDF-CANON]] to the |proofConfig|.
-            </li>
-            <li>
-Return |canonicalProofConfig|.
             </li>
           </ol>
 
@@ -1453,8 +1307,8 @@ Let |proof| be a clone of the proof options, |options|.
             </li>
             <li>
 Let |proofConfig| be the result of running the algorithm in
-Section [[[#proof-configuration-experimental-sqi-2025]]] with
-|options| passed as a parameter.
+Section [[[#proof-configuration]]] with
+|options| and `experimental-sqi-2025` passed as parameters.
             </li>
             <li>
 Let |transformedData| be the result of running the algorithm in Section <a
@@ -1726,10 +1580,10 @@ that is used as input to the <a href="#hashing">proof hashing algorithm</a>.
 
           <p>
 The required inputs to this algorithm are <em>proof options</em>
-(|options|). The <em>proof options</em> MUST contain a type identifier
+(|options|) and a <em>cryptosuite identifier</em> (|cryptosuite|). The <em>proof options</em> MUST contain a type identifier
 for the
 <a data-cite="vc-data-integrity#dfn-cryptosuite">
-cryptographic suite</a> (|type|) and MUST contain a cryptosuite
+cryptographic suite</a> (|type|) and MUST contain the cryptosuite
 identifier (|cryptosuite|). A <em>proof configuration</em>
 object is produced as output.
           </p>
@@ -1740,7 +1594,7 @@ Let |proofConfig| be a clone of the |options| object.
             </li>
             <li>
 If |proofConfig|.|type| is not set to `DataIntegrityProof` and/or
-|proofConfig|.|cryptosuite| is not set to TODO: `cryptosuite`, an
+|proofConfig|.|cryptosuite| is not set to `cryptosuite`, an
 `INVALID_PROOF_CONFIGURATION` error MUST be raised.
             </li>
             <li>
