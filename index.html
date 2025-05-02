@@ -351,10 +351,42 @@ The `publicKeyMultibase` property represents a Multibase-encoded Multikey
 expression of a ML-DSA public key.
           </p>
 
+
+
           <p>
 The Multikey encoding of a ML-DSA public key MUST start with the two-byte
 prefix `0x8724` (the varint expression of `0x1207`) followed by the 1312-byte
 compressed public key data. The resulting 1314-byte value MUST then be encoded
+using the base-64-url alphabet, according to the
+<a data-cite="VC-DATA-INTEGRITY#multibase-0">Multibase</a> section in the
+[[VC-DATA-INTEGRITY]] specification, and then prepended with the base-64-url
+Multibase header (`u`).
+          </p>
+
+          <p>
+The Multikey encoding of a SHS-DSA public key MUST start with the two-byte
+prefix `????` (the varint expression of `????`) followed by the 7856-byte
+compressed public key data [[FIPS-205]]. The resulting 7858-byte value MUST then be encoded
+using the base-64-url alphabet, according to the
+<a data-cite="VC-DATA-INTEGRITY#multibase-0">Multibase</a> section in the
+[[VC-DATA-INTEGRITY]] specification, and then prepended with the base-64-url
+Multibase header (`u`).
+          </p>
+
+          <p>
+The Multikey encoding of a Falcon public key MUST start with the two-byte
+prefix `????` (the varint expression of `????`) followed by the 897-byte
+compressed public key data [[FALCON]]. The resulting 899-byte value MUST then be encoded
+using the base-64-url alphabet, according to the
+<a data-cite="VC-DATA-INTEGRITY#multibase-0">Multibase</a> section in the
+[[VC-DATA-INTEGRITY]] specification, and then prepended with the base-64-url
+Multibase header (`u`).
+          </p>
+
+          <p>
+The Multikey encoding of a SQISign public key MUST start with the two-byte
+prefix `????` (the varint expression of `????`) followed by the 65-byte
+compressed public key data [[SQISIGN]]. The resulting 67-byte value MUST then be encoded
 using the base-64-url alphabet, according to the
 <a data-cite="VC-DATA-INTEGRITY#multibase-0">Multibase</a> section in the
 [[VC-DATA-INTEGRITY]] specification, and then prepended with the base-64-url
@@ -367,15 +399,7 @@ key. Implementations of this specification will raise errors in the event of a
 Multicodec value other than `0x1207` being used in a `publicKeyMultibase` value.
           </p>
 
-          <pre class="example nohighlight"
-            title="An P-256 public key encoded as a Multikey">
-{
-  "id": "https://example.com/issuer/123#key-0",
-  "type": "Multikey",
-  "controller": "https://example.com/issuer/123",
-  "publicKeyMultibase": "u"
-}
-          </pre>
+
 
           <span class="issue">Do the examples need updating?</span>
           <pre class="example nohighlight"
