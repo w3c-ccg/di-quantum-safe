@@ -478,6 +478,17 @@ base-64-url-nopad Multibase header (`u`). Any other encodings MUST NOT be
 allowed.
           </p>
 
+          <!-- <p>
+The encoding of a SHS-DSA secret key MUST start with the two-byte prefix
+`????` (the varint expression of `????`) followed by the 2528-byte secret
+key data. The 2530-byte value MUST then be encoded using the base-64-url-nopad
+alphabet, according to
+the <a data-cite="VC-DATA-INTEGRITY#multibase-0">Multibase</a> section in the
+[[VC-DATA-INTEGRITY]] specification, and then prepended with the
+base-64-url-nopad Multibase header (`u`). Any other encodings MUST NOT be
+allowed.
+          </p> -->
+
           <p class="advisement">
 Developers are advised to prevent accidental publication of a representation of
 a secret key, and to not export the `secretKeyMultibase` property by default,
