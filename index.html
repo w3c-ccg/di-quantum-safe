@@ -547,8 +547,8 @@ of [[VC-DATA-INTEGRITY]] with the following restrictions.
 The `type` property of the proof MUST be `DataIntegrityProof`.
           </p>
           <p>
-The `cryptosuite` property of the proof MUST be on of the following
-`experimental-mldsa44-2024`, `experimental-shs-2025`, `experimental-falcon-2025` 
+The `cryptosuite` property of the proof MUST be one of the following
+`experimental-mldsa44-2024`, `experimental-shs-2025`, `experimental-falcon-2025`,
 or `experimental-sqi-2025`.
           </p>
           <p>
@@ -703,7 +703,7 @@ Set |cryptosuite|.|verifyProof| to the algorithm in Section
 If |options|.|cryptosuite| is `experimental-mldsa-2024` then:
             <ol class="algorithm">
               <li>
-Set |cryptosuite|.|createProof| to the algorithm in Section
+Set |cryptosuite|.|createProof| to the result of running the algorithm in Section
 [[[#create-proof-experimental-mldsa44-2024]]].
               </li>
               <li>
@@ -795,7 +795,7 @@ Section [[[#proof-configuration]]] with
             </li>
             <li>
 Let |transformedData| be the result of running the algorithm in Section <a
-href="#transformation"></a> with |unsecuredDocument|, |options| and 
+href="#transformation"></a> with |unsecuredDocument|, |options|, and 
 `experimental-mldsa44-2024` passed as parameters.
             </li>
             <li>
