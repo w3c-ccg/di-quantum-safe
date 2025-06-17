@@ -999,7 +999,7 @@ Section [[[#proof-configuration]]] with
             </li>
             <li>
 Let |transformedData| be the result of running the algorithm in Section <a
-href="#transformation"></a> with |unsecuredDocument|, |options| and 
+href="#transformation"></a> with |unsecuredDocument|, |options|, and 
 `experimental-shs-2025` passed as parameters.
             </li>
             <li>
@@ -1141,7 +1141,7 @@ in the Data Integrity [[VC-DATA-INTEGRITY]] specification,
 <a data-cite="vc-data-integrity#algorithms">
 Section 4: Algorithms</a>. Required inputs are
 cryptographic hash data (|hashData|),
-a digital signature (|proofBytes|) and
+a digital signature (|proofBytes|), and
 proof options (|options|). A <em>verification result</em>
 represented as a boolean value is produced as output.
           </p>
@@ -1205,7 +1205,7 @@ Section [[[#proof-configuration]]] with
             </li>
             <li>
 Let |transformedData| be the result of running the algorithm in Section <a
-href="#transformation"></a> with |unsecuredDocument|, |options| and 
+href="#transformation"></a> with |unsecuredDocument|, |options|, and 
 `experimental-falcon-2025` passed as parameters.
             </li>
             <li>
@@ -1234,7 +1234,7 @@ Return |proof| as the [=data integrity proof=].
 
           <p>
 The following algorithm specifies how to verify a [=data integrity proof=] given
-an <a>secured data document</a>. Required inputs are an
+an <a>secured data document</a>. Required input is a
 <a>secured data document</a> ([=map=] |securedDocument|). This algorithm returns
 a <dfn>verification result</dfn>, which is a [=struct=] whose
 [=struct/items=] are:
@@ -1265,7 +1265,7 @@ value</a> in |securedDocument|.|proof|.|proofValue|.
           </li>
           <li>
 Let |transformedData| be the result of running the algorithm in Section <a
-href="#transformation"></a> with |unsecuredDocument|, |proofOptions|
+href="#transformation"></a> with |unsecuredDocument|, |proofOptions|,
 and `experimental-falcon-2025` passed as parameters.
           </li>
           <li>
@@ -1290,7 +1290,7 @@ Return a [=verification result=] with [=struct/items=]:
                 <dd>|verified|</dd>
                 <dt>[=verifiedDocument=]</dt>
                 <dd>
-|unsecuredDocument| if |verified| is `true`, otherwise <a data-cite="INFRA#nulls">Null</a></dd>
+|unsecuredDocument| if |verified| is `true`; otherwise, <a data-cite="INFRA#nulls">Null</a></dd>
               </dl>
             </li>
           </ol>
@@ -1347,7 +1347,7 @@ in the Data Integrity [[VC-DATA-INTEGRITY]] specification,
 <a data-cite="vc-data-integrity#algorithms">
 Section 4: Algorithms</a>. Required inputs are
 cryptographic hash data (|hashData|),
-a digital signature (|proofBytes|) and
+a digital signature (|proofBytes|), and
 proof options (|options|). A <em>verification result</em>
 represented as a boolean value is produced as output.
           </p>
@@ -1411,7 +1411,7 @@ Section [[[#proof-configuration]]] with
             </li>
             <li>
 Let |transformedData| be the result of running the algorithm in Section <a
-href="#transformation"></a> with |unsecuredDocument|, |options| and 
+href="#transformation"></a> with |unsecuredDocument|, |options|, and
 `experimental-sqi-2025` passed as parameters.
             </li>
             <li>
@@ -1440,7 +1440,7 @@ Return |proof| as the [=data integrity proof=].
 
           <p>
 The following algorithm specifies how to verify a [=data integrity proof=] given
-an <a>secured data document</a>. Required inputs are an
+an <a>secured data document</a>. Required input is a
 <a>secured data document</a> ([=map=] |securedDocument|). This algorithm returns
 a <dfn>verification result</dfn>, which is a [=struct=] whose
 [=struct/items=] are:
@@ -1471,7 +1471,7 @@ value</a> in |securedDocument|.|proof|.|proofValue|.
           </li>
           <li>
 Let |transformedData| be the result of running the algorithm in Section <a
-href="#transformation"></a> with |unsecuredDocument|, |proofOptions| and 
+href="#transformation"></a> with |unsecuredDocument|, |proofOptions|, and
 `experimental-sqi-2025` passed as parameters.
           </li>
           <li>
@@ -1555,7 +1555,7 @@ in the Data Integrity [[VC-DATA-INTEGRITY]] specification,
 <a data-cite="vc-data-integrity#algorithms">
 Section 4: Algorithms</a>. Required inputs are
 cryptographic hash data (|hashData|),
-a digital signature (|proofBytes|) and
+a digital signature (|proofBytes|), and
 proof options (|options|). A <em>verification result</em>
 represented as a boolean value is produced as output.
           </p>
@@ -1598,7 +1598,7 @@ hashing algorithm in Section [[[#hashing]]].
 Required inputs to this algorithm are an
 <a data-cite="vc-data-integrity#dfn-unsecured-data-document">
 unsecured data document</a> (|unsecuredDocument|),
-transformation options (|options|) and a cryptosuite identifier (|cryptosuite|). The
+transformation options (|options|), and a cryptosuite identifier (|cryptosuite|). The
 transformation options MUST contain a type identifier for the
 <a data-cite="vc-data-integrity#dfn-cryptosuite">
 cryptographic suite</a> (|type|) and a cryptosuite
@@ -1610,7 +1610,7 @@ encoding.
           <ol class="algorithm">
             <li>
 If |options|.|type| is not set to the string
-`DataIntegrityProof` and |options|.|cryptosuite| is not
+`DataIntegrityProof` and/or |options|.|cryptosuite| is not
 set to the <em>cryptosuite</em> value then a `PROOF_TRANSFORMATION_ERROR` MUST be
 raised.
             </li>
@@ -1684,7 +1684,8 @@ that is used as input to the <a href="#hashing">proof hashing algorithm</a>.
 
           <p>
 The required inputs to this algorithm are <em>proof options</em>
-(|options|) and a <em>cryptosuite identifier</em> (|cryptosuite|). The <em>proof options</em> MUST contain a type identifier
+(|options|) and a <em>cryptosuite identifier</em> (|cryptosuite|). The
+<em>proof options</em> MUST contain a type identifier
 for the
 <a data-cite="vc-data-integrity#dfn-cryptosuite">
 cryptographic suite</a> (|type|) and MUST contain the cryptosuite
