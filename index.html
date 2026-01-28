@@ -765,7 +765,7 @@ Return |cryptosuite|.
       </section>
 
       <section>
-        <h3>experimental-mldsa44-2024</h3>
+        <h3>ML-DSA Cypthersuites</h3>
 <!-- **TODO**: Update and broaden, Not experimental!
  Want this to deal with a "Group" of cryptosuites based on ML-DSA at three
  security levels, utilizing both RDFC and JCS canonicalization, with appropriate
@@ -773,13 +773,138 @@ Return |cryptosuite|.
  a table.
 -->
         <p>
+The Module-Lattice-Based Digital Signature Standard defined in [[FIPS-204]]
+defines parameter sets for three different claimed security strengths. The
+claimed security strengths, private key, public key, and signature sizes are
+summarized in Table 1.
+        </p>
+        <table class="complex data">
+          <caption>Table 1 <em>ML-DSA Sinatures Summary, all sizes in bytes.</em> </caption>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Security</th>
+              <th>Private Key</th>
+              <th>Public Key</th>
+              <th>Signature</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ML-DSA-44</td>
+              <td>Category 2</td>
+              <td>2560</td>
+              <td>1312</td>
+              <td>2420</td>
+            </tr>
+            <tr>
+              <td>ML-DSA-65</td>
+              <td>Category 3</td>
+              <td>4032</td>
+              <td>1952</td>
+              <td>3309</td>
+            </tr>
+            <tr>
+              <td>ML-DSA-87</td>
+              <td>Category 5</td>
+              <td>4896</td>
+              <td>2592</td>
+              <td>4627</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+From NIST SP 800-57pt1r6 ipd (Initial Public Draft) December 2025,
+Section 4.6.1.4. on the "Security Strengths of Hash Functions, XOFs, and Their
+Applications" recommends using the following sized hash function for digital
+signatures as shown in Table 2.
+        </p>
+        <table class="complex data">
+          <caption>Table 2 <em>Hashes for Signatures.</em> </caption>
+          <thead>
+            <tr>
+              <th>Security Strength</th>
+              <th>Hash Function</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Category 1 or 2</td>
+              <td>SHA-256</td>
+            </tr>
+            <tr>
+              <td>Category 3 or 4</td>
+              <td>SHA-384</td>
+            </tr>
+            <tr>
+              <td>Category 5</td>
+              <td>SHA-512</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+Supporting both Universal RDF Dataset Canonicalization Algorithm [[RDF-CANON]],
+"rdfc" and JSON Canonicalization Scheme [[RFC8785]], "jcs" leads to the
+family of ML-DSA cryptosuites given in Table 3.
+        </p>
+        <table class="complex data">
+          <caption>Table 3 <em>ML-DSA Cryptosuites.</em> </caption>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Canonizalization</th>
+              <th>Signature</th>
+              <th>Hash</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>`mldsa44-rdfc-2024`</td>
+              <td>RDFC</td>
+              <td>ML-DSA-44</td>
+              <td>SHA-256</td>
+            </tr>
+            <tr>
+              <td>`mldsa44-jcs-2024`</td>
+              <td>JCS</td>
+              <td>ML-DSA-44</td>
+              <td>SHA-256</td>
+            </tr>
+            <tr>
+              <td>`mldsa65-rdfc-2024`</td>
+              <td>RDFC</td>
+              <td>ML-DSA-65</td>
+              <td>SHA-384</td>
+            </tr>
+            <tr>
+              <td>`mldsa65-jcs-2024`</td>
+              <td>JCS</td>
+              <td>ML-DSA-65</td>
+              <td>SHA-384</td>
+            </tr>
+            <tr>
+              <td>`mldsa87-rdfc-2024`</td>
+              <td>RDFC</td>
+              <td>ML-DSA-87</td>
+              <td>SHA-512</td>
+            </tr>
+            <tr>
+              <td>`mldsa87-jcs-2024`</td>
+              <td>JCS</td>
+              <td>ML-DSA-87</td>
+              <td>SHA-512</td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- **STOPPED HERE**-->
+        <!-- <p>
 The `experimental-mldsa44-2024` cryptographic suite takes an
 input document, canonicalizes the document using the Universal RDF Dataset
 Canonicalization Algorithm [[RDF-CANON]], and then cryptographically hashes and
 signs the output resulting in the production of a data integrity proof. The
 algorithms in this section also include the verification of such a data
 integrity proof.
-        </p>
+        </p> -->
 
         <section>
           <h4>Create Proof (experimental-mldsa44-2024)</h4>
