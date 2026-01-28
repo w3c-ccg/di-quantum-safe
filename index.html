@@ -295,6 +295,9 @@ This specification is experimental, do not use it in any production setting.
 
     <section>
       <h2>Introduction</h2>
+      <!-- **TODO**: Need to update to give high level descriptions of signature suites
+       supported "flavors", security strengths, and corresponding hash functions.
+      -->
       <p>
 This specification defines several cryptographic suites for the purpose of
 creating, and verifying proofs for Post-Quantum signatures in conformance with
@@ -354,7 +357,9 @@ data integrity proofs, such as digital signatures.
 
       <section>
         <h3>Verification Methods</h3>
-
+<!-- **TODO**: Update all key stuff.
+(1) Fix beginning text. (2) Put together tables containing all keys.
+-->
         <p>
 These verification methods are used to verify Data Integrity Proofs
 [[VC-DATA-INTEGRITY]] produced using ML-DSA-44 cryptographic key material
@@ -379,8 +384,6 @@ The `publicKeyMultibase` property represents a Multibase-encoded Multikey
 expression of a ML-DSA public key.
           </p>
 
-
-
           <p>
 The Multikey encoding of a ML-DSA public key MUST start with the two-byte
 prefix `0x8724` (the varint expression of `0x1207`) followed by the 1312-byte
@@ -390,7 +393,6 @@ using the base-64-url alphabet, according to the
 [[VC-DATA-INTEGRITY]] specification, and then prepended with the base-64-url
 Multibase header (`u`).
           </p>
-
           <p>
 The Multikey encoding of a SHS-DSA public key MUST start with the two-byte
 prefix `????` (the varint expression of `????`) followed by the 7856-byte
@@ -537,7 +539,8 @@ this specification.
 
         <section>
           <h4>DataIntegrityProof</h4>
-
+<!-- **TODO**: Update with extensive list of cryptosuites. Remove experimental
+ annotation from FIP 204 ML-DSA and FIP 205 SLH-DSA suites. -->
           <p>
 A proof contains the attributes specified in the
 <a href="https://www.w3.org/TR/vc-data-integrity/#proofs">Proofs section</a>
@@ -640,7 +643,7 @@ Multibase section</a> of [[VC-DATA-INTEGRITY]].
 
     <section>
       <h2>Algorithms</h2>
-
+<!-- **TODO**: Update this introductory text. -->
       <p>
 The following section describes multiple Data Integrity cryptographic suites
 that utilize the ML-DSA-44 signature algorithm.
@@ -669,7 +672,7 @@ by default, and abort processing upon detection.
 
       <section>
         <h3>Instantiate Cryptosuite</h3>
-
+<!-- **TODO**: Major overhaul to deal with all the cryptosuite flavors. -->
         <p>
 This algorithm is used to configure a cryptographic suite to be used by the
 <a data-cite="VC-DATA-INTEGRITY#add-proof">Add Proof</a> and
@@ -763,7 +766,12 @@ Return |cryptosuite|.
 
       <section>
         <h3>experimental-mldsa44-2024</h3>
-
+<!-- **TODO**: Update and broaden, Not experimental!
+ Want this to deal with a "Group" of cryptosuites based on ML-DSA at three
+ security levels, utilizing both RDFC and JCS canonicalization, with appropriate
+ hashing function. Can also indicate public key and signature sizes here in
+ a table.
+-->
         <p>
 The `experimental-mldsa44-2024` cryptographic suite takes an
 input document, canonicalizes the document using the Universal RDF Dataset
@@ -795,7 +803,7 @@ Section [[[#proof-configuration]]] with
             </li>
             <li>
 Let |transformedData| be the result of running the algorithm in Section <a
-href="#transformation"></a> with |unsecuredDocument|, |options|, and 
+href="#transformation"></a> with |unsecuredDocument|, |options|, and
 `experimental-mldsa44-2024` passed as parameters.
             </li>
             <li>
@@ -860,7 +868,7 @@ href="#transformation"></a> with |unsecuredDocument|,
           </li>
           <li>
 Let |proofConfig| be the result of running the algorithm in
-Section [[[#proof-configuration]]] with |options| and 
+Section [[[#proof-configuration]]] with |options| and
 `experimental-mldsa44-2024` passed as parameters.
           </li>
           <li>
@@ -967,7 +975,12 @@ Return |verificationResult| as the <em>verification result</em>.
       </section>
       <section>
         <h3>experimental-shs-2025</h3>
-
+<!-- **TODO**: Update and broaden, Not experimental!
+ Want this to deal with a "Group" of cryptosuites based on SLH-DSA at three
+ security levels, utilizing both RDFC and JCS canonicalization, with appropriate
+ hashing function. Can also indicate public key and signature sizes here in
+ a table.
+-->
         <p>
 The `experimental-shs-2025` cryptographic suite takes an
 input document, canonicalizes the document using the Universal RDF Dataset
@@ -999,7 +1012,7 @@ Section [[[#proof-configuration]]] with
             </li>
             <li>
 Let |transformedData| be the result of running the algorithm in Section <a
-href="#transformation"></a> with |unsecuredDocument|, |options|, and 
+href="#transformation"></a> with |unsecuredDocument|, |options|, and
 `experimental-shs-2025` passed as parameters.
             </li>
             <li>
@@ -1066,7 +1079,7 @@ href="#transformation"></a> with |unsecuredDocument|,
 Let |proofConfig| be the result of running the algorithm in
 Section [[[#proof-configuration]]] with
 |options| and `experimental-shs-2025` passed as parameters.
-          </li>          
+          </li>
           <li>
 Let |hashData| be the result of running the algorithm in Section
 [[[#hashing]]] with |transformedData| and |proofConfig|
@@ -1173,7 +1186,12 @@ Return |verificationResult| as the <em>verification result</em>.
 
       <section>
         <h3>experimental-falcon-2025</h3>
-
+<!-- **TODO**: Update and broaden, Maybe wait for FIPS-206 to come out
+ Want this to deal with a "Group" of cryptosuites based on FALCON at three
+ security levels, utilizing both RDFC and JCS canonicalization, with appropriate
+ hashing function. Can also indicate public key and signature sizes here in
+ a table.
+-->
         <p>
 The `experimental-falcon-2025` cryptographic suite takes an
 input document, canonicalizes the document using the Universal RDF Dataset
@@ -1205,7 +1223,7 @@ Section [[[#proof-configuration]]] with
             </li>
             <li>
 Let |transformedData| be the result of running the algorithm in Section <a
-href="#transformation"></a> with |unsecuredDocument|, |options|, and 
+href="#transformation"></a> with |unsecuredDocument|, |options|, and
 `experimental-falcon-2025` passed as parameters.
             </li>
             <li>
@@ -1375,7 +1393,7 @@ Return |verificationResult| as the <em>verification result</em>.
 
         </section>
       </section>
-    
+
 
       <section>
         <h3>experimental-sqi-2025</h3>
@@ -1503,7 +1521,7 @@ Return a [=verification result=] with [=struct/items=]:
 
         </section>
 
-        
+
 
         <section>
           <h4>Proof Serialization (experimental-sqi-2025)</h4>
@@ -1635,7 +1653,7 @@ Return |canonicalDocument| as the <em>transformed data document</em>.
 The following algorithm specifies how to cryptographically hash a
 <em>transformed data document</em> and <em>proof configuration</em>
 into cryptographic hash data that is ready to be provided as input to the
-algorithms for proof serialization and proof verification of each of the 
+algorithms for proof serialization and proof verification of each of the
 respective cryptosuites.
           </p>
 
@@ -1725,16 +1743,16 @@ Return |canonicalProofConfig|.
     </section>
     </section>
 </section>
-    
-    
+
+
 
     </section>
     </section>
 
     </section>
 </section>
-    
-    
+
+
 
 
     <section class="informative">
