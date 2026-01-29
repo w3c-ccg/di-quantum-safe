@@ -355,7 +355,7 @@ to express verification methods, such as cryptographic public keys, and
 data integrity proofs, such as digital signatures.
       </p>
 
-      <section>
+      <section id="VerificationMethods">
         <h3>Verification Methods</h3>
 <!-- **TODO**: Update all key stuff.
 (1) Fix beginning text. (2) Put together tables containing all keys.
@@ -537,7 +537,7 @@ This section details the proof representation formats that are defined by
 this specification.
         </p>
 
-        <section>
+        <section id="DataIntegrityProof">
           <h4>DataIntegrityProof</h4>
 <!-- **TODO**: Update with extensive list of cryptosuites. Remove experimental
  annotation from FIP 204 ML-DSA and FIP 205 SLH-DSA suites. -->
@@ -641,7 +641,7 @@ Multibase section</a> of [[VC-DATA-INTEGRITY]].
       </section>
     </section>
 
-    <section>
+    <section id="Algorithms">
       <h2>Algorithms</h2>
 <!-- **TODO**: Update this introductory text. -->
       <p>
@@ -670,7 +670,7 @@ implementations of that algorithm will detect
 by default, and abort processing upon detection.
       </p>
 
-      <section>
+      <section id="InstantiateCryptosuite">
         <h3>Instantiate Cryptosuite</h3>
 <!-- **TODO**: Major overhaul to deal with all the cryptosuite flavors. -->
         <p>
@@ -764,8 +764,8 @@ Return |cryptosuite|.
 
       </section>
 
-      <section>
-        <h3>ML-DSA Cypthersuites</h3>
+      <section id="MLDSA_Cypthersuites">
+        <h3>ML-DSA Cyphersuites</h3>
 <!-- **TODO**: Update and broaden, Not experimental!
  Want this to deal with a "Group" of cryptosuites based on ML-DSA at three
  security levels, utilizing both RDFC and JCS canonicalization, with appropriate
@@ -779,7 +779,7 @@ claimed security strengths, private key, public key, and signature sizes are
 summarized in Table 1.
         </p>
         <table class="complex data">
-          <caption>Table 1 <em>ML-DSA Sinatures Summary, all sizes in bytes.</em> </caption>
+          <caption>Table 1 <em>ML-DSA Signatures Summary, all sizes in bytes.</em> </caption>
           <thead>
             <tr>
               <th>Name</th>
@@ -1098,7 +1098,7 @@ Return |verificationResult| as the <em>verification result</em>.
 
         </section>
       </section>
-      <section>
+      <section id="SLHDSA_Cyphersuites">
         <h3>experimental-shs-2025</h3>
 <!-- **TODO**: Update and broaden, Not experimental!
  Want this to deal with a "Group" of cryptosuites based on SLH-DSA at three
@@ -1309,7 +1309,7 @@ Return |verificationResult| as the <em>verification result</em>.
         </section>
       </section>
 
-      <section>
+      <section id="Falcon_Cyphersuites">
         <h3>experimental-falcon-2025</h3>
 <!-- **TODO**: Update and broaden, Maybe wait for FIPS-206 to come out
  Want this to deal with a "Group" of cryptosuites based on FALCON at three
@@ -1520,7 +1520,7 @@ Return |verificationResult| as the <em>verification result</em>.
       </section>
 
 
-      <section>
+      <section id="SQISign_Cyphersuites">
         <h3>experimental-sqi-2025</h3>
 
         <p>
@@ -1726,7 +1726,7 @@ Return |verificationResult| as the <em>verification result</em>.
 
         </section>
       </section>
-      <section>
+      <section id="CommonAlgorithms">
         <h3>Common Algorithms</h3>
         <section>
           <h4>Transformation</h4>
