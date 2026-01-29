@@ -645,10 +645,49 @@ Multibase section</a> of [[VC-DATA-INTEGRITY]].
       <h2>Algorithms</h2>
 <!-- **TODO**: Update this introductory text. -->
       <p>
-The following section describes multiple Data Integrity cryptographic suites
-that utilize the ML-DSA-44 signature algorithm.
+The following sections describes multiple Data Integrity cryptographic suites
+that utilize quantum safe signature algorithms at different claimed security
+levels. For a given claimed security level an appropriate hash function MUST be
+use in the [[[#HashingAlg]]].
       </p>
-
+      <p>
+From NIST SP 800-57pt1r6 ipd (Initial Public Draft) December 2025,
+Section 4.6.1.4. on the "Security Strengths of Hash Functions, XOFs, and Their
+Applications" the following hash function are chosen for use with digital
+signatures in Table 1.
+      </p>
+      <table class="data">
+        <caption>Table 1 <em>Hashes for Signatures.</em> </caption>
+        <thead>
+          <tr>
+            <th>Security Strength</th>
+            <th>Hash Function</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Category 1 or 2</td>
+            <td>SHA-256</td>
+          </tr>
+          <tr>
+            <td>Category 3 or 4</td>
+            <td>SHA-384</td>
+          </tr>
+          <tr>
+            <td>Category 5</td>
+            <td>SHA-512</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+This specification supports cyphersuites based on both the Universal RDF Dataset
+Canonicalization Algorithm [[RDF-CANON]], `rdfc` and JSON Canonicalization
+Scheme [[RFC8785]], `jcs`. When the RDF Dataset Canonicalization Algorithm
+[[RDF-CANON]] is used with the [[[#ProofConfigurationAlg]]] and [[[#TransformationAlg]]]
+algorithms the cryptographic hashing function that is passed to the
+algorithm MUST be from Table 1 appropriate for the claimed security of the
+signature scheme.
+      </p>
       <p>
 Implementations SHOULD fetch and cache verification method information as
 early as possible when adding or verifying proofs. Parameters passed to
@@ -656,13 +695,6 @@ functions in this section use information from the verification method
 &mdash; such as the public key size &mdash; to determine function parameters
 &mdash; such as the cryptographic hashing algorithm.
       </p>
-
-      <p>
-When the RDF Dataset Canonicalization Algorithm [[RDF-CANON]] is used with
-ML-DSA-44 algorithms, the cryptographic hashing function that is passed to the
-algorithm MUST be SHA-2 with 256 bits of output is utilized.
-      </p>
-
       <p class="advisement">
 When the RDF Dataset Canonicalization Algorithm [[RDF-CANON]] is used,
 implementations of that algorithm will detect
@@ -670,6 +702,144 @@ implementations of that algorithm will detect
 by default, and abort processing upon detection.
       </p>
 
+
+
+      <section id="CommonAlgorithms">
+        <h3>Common Algorithms</h3>
+        <section id="HashingAlg">
+          <h4>Hashing</h4>
+
+          <p>
+The following algorithm specifies how to cryptographically hash a
+<em>transformed data document</em> and <em>proof configuration</em>
+into cryptographic hash data that is ready to be provided as input to the
+algorithms for proof serialization and proof verification of each of the
+respective cryptosuites.
+          </p>
+
+          <p>
+The required inputs to this algorithm are a <em>transformed data document</em>
+(|transformedDocument|) and <em>canonical proof configuration</em>
+(|canonicalProofConfig|). A single <em>hash data</em> value represented as
+series of bytes is produced as output.
+          </p>
+
+          <ol class="algorithm">
+            <li>
+Let |transformedDocumentHash| be the result of applying the
+SHA-256 (SHA-2 with 256-bit output)
+cryptographic hashing algorithm [[RFC6234]] to the
+respective |transformedDocument|.
+Respective |transformedDocumentHash| will be exactly 32 bytes
+in size.
+            </li>
+            <li>
+Let |proofConfigHash| be the result of applying the
+SHA-256 (SHA-2 with 256-bit output)
+cryptographic hashing algorithm [[RFC6234]] to the
+|canonicalProofConfig|. Respective |proofConfigHash|
+will be exactly 32 bytes in size.
+            </li>
+            <li>
+Let |hashData| be the result of joining |proofConfigHash| (the
+first hash) with |transformedDocumentHash| (the second hash).
+            </li>
+            <li>
+Return |hashData| as the <em>hash data</em>.
+            </li>
+          </ol>
+
+        </section>
+        <section id="ProofConfigurationAlg">
+          <h4>Proof Configuration</h4>
+
+          <p>
+The following algorithm specifies how to generate a
+<em>proof configuration</em> from a set of <em>proof options</em>
+that is used as input to the <a href="#hashing">proof hashing algorithm</a>.
+          </p>
+
+          <p>
+The required inputs to this algorithm are <em>proof options</em>
+(|options|) and a <em>cryptosuite identifier</em> (|cryptosuite|). The
+<em>proof options</em> MUST contain a type identifier
+for the
+<a data-cite="vc-data-integrity#dfn-cryptosuite">
+cryptographic suite</a> (|type|) and MUST contain the cryptosuite
+identifier (|cryptosuite|). A <em>proof configuration</em>
+object is produced as output.
+          </p>
+
+          <ol class="algorithm">
+            <li>
+Let |proofConfig| be a clone of the |options| object.
+            </li>
+            <li>
+If |proofConfig|.|type| is not set to `DataIntegrityProof` and/or
+|proofConfig|.|cryptosuite| is not set to the <em>cryptosuite</em>, an
+`INVALID_PROOF_CONFIGURATION` error MUST be raised.
+            </li>
+            <li>
+If |proofConfig|.|created| is set and if the value is not a
+valid [[XMLSCHEMA11-2]] datetime, an `INVALID_PROOF_DATETIME` error MUST be
+raised.
+            </li>
+            <li>
+Set |proofConfig|.|@context| to |unsecuredDocument|.|@context|.
+            </li>
+            <li>
+Let |canonicalProofConfig| be the result of applying the
+Universal RDF Dataset Canonicalization Algorithm
+[[RDF-CANON]] to the |proofConfig|.
+            </li>
+            <li>
+Return |canonicalProofConfig|.
+            </li>
+          </ol>
+        </section>
+        <section id="TransformationAlg">
+          <h4>Transformation</h4>
+
+          <p>
+The following algorithm specifies how to transform an unsecured input document
+into a transformed document that is ready to be provided as input to the
+hashing algorithm in Section [[[#hashing]]].
+          </p>
+
+          <p>
+Required inputs to this algorithm are an
+<a data-cite="vc-data-integrity#dfn-unsecured-data-document">
+unsecured data document</a> (|unsecuredDocument|),
+transformation options (|options|), and a cryptosuite identifier (|cryptosuite|). The
+transformation options MUST contain a type identifier for the
+<a data-cite="vc-data-integrity#dfn-cryptosuite">
+cryptographic suite</a> (|type|) and a cryptosuite
+identifier (|cryptosuite|). A <em>transformed data document</em> is
+produced as output. Whenever this algorithm encodes strings, it MUST use UTF-8
+encoding.
+          </p>
+
+          <ol class="algorithm">
+            <li>
+If |options|.|type| is not set to the string
+`DataIntegrityProof` and/or |options|.|cryptosuite| is not
+set to the <em>cryptosuite</em> value then a `PROOF_TRANSFORMATION_ERROR` MUST be
+raised.
+            </li>
+            <li>
+Let |canonicalDocument| be the result of applying the
+Universal RDF Dataset Canonicalization Algorithm
+[[RDF-CANON]] to the |unsecuredDocument|.
+            </li>
+            <li>
+Set |output| to the value of |canonicalDocument|.
+            </li>
+            <li>
+Return |canonicalDocument| as the <em>transformed data document</em>.
+            </li>
+          </ol>
+        </section>
+      </section>
       <section id="InstantiateCryptosuite">
         <h3>Instantiate Cryptosuite</h3>
 <!-- **TODO**: Major overhaul to deal with all the cryptosuite flavors. -->
@@ -763,7 +933,6 @@ Return |cryptosuite|.
         </ol>
 
       </section>
-
       <section id="MLDSA_Cypthersuites">
         <h3>ML-DSA Cyphersuites</h3>
 <!-- **TODO**: Update and broaden, Not experimental!
@@ -813,35 +982,7 @@ summarized in Table 1.
             </tr>
           </tbody>
         </table>
-        <p>
-From NIST SP 800-57pt1r6 ipd (Initial Public Draft) December 2025,
-Section 4.6.1.4. on the "Security Strengths of Hash Functions, XOFs, and Their
-Applications" recommends using the following sized hash function for digital
-signatures as shown in Table 2.
-        </p>
-        <table class="complex data">
-          <caption>Table 2 <em>Hashes for Signatures.</em> </caption>
-          <thead>
-            <tr>
-              <th>Security Strength</th>
-              <th>Hash Function</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Category 1 or 2</td>
-              <td>SHA-256</td>
-            </tr>
-            <tr>
-              <td>Category 3 or 4</td>
-              <td>SHA-384</td>
-            </tr>
-            <tr>
-              <td>Category 5</td>
-              <td>SHA-512</td>
-            </tr>
-          </tbody>
-        </table>
+
         <p>
 Supporting both Universal RDF Dataset Canonicalization Algorithm [[RDF-CANON]],
 "rdfc" and JSON Canonicalization Scheme [[RFC8785]], "jcs" leads to the
@@ -1726,160 +1867,7 @@ Return |verificationResult| as the <em>verification result</em>.
 
         </section>
       </section>
-      <section id="CommonAlgorithms">
-        <h3>Common Algorithms</h3>
-        <section>
-          <h4>Transformation</h4>
-
-          <p>
-The following algorithm specifies how to transform an unsecured input document
-into a transformed document that is ready to be provided as input to the
-hashing algorithm in Section [[[#hashing]]].
-          </p>
-
-          <p>
-Required inputs to this algorithm are an
-<a data-cite="vc-data-integrity#dfn-unsecured-data-document">
-unsecured data document</a> (|unsecuredDocument|),
-transformation options (|options|), and a cryptosuite identifier (|cryptosuite|). The
-transformation options MUST contain a type identifier for the
-<a data-cite="vc-data-integrity#dfn-cryptosuite">
-cryptographic suite</a> (|type|) and a cryptosuite
-identifier (|cryptosuite|). A <em>transformed data document</em> is
-produced as output. Whenever this algorithm encodes strings, it MUST use UTF-8
-encoding.
-          </p>
-
-          <ol class="algorithm">
-            <li>
-If |options|.|type| is not set to the string
-`DataIntegrityProof` and/or |options|.|cryptosuite| is not
-set to the <em>cryptosuite</em> value then a `PROOF_TRANSFORMATION_ERROR` MUST be
-raised.
-            </li>
-            <li>
-Let |canonicalDocument| be the result of applying the
-Universal RDF Dataset Canonicalization Algorithm
-[[RDF-CANON]] to the |unsecuredDocument|.
-            </li>
-            <li>
-Set |output| to the value of |canonicalDocument|.
-            </li>
-            <li>
-Return |canonicalDocument| as the <em>transformed data document</em>.
-            </li>
-          </ol>
-        </section>
-
-        <section>
-          <h4>Hashing</h4>
-
-          <p>
-The following algorithm specifies how to cryptographically hash a
-<em>transformed data document</em> and <em>proof configuration</em>
-into cryptographic hash data that is ready to be provided as input to the
-algorithms for proof serialization and proof verification of each of the
-respective cryptosuites.
-          </p>
-
-          <p>
-The required inputs to this algorithm are a <em>transformed data document</em>
-(|transformedDocument|) and <em>canonical proof configuration</em>
-(|canonicalProofConfig|). A single <em>hash data</em> value represented as
-series of bytes is produced as output.
-          </p>
-
-          <ol class="algorithm">
-            <li>
-Let |transformedDocumentHash| be the result of applying the
-SHA-256 (SHA-2 with 256-bit output)
-cryptographic hashing algorithm [[RFC6234]] to the
-respective |transformedDocument|.
-Respective |transformedDocumentHash| will be exactly 32 bytes
-in size.
-            </li>
-            <li>
-Let |proofConfigHash| be the result of applying the
-SHA-256 (SHA-2 with 256-bit output)
-cryptographic hashing algorithm [[RFC6234]] to the
-|canonicalProofConfig|. Respective |proofConfigHash|
-will be exactly 32 bytes in size.
-            </li>
-            <li>
-Let |hashData| be the result of joining |proofConfigHash| (the
-first hash) with |transformedDocumentHash| (the second hash).
-            </li>
-            <li>
-Return |hashData| as the <em>hash data</em>.
-            </li>
-          </ol>
-
-        </section>
-
-        <section>
-          <h4>Proof Configuration</h4>
-
-          <p>
-The following algorithm specifies how to generate a
-<em>proof configuration</em> from a set of <em>proof options</em>
-that is used as input to the <a href="#hashing">proof hashing algorithm</a>.
-          </p>
-
-          <p>
-The required inputs to this algorithm are <em>proof options</em>
-(|options|) and a <em>cryptosuite identifier</em> (|cryptosuite|). The
-<em>proof options</em> MUST contain a type identifier
-for the
-<a data-cite="vc-data-integrity#dfn-cryptosuite">
-cryptographic suite</a> (|type|) and MUST contain the cryptosuite
-identifier (|cryptosuite|). A <em>proof configuration</em>
-object is produced as output.
-          </p>
-
-          <ol class="algorithm">
-            <li>
-Let |proofConfig| be a clone of the |options| object.
-            </li>
-            <li>
-If |proofConfig|.|type| is not set to `DataIntegrityProof` and/or
-|proofConfig|.|cryptosuite| is not set to the <em>cryptosuite</em>, an
-`INVALID_PROOF_CONFIGURATION` error MUST be raised.
-            </li>
-            <li>
-If |proofConfig|.|created| is set and if the value is not a
-valid [[XMLSCHEMA11-2]] datetime, an `INVALID_PROOF_DATETIME` error MUST be
-raised.
-            </li>
-            <li>
-Set |proofConfig|.|@context| to |unsecuredDocument|.|@context|.
-            </li>
-            <li>
-Let |canonicalProofConfig| be the result of applying the
-Universal RDF Dataset Canonicalization Algorithm
-[[RDF-CANON]] to the |proofConfig|.
-            </li>
-            <li>
-Return |canonicalProofConfig|.
-            </li>
-          </ol>
-
-        </section>
     </section>
-    </section>
-    </section>
-</section>
-
-
-
-    </section>
-    </section>
-
-    </section>
-</section>
-
-
-
-
     <section class="informative">
       <h2>Security Considerations</h2>
 
