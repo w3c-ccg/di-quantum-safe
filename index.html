@@ -702,8 +702,6 @@ implementations of that algorithm will detect
 by default, and abort processing upon detection.
       </p>
 
-
-
       <section id="CommonAlgorithms">
         <h3>Common Algorithms</h3>
         <section id="HashingAlg">
@@ -719,14 +717,23 @@ respective cryptosuites.
 
           <p>
 The required inputs to this algorithm are a <em>transformed data document</em>
-(|transformedDocument|) and <em>canonical proof configuration</em>
-(|canonicalProofConfig|). A single <em>hash data</em> value represented as
-series of bytes is produced as output.
+(|transformedDocument|), <em>canonical proof configuration</em>
+(|canonicalProofConfig|), and <em>hash name</em> (|hashName|). A single
+<em>hash data</em> value represented as series of bytes is produced as output.
           </p>
+
+          <!--           <li>
+If |options|.|cryptosuite| is `experimental-mldsa44-2024` then:
+            <ol class="algorithm">
+              <li>
+Set |cryptosuite|.|createProof| to the algorithm in Section
+[[[#create-proof-experimental-mldsa44-2024]]].
+              </li> -->
 
           <ol class="algorithm">
             <li>
-Let |transformedDocumentHash| be the result of applying the
+If |hashName| is `SHA-256`,
+let |transformedDocumentHash| be the result of applying the
 SHA-256 (SHA-2 with 256-bit output)
 cryptographic hashing algorithm [[RFC6234]] to the
 respective |transformedDocument|.
@@ -734,11 +741,46 @@ Respective |transformedDocumentHash| will be exactly 32 bytes
 in size.
             </li>
             <li>
-Let |proofConfigHash| be the result of applying the
+If |hashName| is `SHA-384`,
+let |transformedDocumentHash| be the result of applying the
+SHA-384 (SHA-2 with 384-bit output)
+cryptographic hashing algorithm [[RFC6234]] to the
+respective |transformedDocument|.
+Respective |transformedDocumentHash| will be exactly 48 bytes
+in size.
+            </li>
+            <li>
+If |hashName| is `SHA-512`,
+let |transformedDocumentHash| be the result of applying the
+SHA-512 (SHA-2 with 512-bit output)
+cryptographic hashing algorithm [[RFC6234]] to the
+respective |transformedDocument|.
+Respective |transformedDocumentHash| will be exactly 64 bytes
+in size.
+            </li>
+            <li>
+If |hashName| is `SHA-256`,
+let |proofConfigHash| be the result of applying the
 SHA-256 (SHA-2 with 256-bit output)
 cryptographic hashing algorithm [[RFC6234]] to the
 |canonicalProofConfig|. Respective |proofConfigHash|
 will be exactly 32 bytes in size.
+            </li>
+            <li>
+If |hashName| is `SHA-384`,
+let |proofConfigHash| be the result of applying the
+SHA-384 (SHA-2 with 384-bit output)
+cryptographic hashing algorithm [[RFC6234]] to the
+|canonicalProofConfig|. Respective |proofConfigHash|
+will be exactly 48 bytes in size.
+            </li>
+            <li>
+If |hashName| is `SHA-512`,
+let |proofConfigHash| be the result of applying the
+SHA-512 (SHA-2 with 512-bit output)
+cryptographic hashing algorithm [[RFC6234]] to the
+|canonicalProofConfig|. Respective |proofConfigHash|
+will be exactly 64 bytes in size.
             </li>
             <li>
 Let |hashData| be the result of joining |proofConfigHash| (the
