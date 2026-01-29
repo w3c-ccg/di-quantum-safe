@@ -798,12 +798,14 @@ Return |hashData| as the <em>hash data</em>.
           <p>
 The following algorithm specifies how to generate a
 <em>proof configuration</em> from a set of <em>proof options</em>
-that is used as input to the <a href="#hashing">proof hashing algorithm</a>.
+that is used as input to the <a href="#HashingAlg">proof hashing algorithm</a>.
           </p>
 
           <p>
 The required inputs to this algorithm are <em>proof options</em>
-(|options|) and a <em>cryptosuite identifier</em> (|cryptosuite|). The
+(|options|), a <em>cryptosuite identifier</em> (|cryptosuite|), the
+<em>canonicalization scheme </em> (|canonScheme|) and <em>hash name</em>
+(|hashName|). The
 <em>proof options</em> MUST contain a type identifier
 for the
 <a data-cite="vc-data-integrity#dfn-cryptosuite">
@@ -830,9 +832,15 @@ raised.
 Set |proofConfig|.|@context| to |unsecuredDocument|.|@context|.
             </li>
             <li>
-Let |canonicalProofConfig| be the result of applying the
+If |canonScheme| is `rdfc`,
+let |canonicalProofConfig| be the result of applying the
 Universal RDF Dataset Canonicalization Algorithm
-[[RDF-CANON]] to the |proofConfig|.
+[[RDF-CANON]] with hashing parameter set to |hashName| to the |proofConfig|.
+            </li>
+            <li>
+If |canonScheme| is `jcs`,
+let |canonicalProofConfig| be the result of applying the
+JSON Canonicalization Scheme [[RFC8785]] to the |proofConfig|.
             </li>
             <li>
 Return |canonicalProofConfig|.
@@ -845,14 +853,16 @@ Return |canonicalProofConfig|.
           <p>
 The following algorithm specifies how to transform an unsecured input document
 into a transformed document that is ready to be provided as input to the
-hashing algorithm in Section [[[#hashing]]].
+hashing algorithm in Section [[[#HashingAlg]]].
           </p>
 
           <p>
 Required inputs to this algorithm are an
 <a data-cite="vc-data-integrity#dfn-unsecured-data-document">
 unsecured data document</a> (|unsecuredDocument|),
-transformation options (|options|), and a cryptosuite identifier (|cryptosuite|). The
+transformation options (|options|), a cryptosuite identifier (|cryptosuite|),
+the <em>canonicalization scheme </em> (|canonScheme|) and <em>hash name</em>
+(|hashName|). The
 transformation options MUST contain a type identifier for the
 <a data-cite="vc-data-integrity#dfn-cryptosuite">
 cryptographic suite</a> (|type|) and a cryptosuite
@@ -869,9 +879,16 @@ set to the <em>cryptosuite</em> value then a `PROOF_TRANSFORMATION_ERROR` MUST b
 raised.
             </li>
             <li>
-Let |canonicalDocument| be the result of applying the
+If |canonScheme| is `rdfc`,
+let |canonicalDocument| be the result of applying the
 Universal RDF Dataset Canonicalization Algorithm
-[[RDF-CANON]] to the |unsecuredDocument|.
+[[RDF-CANON]] with hashing parameter set to |hashName| to
+the |unsecuredDocument|.
+            </li>
+            <li>
+If |canonScheme| is `jcs`,
+let |canonicalDocument| be the result of applying the
+JSON Canonicalization Scheme [[RFC8785]] to the |unsecuredDocument|.
             </li>
             <li>
 Set |output| to the value of |canonicalDocument|.
@@ -880,6 +897,80 @@ Set |output| to the value of |canonicalDocument|.
 Return |canonicalDocument| as the <em>transformed data document</em>.
             </li>
           </ol>
+        </section>
+        <section id="ProofSerializationAlg">
+          <h4>Proof Serialization</h4>
+          <p>
+The following algorithm specifies how to serialize a digital signature from
+a set of cryptographic hash data. This
+algorithm is designed to be used in conjunction with the algorithms defined
+in the Data Integrity [[VC-DATA-INTEGRITY]] specification,
+<a data-cite="vc-data-integrity#algorithms">
+Section 4: Algorithms</a>. Required inputs are
+cryptographic hash data (|hashData|), <em>proof options</em> (|options|) and
+a <em>signature function</em> (|sigFunc|). The
+<em>proof options</em> MUST contain a type identifier for the
+<a data-cite="vc-data-integrity#dfn-cryptosuite">
+cryptographic suite</a> (|type|) and MAY contain a cryptosuite
+identifier (|cryptosuite|). A single <em>digital proof</em> value
+represented as series of bytes is produced as output.
+          </p>
+
+          <ol class="algorithm">
+            <li>
+Let |privateKeyBytes| be the result of retrieving the
+private key bytes (or a signing interface enabling the use of the private key
+bytes) associated with the verification method identified by the
+|options|.|verificationMethod| value.
+            </li>
+            <li>
+Let |proofBytes| be the result of applying the |sigFunc|, with |hashData| as
+the data
+to be signed using the private key specified by |privateKeyBytes|.
+|proofBytes| will have a length as indicated by the cryptosuite.
+            </li>
+            <li>
+Return |proofBytes| as the <em>digital proof</em>.
+            </li>
+          </ol>
+        </section>
+
+        <section id="ProofVerificationAlg">
+          <h4>Proof Verification</h4>
+
+          <p>
+The following algorithm specifies how to verify a digital signature from
+a set of cryptographic hash data. This
+algorithm is designed to be used in conjunction with the algorithms defined
+in the Data Integrity [[VC-DATA-INTEGRITY]] specification,
+<a data-cite="vc-data-integrity#algorithms">
+Section 4: Algorithms</a>. Required inputs are
+cryptographic hash data (|hashData|), a digital signature (|proofBytes|),
+proof options (|options|) and a <em>verification function</em> (|verifyFunc|).
+A <em>verification result</em>
+represented as a boolean value is produced as output.
+          </p>
+
+          <ol class="algorithm">
+            <li>
+Let |publicKeyBytes| be the result of retrieving the
+public key bytes associated with the
+|options|.|verificationMethod| value as described in the
+Data Integrity [[VC-DATA-INTEGRITY]] specification,
+<a data-cite="vc-data-integrity#algorithms">
+Section 4: Retrieve Verification Method</a>.
+            </li>
+            <li>
+Let |verificationResult| be the result of applying the |verifyFunc|,
+with |hashData| as the data to be verified against the
+|proofBytes| using the public key specified by
+|publicKeyBytes|.
+            </li>
+            <li>
+Return |verificationResult| as the <em>verification result</em>.
+            </li>
+          </ol>
+
         </section>
       </section>
       <section id="InstantiateCryptosuite">
