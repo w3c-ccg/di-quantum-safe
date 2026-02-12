@@ -295,9 +295,12 @@ This specification is experimental, do not use it in any production setting.
 
     <section>
       <h2>Introduction</h2>
-      <!-- **TODO**: Need to update to give high level descriptions of signature suites
-       supported "flavors", security strengths, and corresponding hash functions.
-      -->
+      <p class="ednote">
+Need to update to give high level descriptions of signature suites, their
+supported "flavors" (parameter sets), security categories, and
+corresponding hash functions. As done on other VC DI cryptosuites this draft
+considers both RDF canonicalization and JCS canonicalization where appropriate.
+      </p>
       <p>
 This specification defines several cryptographic suites for the purpose of
 creating, and verifying proofs for Post-Quantum signatures in conformance with
@@ -357,9 +360,11 @@ data integrity proofs, such as digital signatures.
 
       <section id="VerificationMethods">
         <h3>Verification Methods</h3>
-<!-- **TODO**: Update all key stuff.
-(1) Fix beginning text. (2) Put together tables containing all keys.
--->
+        <p class="ednote">
+To do: update multikey prefixes as necessary. Include key types for all
+supported "flavors" (approved parameter sets). Update general discussion below
+to include all supported signature scheme and "flavors".
+        </p>
         <p>
 These verification methods are used to verify Data Integrity Proofs
 [[VC-DATA-INTEGRITY]] produced using ML-DSA-44 cryptographic key material
@@ -432,6 +437,12 @@ Multicodec value other than `0x1207` being used in a `publicKeyMultibase` value.
 
 
           <span class="issue">Do the examples need updating?</span>
+          <p class="ednote">
+We don't need to put key examples here as we have many types and some can
+be quite large. We will need to show examples of private and public key material
+for all supported signature suites in the test vector section and can point to
+that section as appropriate.
+          </p>
           <pre class="example nohighlight"
             title="A ML-DSA-44 public key encoded as a Multikey">
 {
@@ -539,8 +550,10 @@ this specification.
 
         <section id="DataIntegrityProof">
           <h4>DataIntegrityProof</h4>
-<!-- **TODO**: Update with extensive list of cryptosuites. Remove experimental
- annotation from FIP 204 ML-DSA and FIP 205 SLH-DSA suites. -->
+          <p class="ednote">
+To do: Update with extensive list of cryptosuites. Remove experimental
+ annotation from FIPS-204 ML-DSA and FIPS-205 SLH-DSA suites.
+          </p>
           <p>
 A proof contains the attributes specified in the
 <a href="https://www.w3.org/TR/vc-data-integrity/#proofs">Proofs section</a>
@@ -647,8 +660,8 @@ Multibase section</a> of [[VC-DATA-INTEGRITY]].
       <p>
 The following sections describes multiple Data Integrity cryptographic suites
 that utilize quantum safe signature algorithms at different claimed security
-levels. For a given claimed security level an appropriate hash function MUST be
-use in the [[[#HashingAlg]]].
+categories. For a given claimed security category an appropriate hash function
+MUST be use in the [[[#HashingAlg]]].
       </p>
       <p>
 From NIST SP 800-57pt1r6 ipd (Initial Public Draft) December 2025,
@@ -975,7 +988,9 @@ Return |verificationResult| as the <em>verification result</em>.
       </section>
       <section id="InstantiateCryptosuite">
         <h3>Instantiate Cryptosuite</h3>
-<!-- **TODO**: Major overhaul to deal with all the cryptosuite flavors. -->
+        <p class="ednote">
+To do: update to deal with all the cryptosuite flavors.
+        </p>
         <p>
 This algorithm is used to configure a cryptographic suite to be used by the
 <a data-cite="VC-DATA-INTEGRITY#add-proof">Add Proof</a> and
