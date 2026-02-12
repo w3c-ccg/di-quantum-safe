@@ -1292,12 +1292,6 @@ Return a [=verification result=] with [=struct/items=]:
       </section>
       <section id="SLHDSA_Cyphersuites">
         <h3>SLH-DSA Cyphersuites</h3>
-<!-- **TODO**: Update and broaden, Not experimental!
- Want this to deal with a "Group" of cryptosuites based on SLH-DSA at three
- security levels, utilizing both RDFC and JCS canonicalization, with appropriate
- hashing function. Can also indicate public key and signature sizes here in
- a table.
--->
         <p>
 The `experimental-shs-2025` cryptographic suite takes an
 input document, canonicalizes the document using the Universal RDF Dataset
@@ -1987,6 +1981,29 @@ privacy assumptions.
     <section class="appendix informative" id="TestVectors">
       <h2>Test Vectors</h2>
       <section>
+        <h4>Test Vector Common Inputs</h4>
+        <p class="ednote">Proof Options, Unsigned Document will be shown here.
+        </p>
+        <p class="ednote">Test vector "outputs" for common algorithms are reused
+          as inputs to cyphersuite specific test vectors.
+        </p>
+      </section>
+      <section>
+          <h4>Common Algorithms: Proof Configuration</h4>
+        <section>
+          <h5>Proof Configuration (`rdfc`, `sha-256`)</h5>
+        </section>
+        <section>
+          <h5>Proof Configuration (`rdfc`, `sha-384`)</h5>
+        </section>
+        <section>
+          <h5>Proof Configuration (`rdfc`, `sha-512`)</h5>
+        </section>
+        <section>
+          <h5>Proof Configuration (`jcs`)</h5>
+        </section>
+      </section>
+      <section>
         <h4>Common Algorithms: Transform</h4>
         <section>
           <h5>Transform (`rdfc`, `sha-256`)</h5>
@@ -1998,35 +2015,65 @@ privacy assumptions.
           <h5>Transform (`rdfc`, `sha-512`)</h5>
         </section>
         <section>
-          <h5>Transform (`rdfc`, `sha-256`)</h5>
-        </section>
-        <section>
-          <h5>Transform (`rdfc`, `sha-384`)</h5>
-        </section>
-        <section>
-          <h5>Transform (`rdfc`, `sha-512`)</h5>
-        </section>
-        <section>
-          <h5>Transform (`jcs`, `sha-256`)</h5>
-        </section>
-        <section>
-          <h5>Transform (`jcs`, `sha-384`)</h5>
-        </section>
-        <section>
-          <h5>Transform (`jcs`, `sha-512`)</h5>
+          <h5>Transform (`jcs`)</h5>
         </section>
       </section>
       <section>
         <h4>Common Algorithms: Hashing</h4>
+        <section>
+          <h5>Hashing (`sha-256`)</h5>
+        </section>
+        <section>
+          <h5>Hashing (`sha-384`)</h5>
+        </section>
+        <section>
+          <h5>Hashing (`sha-512`)</h5>
+        </section>
       </section>
-      <section>
-        <h4>Common Algorithms: Proof Configuration</h4>
-      </section>
-      <section>
+
+      <section id="TV-ML-DSA">
         <h4>ML-DSA Cyphersuites</h4>
+        <p class="ednote">Only one test vector will be shown for each
+          cyphersuite, building on common algorithm outputs.</p>
+        <section>
+          <h5>ML-DSA Test Vector Key Material</h5>
+        </section>
+        <section>
+          <h5>Cyphersuite `mldsa44-rdfc-2024`</h5>
+        </section>
+        <section>
+          <h5>Cyphersuite `mldsa44-jcs-2024`</h5>
+        </section>
+        <section>
+          <h5>Cyphersuite `mldsa65-rdfc-2024`</h5>
+        </section>
+        <section>
+          <h5>Cyphersuite `mldsa65-jcs-2024`</h5>
+        </section>
+        <section>
+          <h5>Cyphersuite `mldsa87-rdfc-2024`</h5>
+        </section>
+        <section>
+          <h5>Cyphersuite `mldsa87-jcs-2024`</h5>
+        </section>
       </section>
       <section>
         <h4>SLH-DSA Cyphersuites</h4>
+        <section>
+          <h5>SLH-DSA Test Vector Key Material</h5>
+        </section>
+        <section>
+          <h5>Cyphersuite `slhdsa128-rdfc-2024`</h5>
+        </section>
+        <section>
+          <h5>Cyphersuite `slhdsa128-jcs-2024`</h5>
+        </section>
+        <section>
+          <h5>Cyphersuite `slhdsa192-rdfc-2024`</h5>
+        </section>
+        <section>
+          <h5>Cyphersuite `slhdsa192-jcs-2024`</h5>
+        </section>
       </section>
     </section>
     <section class="informative">
