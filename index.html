@@ -296,14 +296,14 @@ This specification is experimental, do not use it in any production setting.
     <section>
       <h2>Introduction</h2>
       <p class="ednote">
-Need to update to give high level descriptions of signature suites, their
-supported "flavors" (parameter sets), security categories, and
-corresponding hash functions. As done on other VC DI cryptosuites this draft
+Need to update to include high level descriptions of signature suites, their
+supported "flavors" (parameter sets), security categories, and corresponding
+hash functions. As in other VC DI cryptosuite specifications, this draft
 considers both RDF canonicalization and JCS canonicalization where appropriate.
       </p>
       <p>
-This specification defines several cryptographic suites for the purpose of
-creating, and verifying proofs for Post-Quantum signatures in conformance with
+This specification defines several cryptographic suites for the purposes of
+creating and verifying proofs for Post-Quantum signatures, in conformance with
 the Data Integrity [[VC-DATA-INTEGRITY]] specification.
       </p>
       <p>
@@ -438,10 +438,10 @@ Multicodec value other than `0x1207` being used in a `publicKeyMultibase` value.
 
           <span class="issue">Do the examples need updating?</span>
           <p class="ednote">
-We don't need to put key examples here as we have many types and some can
-be quite large. We will need to show examples of private and public key material
-for all supported signature suites in the test vector section and can point to
-that section as appropriate.
+We won't put key examples here, as we have many types and some can be quite
+large. We will show examples of private and public key material for all
+supported signature suites in the test vector section and point to that
+section as appropriate.
           </p>
           <pre class="example nohighlight"
             title="A ML-DSA-44 public key encoded as a Multikey">
@@ -658,15 +658,15 @@ Multibase section</a> of [[VC-DATA-INTEGRITY]].
       <h2>Algorithms</h2>
 <!-- **TODO**: Update this introductory text. -->
       <p>
-The following sections describes multiple Data Integrity cryptographic suites
+The following sections describe multiple Data Integrity cryptographic suites
 that utilize quantum safe signature algorithms at different claimed security
-categories. For a given claimed security category an appropriate hash function
+categories. For a given claimed security category, an appropriate hash function
 MUST be use in the [[[#HashingAlg]]].
       </p>
       <p>
 From NIST SP 800-57pt1r6 ipd (Initial Public Draft) December 2025,
-Section 4.6.1.4. on the "Security Strengths of Hash Functions, XOFs, and Their
-Applications" the following hash function are chosen for use with digital
+Section 4.6.1.4 on the "Security Strengths of Hash Functions, XOFs, and Their
+Applications," the following hash function are chosen for use with digital
 signatures in Table 1.
       </p>
       <table class="data">
@@ -732,7 +732,7 @@ respective cryptosuites.
 The required inputs to this algorithm are a <em>transformed data document</em>
 (|transformedDocument|), <em>canonical proof configuration</em>
 (|canonicalProofConfig|), and <em>hash name</em> (|hashName|). A single
-<em>hash data</em> value represented as series of bytes is produced as output.
+<em>hash data</em> value represented as a series of bytes is produced as output.
           </p>
 
           <!--           <li>
@@ -832,12 +832,12 @@ object is produced as output.
 Let |proofConfig| be a clone of the |options| object.
             </li>
             <li>
-If |proofConfig|.|type| is not set to `DataIntegrityProof` and/or
-|proofConfig|.|cryptosuite| is not set to the <em>cryptosuite</em>, an
-`INVALID_PROOF_CONFIGURATION` error MUST be raised.
+If |proofConfig|.|type| is not set to `DataIntegrityProof`,
+|proofConfig|.|cryptosuite| is not set to the <em>cryptosuite</em>,
+or both, an `INVALID_PROOF_CONFIGURATION` error MUST be raised.
             </li>
             <li>
-If |proofConfig|.|created| is set and if the value is not a
+If |proofConfig|.|created| is set to a value that is not a
 valid [[XMLSCHEMA11-2]] datetime, an `INVALID_PROOF_DATETIME` error MUST be
 raised.
             </li>
@@ -848,7 +848,7 @@ Set |proofConfig|.|@context| to |unsecuredDocument|.|@context|.
 If |canonScheme| is `rdfc`,
 let |canonicalProofConfig| be the result of applying the
 Universal RDF Dataset Canonicalization Algorithm
-[[RDF-CANON]] with hashing parameter set to |hashName| to the |proofConfig|.
+[[RDF-CANON]] to the |proofConfig|, with hashing parameter set to |hashName|.
             </li>
             <li>
 If |canonScheme| is `jcs`,
@@ -886,17 +886,17 @@ encoding.
 
           <ol class="algorithm">
             <li>
-If |options|.|type| is not set to the string
-`DataIntegrityProof` and/or |options|.|cryptosuite| is not
-set to the <em>cryptosuite</em> value then a `PROOF_TRANSFORMATION_ERROR` MUST be
+If |options|.|type| is not set to the string `DataIntegrityProof`,
+|options|.|cryptosuite| is not set to the <em>cryptosuite</em>
+value, or both, then a `PROOF_TRANSFORMATION_ERROR` MUST be
 raised.
             </li>
             <li>
 If |canonScheme| is `rdfc`,
 let |canonicalDocument| be the result of applying the
 Universal RDF Dataset Canonicalization Algorithm
-[[RDF-CANON]] with hashing parameter set to |hashName| to
-the |unsecuredDocument|.
+[[RDF-CANON]] to the |unsecuredDocument|
+with hashing parameter set to |hashName|.
             </li>
             <li>
 If |canonScheme| is `jcs`,
@@ -917,14 +917,14 @@ Return |canonicalDocument| as the <em>transformed data document</em>.
 The following algorithm specifies how to serialize a digital signature from
 a set of cryptographic hash data. This
 algorithm is designed to be used in conjunction with the algorithms defined
-in the Data Integrity [[VC-DATA-INTEGRITY]] specification,
-<a data-cite="vc-data-integrity#algorithms">
-Section 4: Algorithms</a>. Required inputs are
-cryptographic hash data (|hashData|), <em>proof options</em> (|options|) and
+in <a data-cite="vc-data-integrity#algorithms">
+Section 4: Algorithms</a> of the Data Integrity specification
+[[VC-DATA-INTEGRITY]]. Required inputs are
+cryptographic hash data (|hashData|), <em>proof options</em> (|options|), and
 a <em>signature function</em> (|sigFunc|). The
 <em>proof options</em> MUST contain a type identifier for the
-<a data-cite="vc-data-integrity#dfn-cryptosuite">
-cryptographic suite</a> (|type|) and MAY contain a cryptosuite
+<a data-cite="vc-data-integrity#dfn-cryptosuite"
+>cryptographic suite</a> (|type|) and MAY contain a cryptosuite
 identifier (|cryptosuite|). A single <em>digital proof</em> value
 represented as series of bytes is produced as output.
           </p>
@@ -955,11 +955,11 @@ Return |proofBytes| as the <em>digital proof</em>.
 The following algorithm specifies how to verify a digital signature from
 a set of cryptographic hash data. This
 algorithm is designed to be used in conjunction with the algorithms defined
-in the Data Integrity [[VC-DATA-INTEGRITY]] specification,
-<a data-cite="vc-data-integrity#algorithms">
-Section 4: Algorithms</a>. Required inputs are
+in <a data-cite="vc-data-integrity#algorithms">Section 4: Algorithms</a>
+of the Data Integrity [[VC-DATA-INTEGRITY]]
+specification. Required inputs are
 cryptographic hash data (|hashData|), a digital signature (|proofBytes|),
-proof options (|options|) and a <em>verification function</em> (|verifyFunc|).
+proof options (|options|), and a <em>verification function</em> (|verifyFunc|).
 A <em>verification result</em>
 represented as a boolean value is produced as output.
           </p>
@@ -968,16 +968,16 @@ represented as a boolean value is produced as output.
             <li>
 Let |publicKeyBytes| be the result of retrieving the
 public key bytes associated with the
-|options|.|verificationMethod| value as described in the
-Data Integrity [[VC-DATA-INTEGRITY]] specification,
-<a data-cite="vc-data-integrity#algorithms">
-Section 4: Retrieve Verification Method</a>.
+|options|.|verificationMethod| value as described in
+<a data-cite="vc-data-integrity#algorithms"> Section
+4: Retrieve Verification Method</a> of the
+Data Integrity specification [[VC-DATA-INTEGRITY]].
             </li>
             <li>
 Let |verificationResult| be the result of applying the |verifyFunc|,
-with |hashData| as the data to be verified against the
-|proofBytes| using the public key specified by
-|publicKeyBytes|.
+using the public key specified by |publicKeyBytes|, with |hashData|
+as the data to be verified against the
+|proofBytes|.
             </li>
             <li>
 Return |verificationResult| as the <em>verification result</em>.
@@ -1084,7 +1084,7 @@ Return |cryptosuite|.
       <section id="MLDSA_Cypthersuites">
         <h3>ML-DSA Cyphersuites</h3>
         <p>
-The Module-Lattice-Based Digital Signature Standard defined in [[FIPS-204]]
+The Module-Lattice-Based Digital Signature Standard defined in [[[FIPS-204]]] [[FIPS-204]]
 defines parameter sets for three different claimed security strengths. The
 claimed security strengths, private key, public key, and signature sizes are
 summarized in Table 2.
@@ -1126,8 +1126,8 @@ summarized in Table 2.
         </table>
 
         <p>
-Supporting both Universal RDF Dataset Canonicalization Algorithm [[RDF-CANON]],
-"rdfc" and JSON Canonicalization Scheme [[RFC8785]], "jcs" leads to the
+Supporting both the Universal RDF Dataset Canonicalization Algorithm [[RDF-CANON]],
+"`rdfc`", and the JSON Canonicalization Scheme [[RFC8785]], "`jcs`", leads to the
 family of ML-DSA cryptosuites given in Table 3.
         </p>
         <table class="complex data">
@@ -1186,7 +1186,7 @@ family of ML-DSA cryptosuites given in Table 3.
 The following algorithm specifies how to create a [=data integrity proof=] given
 an <a>unsecured data document</a> and an ML-DSA cyphersuite chosen from
 Table 3. The choice of cyphersuite sets the values of |canonScheme|,
-|hashName|, |sigFunc| and |verifyFunc| per Table 3 and are used in the
+|hashName|, |sigFunc|, and |verifyFunc| per Table 3, which are used in the
 algorithm below. Additional required inputs are an
 <a>unsecured data document</a> ([=map=] |unsecuredDocument|), and a set of proof
 options ([=map=] |options|). A [=data integrity proof=] ([=map=]), or an error,
@@ -1210,17 +1210,17 @@ Let |transformedData| be the result of running the algorithm in Section
             </li>
             <li>
 Let |hashData| be the result of running the algorithm in Section
-[[[#HashingAlg]]] with |transformedData|, |proofConfig| and |hashName|
+[[[#HashingAlg]]] with |transformedData|, |proofConfig|, and |hashName|
 passed as a parameters.
             </li>
             <li>
 Let |proofBytes| be the result of running the algorithm in Section
-[[[#ProofSerializationAlg]]] with |hashData|, |options| and
+[[[#ProofSerializationAlg]]] with |hashData|, |options|, and
 |sigFunc| passed as parameters.
             </li>
             <li>
 Let |proof|.|proofValue| be a <a data-cite="VC-DATA-INTEGRITY#multibase-0">
-base64-url-encoded Multibase value</a> of the |proofBytes|.
+base64-url-encoded Multibase encoding</a> of the |proofBytes|.
             </li>
             <li>
 Return |proof| as the [=data integrity proof=].
@@ -1259,10 +1259,10 @@ Let |proofOptions| be a copy of |securedDocument|.|proof| with `proofValue`
 removed.
           </li>
           <li>
-Set |cyphersuiteName| to |securedDocument|.|proof|.|cypnersuite|,
-it must be one of those listed in Table 3.
-From |cyphersuiteName| set the values of |canonScheme|, |hashName|,
-and |verifyFunc| per Table 3.
+Set |cyphersuiteName| to |securedDocument|.|proof|.|cyphersuite|,
+which must be one of those listed in Table 3.
+From |cyphersuiteName|, set the values of |canonScheme|, |hashName|,
+and |verifyFunc|, as found in Table 3.
           </li>
           <li>
 Let |proofBytes| be the
@@ -1272,22 +1272,22 @@ value</a> in |securedDocument|.|proof|.|proofValue|.
           <li>
 Let |transformedData| be the result of running the algorithm in Section
 [[[#TransformationAlg]]] with |unsecuredDocument|,
-|proofOptions| the
-|cypherSuiteName|, |canonScheme|, and |hashName| passed as parameters.
+and |cypherSuiteName|,
+|canonScheme|, and |hashName| |proofOptions| passed as parameters.
           </li>
           <li>
 Let |proofConfig| be the result of running the algorithm in
-Section [[[#ProofConfigurationAlg]]] with |options| the |cypherSuiteName|,
+Section [[[#ProofConfigurationAlg]]] with |options|, |cypherSuiteName|,
 |canonScheme|, and |hashName| passed as parameters.
           </li>
           <li>
 Let |hashData| be the result of running the algorithm in Section
-[[[#HashingAlg]]] with |transformedData|, |proofConfig| and |hashName|
+[[[#HashingAlg]]] with |transformedData|, |proofConfig|, and |hashName|
 passed as a parameters.
           </li>
           <li>
 Let |verified:boolean| be the result of running the algorithm in Section
-[[[#ProofVerificationAlg]]] algorithm with |hashData|,
+[[[#ProofVerificationAlg]]] with |hashData|,
 |proofBytes|, |proofConfig|, and |verifyFunc| as parameters.
             </li>
             <li>
@@ -1317,10 +1317,10 @@ integrity proof.
         </p>
         <p>
 The Stateless Hash-Based Digital Signature Standard defined in [[FIPS-205]]
-defines parameter sets for three different claimed security strengths, size or
-speed optimized, and hash function family. This specification chooses a subset
-of these parameter sets optimized for smaller size and based on the SHA2 hash
-function family as shown in Table 4.
+defines parameter sets for three different claimed security strengths,
+optimized for size or speed, and a specified hash function family. This specification chooses a subset
+of these parameter sets, optimized for smaller size, and based on the SHA2 hash
+function family, as shown in Table 4.
         </p>
         <table class="complex data">
           <caption>Table 4 <em>Supported SLH-DSA Signatures Summary, all sizes in bytes.</em> </caption>
@@ -1360,7 +1360,7 @@ function family as shown in Table 4.
 
         <p>
 Supporting both Universal RDF Dataset Canonicalization Algorithm [[RDF-CANON]],
-"rdfc" and JSON Canonicalization Scheme [[RFC8785]], "jcs" leads to the
+"`rdfc`", and JSON Canonicalization Scheme [[RFC8785]], "`jcs`", leads to the
 family of ML-DSA cryptosuites given in Table 5.
         </p>
         <table class="complex data">
@@ -1420,7 +1420,7 @@ family of ML-DSA cryptosuites given in Table 5.
 The following algorithm specifies how to create a [=data integrity proof=] given
 an <a>unsecured data document</a> and an SLH-DSA cyphersuite chosen from
 Table 4. The choice of cyphersuite sets the values of |canonScheme|,
-|hashName|, |sigFunc| and |verifyFunc| per Table 5 and are used in the
+|hashName|, |sigFunc|, and |verifyFunc| as found in Table 5, for use in the
 algorithm below. Additional required inputs are an
 <a>unsecured data document</a> ([=map=] |unsecuredDocument|), and a set of proof
 options ([=map=] |options|). A [=data integrity proof=] ([=map=]), or an error,
@@ -1439,22 +1439,22 @@ passed as parameters.
             </li>
             <li>
 Let |transformedData| be the result of running the algorithm in Section
-[[[#TransformationAlg]]] with |unsecuredDocument|, |options|, the
+[[[#TransformationAlg]]] with |unsecuredDocument|, |options|,
 |cypherSuiteName|, |canonScheme|, and |hashName| passed as parameters.
             </li>
             <li>
 Let |hashData| be the result of running the algorithm in Section
-[[[#HashingAlg]]] with |transformedData|, |proofConfig| and |hashName|
+[[[#HashingAlg]]] with |transformedData|, |proofConfig|, and |hashName|
 passed as a parameters.
             </li>
             <li>
 Let |proofBytes| be the result of running the algorithm in Section
-[[[#ProofSerializationAlg]]] with |hashData|, |options| and
+[[[#ProofSerializationAlg]]] with |hashData|, |options|, and
 |sigFunc| passed as parameters.
             </li>
             <li>
 Let |proof|.|proofValue| be a <a data-cite="VC-DATA-INTEGRITY#multibase-0">
-base64-url-encoded Multibase value</a> of the |proofBytes|.
+base64-url-encoded Multibase encoding</a> of the |proofBytes|.
             </li>
             <li>
 Return |proof| as the [=data integrity proof=].
@@ -1500,18 +1500,18 @@ and |verifyFunc| per Table 5.
           </li>
           <li>
 Let |proofBytes| be the
-<a data-cite="VC-DATA-INTEGRITY#multibase-0">Multibase decoded base64-url
-value</a> in |securedDocument|.|proof|.|proofValue|.
+<a data-cite="VC-DATA-INTEGRITY#multibase-0">Multibase base64-url-decoded
+decoding</a> of |securedDocument|.|proof|.|proofValue|.
           </li>
           <li>
 Let |transformedData| be the result of running the algorithm in Section
 [[[#TransformationAlg]]] with |unsecuredDocument|,
-|proofOptions| the
+|proofOptions|,
 |cypherSuiteName|, |canonScheme|, and |hashName| passed as parameters.
           </li>
           <li>
 Let |proofConfig| be the result of running the algorithm in
-Section [[[#ProofConfigurationAlg]]] with |options| the |cypherSuiteName|,
+Section [[[#ProofConfigurationAlg]]] with |options| |cypherSuiteName|,
 |canonScheme|, and |hashName| passed as parameters.
           </li>
           <li>
