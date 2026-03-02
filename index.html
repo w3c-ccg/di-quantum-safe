@@ -388,7 +388,7 @@ expression of a public key.
           </p>
 
           <table class="data">
-            <caption>Table K. <em>Public Key Summary, all sizes in bytes.</em> </caption>
+            <caption><em>Public Key Summary, all sizes in bytes.</em></caption>
             <thead>
               <tr>
                 <th>Signature Name</th>
@@ -440,9 +440,9 @@ expression of a public key.
           <p>
 The Multikey encoding of a public key for a signature supported by this
 specification MUST start with the corresponding multi-byte prefix for the
-signature named in Table K followed by the raw public key bytes.
+signature named the previous table followed by the raw public key bytes.
 This multi-byte prefix is the varint expression of the varint code
-given in the Table K.
+given in the previous table.
 The resulting value will have a byte length given by the raw public key size in
 the table plus the length of the multi-byte prefix. This value MUST then be
 encoded
@@ -484,7 +484,7 @@ The `type` property of the proof MUST be `DataIntegrityProof`.
           </p>
           <p>
 The `cryptosuite` property of the proof MUST be one of the following values from
-Table CS.
+<a href="#TableCS>Table CS</a>.
           </p>
           <table class="data">
             <caption id="TableCS">Table CS. <em>Cryptosuites.</em> </caption>
