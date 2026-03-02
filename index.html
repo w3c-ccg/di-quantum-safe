@@ -361,14 +361,14 @@ data integrity proofs, such as digital signatures.
       <section id="VerificationMethods">
         <h3>Verification Methods</h3>
         <p class="ednote">
-To do: update multikey prefixes as necessary. Include key types for all
-supported "flavors" (approved parameter sets). Update general discussion below
-to include all supported signature scheme and "flavors".
+Defines the general approach to `publicKeyMultibase` format for quantum safe
+algorithms in this specification with details for each signature suite given by
+a table entry.
         </p>
         <p>
 These verification methods are used to verify Data Integrity Proofs
-[[VC-DATA-INTEGRITY]] produced using ML-DSA-44 cryptographic key material
-that is compliant with [[FIPS-204]].
+[[VC-DATA-INTEGRITY]] produced using the cryptographic key material for the
+various algorithms and parameter sets supported by this specification.
 The encoding formats for these key types are provided in this section. Lossless
 cryptographic key transformation processes that result in equivalent
 cryptographic key material MAY be used during the processing of digital
@@ -377,165 +377,84 @@ signatures.
 
         <section>
           <h4>Multikey</h4>
-
           <p>
-The <a data-cite="VC-DATA-INTEGRITY#multikey">Multikey format</a>, as defined in
-[[VC-DATA-INTEGRITY]], is used to express public keys for the cryptographic
+The <a data-cite="CID#Multikey">Multikey format</a>, defined in
+[[[CID]]], is used to express public keys for the cryptographic
 suites defined in this specification.
           </p>
-
           <p>
 The `publicKeyMultibase` property represents a Multibase-encoded Multikey
-expression of a ML-DSA public key.
+expression of a public key.
           </p>
 
+          <table class="data">
+            <caption>Table K. <em>Public Key Summary, all sizes in bytes.</em> </caption>
+            <thead>
+              <tr>
+                <th>Signature Name</th>
+                <th>Varint Code</th>
+                <th>Multi-Byte Prefix</th>
+                <th>Raw Public Key Size</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ML-DSA-44</td>
+                <td>0x1210</td>
+                <td>0x9024</td>
+                <td>1312</td>
+              </tr>
+              <tr>
+                <td>ML-DSA-65</td>
+                <td>0x1211</td>
+                <td>0x9124</td>
+                <td>1952</td>
+              </tr>
+              <tr>
+                <td>ML-DSA-87</td>
+                <td>0x1212</td>
+                <td>0x9224</td>
+                <td>2592</td>
+              </tr>
+              <tr>
+              <td>SLH-DSA-SHA2-128s</td>
+              <td>0x1220</td>
+              <td>0xa024</td>
+              <td>32</td>
+            </tr>
+            <tr>
+              <td>SLH-DSA-SHA2-192s</td>
+              <td>0x1224</td>
+              <td>0xa424</td>
+              <td>48</td>
+            </tr>
+            <tr>
+              <td>SLH-DSA-SHA2-256s</td>
+              <td>0x1228</td>
+              <td>0xa824</td>
+              <td>64</td>
+            </tr>
+            </tbody>
+          </table>
+
           <p>
-The Multikey encoding of a ML-DSA public key MUST start with the two-byte
-prefix `0x8724` (the varint expression of `0x1207`) followed by the 1312-byte
-compressed public key data. The resulting 1314-byte value MUST then be encoded
+The Multikey encoding of a public key for a signature supported by this
+specification MUST start with the corresponding multi-byte prefix for the
+signature named in Table K followed by the raw public key bytes.
+This multi-byte prefix is the varint expression of the varint code
+given in the Table K.
+The resulting value will have a byte length given by the raw public key size in
+the table plus the length of the multi-byte prefix. This value MUST then be
+encoded
 using the base-64-url alphabet, according to the
-<a data-cite="VC-DATA-INTEGRITY#multibase-0">Multibase</a> section in the
-[[VC-DATA-INTEGRITY]] specification, and then prepended with the base-64-url
+<a data-cite="CID#multibase-0">Multibase section</a> of
+[[[CID]]] and then prepended with the base-64-url
 Multibase header (`u`).
           </p>
-          <p>
-The Multikey encoding of a SHS-DSA public key MUST start with the two-byte
-prefix `????` (the varint expression of `????`) followed by the 7856-byte
-compressed public key data [[FIPS-205]]. The resulting 7858-byte value MUST then be encoded
-using the base-64-url alphabet, according to the
-<a data-cite="VC-DATA-INTEGRITY#multibase-0">Multibase</a> section in the
-[[VC-DATA-INTEGRITY]] specification, and then prepended with the base-64-url
-Multibase header (`u`).
+          <p class="informative">
+Examples of all the `publicKeyMultibase` encodings defined in this specification
+can be found in appendix [[[#TestVectors]]].
           </p>
-
-          <p>
-The Multikey encoding of a Falcon public key MUST start with the two-byte
-prefix `????` (the varint expression of `????`) followed by the 897-byte
-compressed public key data [[FALCON]]. The resulting 899-byte value MUST then be encoded
-using the base-64-url alphabet, according to the
-<a data-cite="VC-DATA-INTEGRITY#multibase-0">Multibase</a> section in the
-[[VC-DATA-INTEGRITY]] specification, and then prepended with the base-64-url
-Multibase header (`u`).
-          </p>
-
-          <p>
-The Multikey encoding of a SQISign public key MUST start with the two-byte
-prefix `????` (the varint expression of `????`) followed by the 65-byte
-compressed public key data [[SQISIGN]]. The resulting 67-byte value MUST then be encoded
-using the base-64-url alphabet, according to the
-<a data-cite="VC-DATA-INTEGRITY#multibase-0">Multibase</a> section in the
-[[VC-DATA-INTEGRITY]] specification, and then prepended with the base-64-url
-Multibase header (`u`).
-          </p>
-
-          <p class="advisement">
-Developers are advised to not accidentally publish a representation of a private
-key. Implementations of this specification will raise errors in the event of a
-Multicodec value other than `0x1207` being used in a `publicKeyMultibase` value.
-          </p>
-
-
-
-          <span class="issue">Do the examples need updating?</span>
-          <p class="ednote">
-We won't put key examples here, as we have many types and some can be quite
-large. We will show examples of private and public key material for all
-supported signature suites in the test vector section and point to that
-section as appropriate.
-          </p>
-          <pre class="example nohighlight"
-            title="A ML-DSA-44 public key encoded as a Multikey">
-{
-  "id": "https://example.com/issuer/123#key-0",
-  "type": "Multikey",
-  "controller": "https://example.com/issuer/123",
-  "publicKeyMultibase": "uPGHVsCZXDE40VylpEwQ0QlAnLkw2empYUxtIK9SGegFgU0NdSWc
-                         vShMlZ3EzETQ2ejMKBixPJjV4M0AqGtmDBEUZVsasUhMsKg4lUGf
-                         enhckEmQKZ1AEeHZXEHQBJ2NTCwR9cg7Wll1yc3BEKBLasDtSCSQ
-                         tCiRhEUJMSGIMbgZOAgYvfGUsCt2RCmoaSiFGCk9YP0hMfUUGDx4
-                         mdMOPJTVKPjIzI0JJDCsCUDgdFn7UpVhkPcWd1rt7zpE5JjJ53os
-                         OW2cBFHAeI82DQRhvPhw9Xmk2WCt5FRxE060GbgFY1aFVOQnEm2Z
-                         jyZkDXjnHrwZHAloCBGsZP9KjWHsjR1pnIyVmNUlebCMdKXQpW2I
-                         oIAc-VWQyVzBRfE4ocRUZPStrwqEcbXZGUVAeehkGUg5TNgN4ZUX
-                         KvFxTFg"
-}
-          </pre>
-
-          <pre class="example nohighlight" title="Two public keys (P-256 and
-            ML-DSA-44) encoded as Multikeys in a controller document">
-{
-  "@context": [
-    "https://www.w3.org/ns/did/v1",
-    "https://w3id.org/security/multikey/v1"
-  ],
-  "id": "did:example:123",
-  "verificationMethod": [{
-    "id": "did:example:123#key-1",
-    "type": "Multikey",
-    "controller": "did:example:123",
-    "publicKeyMultibase": "zDnaerx9CtbPJ1q36T5Ln5wYt3MQYeGRG5ehnPAmxcf5mDZpv"
-  }, {
-    "id": "did:example:123#key-2",
-    "type": "Multikey",
-    "controller": "did:example:123",
-    "publicKeyMultibase": "uPGHVsCZXDE40VylpEwQ0QlAnLkw2empYUxtIK9SGegFgU0NdSWc
-                           vShMlZ3EzETQ2ejMKBixPJjV4M0AqGtmDBEUZVsasUhMsKg4lUGf
-                           enhckEmQKZ1AEeHZXEHQBJ2NTCwR9cg7Wll1yc3BEKBLasDtSCSQ
-                           tCiRhEUJMSGIMbgZOAgYvfGUsCt2RCmoaSiFGCk9YP0hMfUUGDx4
-                           mdMOPJTVKPjIzI0JJDCsCUDgdFn7UpVhkPcWd1rt7zpE5JjJ53os
-                           OW2cBFHAeI82DQRhvPhw9Xmk2WCt5FRxE060GbgFY1aFVOQnEm2Z
-                           jyZkDXjnHrwZHAloCBGsZP9KjWHsjR1pnIyVmNUlebCMdKXQpW2I
-                           oIAc-VWQyVzBRfE4ocRUZPStrwqEcbXZGUVAeehkGUg5TNgN4ZUX
-                           KvFxTFg"
-  }],
-  "authentication": [
-    "did:example:123#key-1"
-  ],
-  "assertionMethod": [
-    "did:example:123#key-2"
-  ],
-  "capabilityDelegation": [
-    "did:example:123#key-2"
-  ],
-  "capabilityInvocation": [
-    "did:example:123#key-2"
-  ]
-}
-          </pre>
-
-          <p>
-The `secretKeyMultibase` property represents a Multibase-encoded Multikey
-expression of a ML-DSA secret key (also sometimes referred to as a
-private key).
-          </p>
-          <p>
-The encoding of a ML-DSA-44 secret key MUST start with the two-byte prefix
-`0x8726` (the varint expression of `0x1307`) followed by the 2528-byte secret
-key data. The 2530-byte value MUST then be encoded using the base-64-url-nopad
-alphabet, according to
-the <a data-cite="VC-DATA-INTEGRITY#multibase-0">Multibase</a> section in the
-[[VC-DATA-INTEGRITY]] specification, and then prepended with the
-base-64-url-nopad Multibase header (`u`). Any other encodings MUST NOT be
-allowed.
-          </p>
-
-          <!-- <p>
-The encoding of a SHS-DSA secret key MUST start with the two-byte prefix
-`????` (the varint expression of `????`) followed by the 2528-byte secret
-key data. The 2530-byte value MUST then be encoded using the base-64-url-nopad
-alphabet, according to
-the <a data-cite="VC-DATA-INTEGRITY#multibase-0">Multibase</a> section in the
-[[VC-DATA-INTEGRITY]] specification, and then prepended with the
-base-64-url-nopad Multibase header (`u`). Any other encodings MUST NOT be
-allowed.
-          </p> -->
-
-          <p class="advisement">
-Developers are advised to prevent accidental publication of a representation of
-a secret key, and to not export the `secretKeyMultibase` property by default,
-when serializing key pairs as Multikey.
-          </p>
-
         </section>
 
       </section>
@@ -551,8 +470,9 @@ this specification.
         <section id="DataIntegrityProof">
           <h4>DataIntegrityProof</h4>
           <p class="ednote">
-To do: Update with extensive list of cryptosuites. Remove experimental
- annotation from FIPS-204 ML-DSA and FIPS-205 SLH-DSA suites.
+This section gives general information on cryptosuites and `proofValue` with
+specifics given in a table. Additional suites are easily added via additional
+table entries (and corresponding algorithms sections).
           </p>
           <p>
 A proof contains the attributes specified in the
@@ -563,100 +483,100 @@ of [[VC-DATA-INTEGRITY]] with the following restrictions.
 The `type` property of the proof MUST be `DataIntegrityProof`.
           </p>
           <p>
-The `cryptosuite` property of the proof MUST be one of the following
-`experimental-mldsa44-2024`, `experimental-shs-2025`, `experimental-falcon-2025`,
-or `experimental-sqi-2025`.
+The `cryptosuite` property of the proof MUST be one of the following values from
+Table CS.
           </p>
+          <table class="data">
+            <caption id="TableCS">Table CS. <em>Cryptosuites.</em> </caption>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Signature Algorithm</th>
+                <th>Signature Length</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>`mldsa44-rdfc-2024`</td>
+                <td>ML-DSA-44</td>
+                <td>2420</td>
+              </tr>
+              <tr>
+                <td>`mldsa44-jcs-2024`</td>
+                <td>ML-DSA-44</td>
+                <td>2420</td>
+              </tr>
+              <tr>
+                <td>`mldsa65-rdfc-2024`</td>
+                <td>ML-DSA-65</td>
+                <td>3309</td>
+              </tr>
+              <tr>
+                <td>`mldsa65-jcs-2024`</td>
+                <td>ML-DSA-65</td>
+                <td>3309</td>
+              </tr>
+              <tr>
+                <td>`mldsa87-rdfc-2024`</td>
+                <td>ML-DSA-87</td>
+                <td>4627</td>
+              </tr>
+              <tr>
+                <td>`mldsa87-jcs-2024`</td>
+                <td>ML-DSA-87</td>
+                <td>4627</td>
+              </tr>
+              <tr>
+                <td>`slhdsa128-rdfc-2024`</td>
+                <td>SLH-DSA-SHA2-128s</td>
+                <td>7856</td>
+              </tr>
+              <tr>
+                <td>`slhdsa128-jcs-2024`</td>
+                <td>SLH-DSA-SHA2-128s</td>
+                <td>7856</td>
+              </tr>
+              <tr>
+                <td>`slhdsa192-rdfc-2024`</td>
+                <td>SLH-DSA-SHA2-192s</td>
+                <td>16224</td>
+              </tr>
+              <tr>
+                <td>`slhdsa192-jcs-2024`</td>
+                <td>SLH-DSA-SHA2-192s</td>
+                <td>16224</td>
+              </tr>
+              <tr>
+                <td>`slhdsa256-rdfc-2024`</td>
+                <td>SLH-DSA-SHA2-256s</td>
+                <td>29792</td>
+              </tr>
+              <tr>
+                <td>`slhdsa256-jcs-2024`</td>
+                <td>SLH-DSA-SHA2-256s</td>
+                <td>29792</td>
+              </tr>
+            </tbody>
+          </table>
           <p>
-The value of the `proofValue` property of the proof MUST be an ML-DSA-44
-signature produced according to using the algorithms specified in section
-[[[#algorithms]]], encoded according
-to [[FIPS-204]], then encoded using the base-64-url-nopad header and
+The value of the `proofValue` property of the proof MUST be a signature produced
+by the signature algorithm corresponding to the `cryptosuite` given in Table CS.
+This signature is produced according to using the algorithms specified in section
+[[[#Algorithms]]], then encoded using the base-64-url-nopad header and
 alphabet as described in the
 <a href="https://www.w3.org/TR/vc-data-integrity/#multibase-0">
 Multibase section</a> of [[VC-DATA-INTEGRITY]].
           </p>
-
-          <pre class="example nohighlight"
-            title="A ML-DSA-44 quantum-safe digital signature expressed as a
-              DataIntegrityProof">
-{
-  "@context": [
-    {"myWebsite": "https://vocabulary.example/myWebsite"},
-    "https://www.w3.org/ns/credentials/v2"
-  ],
-  "myWebsite": "https://hello.world.example/",
-  "proof": {
-    "type": "DataIntegrityProof",
-    "cryptosuite": "experimental-mldsa44-2024",
-    "created": "2024-04-24T23:36:38Z",
-    "verificationMethod": "https://vc.example/issuers/5678#key-3",
-    "proofPurpose": "assertionMethod",
-    "proofValue": "uNfN/BvBY47LbvgK44078ZKLz7UgNDwOm09PJnn4jxNAVD6mKRG+Hl7VH/vE
-                   gyRMrRK2FP+rnwsmo8B0XhRN/Z8kPeXxNR/ho2Y9GrTLoZCMPmIygVd1mLAs
-                   z11lz7XEQQdgOMgjtl5HFylpGoC12urUBOeRrMF/eEC4qWrWttQeVs4oHrFf
-                   IV44H6kuu5DvW86JxgfhRskbnc1gcRWyq3rS8o2Oie6p8otDgwzhOUvRRqok
-                   Vq5j2fmZC6IJN2L6PCVOu7oory8GVGUm3j+rrKen5saA7sWjbD/ud0w0Yj+K
-                   R2X4UGCiVSjKkZmnwt2XsMmastQZq+LtkPV6IhCRYbylEJpAiSFjbjjyR7ya
-                   pRKJJdswcb9LFWGVai/fSd5uJd4cjPIcrj6EGtsUefp3nmiHE02tdk4M50v6
-                   Fj2LbC1yXyOqGyDU8y1zACU4AAy4foFEeV6KFDDAQRxlL7CLqJ1NYvcXyi6Y
-                   /8+3kfYQPjZMcDShhfpdEfsOGPuU3/7LJN8IFD/M8UOvY5u9Z2WdKKCFj2YS
-                   um74Ux6KONy0gQtWzmIrvllQhoKSinGArrFlGdv+ni6ZQ/kY0/nBmVT/lhvq
-                   Ib5M9NqO11BnN76DUgt5M8ji+tew6GqfIDXf3s32dQxopsCE2yv3x1mTs/M0
-                   iDftpDBMHy5sGyBNmcU+2zbQ4uoN0+VIEGUJxmOKMsdsi3h3uLmEjryKKkGR
-                   q186qQihvQl5CMBPJzkRFSA0LKMscuYltZ+f+u2lcw9tTRGK++MUpJijN6J+
-                   NbBZtLsgOIjofeKY/jyNOBqpIjHrdMWg9jHsakPLMnbLaGvTiJ+8FzilUUZh
-                   RkFF3fildZEZyNmDUdeSoN8xeQduj1sPopB8yLmIizi7gVFx7qzWMUi2J7Uw
-                   ShP6GiLhlBPpDkM2zaX0lflPhp0gAypyZSgfBBCVDBsZ72wXf+ap+2TGHzOF
-                   VTITTN7x7FBHf0WGoDMOUdKkdfPyQA+SZj9VbTsSknMwVccir/oeWCuaYqfH
-                   aJWtqSLDdnsXiOS1sJVxmyTpZaye4uuJ36OtwcpLypVGnbbzvffwHoIUHqsY
-                   jLxQVyG916n3WN7bchfdK5TVGBqpH7ZHD6iY64xP3Ujvs7G8pYKyoVkrHzAr
-                   8nxd7mctJYr6ApJLpvtHj/PldaW3nJ3jwT3lUXTIL5WPePlZVE43r6bMIvX+
-                   p4kDTIRu7+9DlB7cju0IpaJtAEmqDgUSvqEqSeHuSw5/Nu6OQKPlmukrKLdX
-                   QYOsVve4MqJzNvU5QsElNzI+UK6MSJ6/3qekZXhAUfy2Yc2SyLXw3IaNyxi2
-                   4BqMqwlpUzuuYWAFTC4NLG20IuKLKrtc4TR8VBROmx5nGDrlDMyLo6WcyDyD
-                   8iCNgeGhWTrjk6gSlLu8R+qWHyyYCUTAdU/zGf1cztclJYH8wRL7ZuxySrx+
-                   tc1BiRJswZvLyJS2u9QckZyKPQwvmJqnYPUFDhrC3DxQRRiWvD0iPQ0vHBEv
-                   jSKWXg/Dw25A/nVM+A54Sw5/q3OsGMoT8OzzV90YFoPNNSlTT7Qcx75T1MQS
-                   8dgRhd6swFzo1w4aq6Ye5orBnLOF719J8on/1GkWEbCiF08bLJ+5Cxa5MF9K
-                   jwjouLu6kkNSHgZR8BfOI2iLxi0MGH4q53g/ukCKR3oqF1huOdQZxtWIGorc
-                   Zp0UIWeRXKK68AlHVYtFtveYsWl8iDzEv2c+O3+uKEUt4kc022s0NGUfwKvU
-                   ecBIfkivjq/9zZOwCbY0xC8wgJykTDtPUgAH9bWtk4A0LvsciScY3wjeB6RW
-                   osW4kn1666N2Tc+V/hK6OYPJZQ8dl4qdS/ZTxH2piLAeX3d/ZA2AirQckcfc
-                   ToZCudKnWRwbxXJX03i9gMVKhVECgyLiAsgMkLlp0Jhc/0MFtrTwns2L3aRx
-                   EWwZiqu8YNi4S4zLvX9FCpTk00ReYhh0DrOUpL3tuQSiDcqeqSIAmlUT5sLp
-                   aNSDH3qEZiOLPHhAKFEjbUndt6BgYnX1OmJQ5fn6Qb5BUcvngJJXXAS0Q0XP
-                   e/Y1cBxhKyPQldwZlnh2VG6INob9auR05Q4w8SeZSzPxD6XeuGyDPj97H3BF
-                   FmhpDGL6W66lffilwq4/nQo4wyjaVVwHUNdEShfDgYj+NI+dAizoWs1lV0Ym
-                   8A4MTCWESQoMYndF+6Y7ABoOW3JoXAi/an6cpZCqVjwUaftEmZqI62xTnIcy
-                   UGHv6ISog3HhLFQV8Hyx0Y9uAmoWH9DcgYidficv8eWQG87INKd4igV1Hrla
-                   3AOxF7S3HsSnbscvHHX2PDEUEkceSpzbNq7EMjR7XQDTEh9aZifnK8oKaKEt
-                   CaABI/ElOXHfULlObjX7GtgmKpPegjTUgrxrI+5pVJK3T9QUhvQRT8j783W1
-                   z5/RSgVb1aCcl/7/wv3lAFWIDiW2Su+J9zvNYAKQCm/kwK8gGnMq8pp/1Hoj
-                   B3X6Mt6Jf6MlyV/HYpPrpegXB8A+c5yv2HSNyf1iEeEPPRXRr/SKUx6+9rXi
-                   /RUsMky0nUSibDyutcOmZg24guSsq4VFAiuARCbPaMy37rqrLLIJMOf82+Nk
-                   qUtmzPh+Zpt+tOOwypRVVMs+SRAZfvKapEUaanXfBR/j7X4SRBz+b0zNthEB
-                   eZsC4DGdBcvjct9A+bFvKTsRDUUxNb+OGWxTFh+E9cb1beYA6zoMK/Hfm2+r
-                   UC2zA7NQtMEP09E7QUE18gCqf61JHDk7pb7Nk5qyOyBoZ5wTu20t1D5wJdaI
-                   6fxtRIg8IfNgWUvGPaGFCwMNtuLKg3fu267DEYwOTvet6DAKV/Wf3AE4CKzx
-                   wPfz/kpHyMywKMytjxelN0yuof1v7JlYzxXDFG1iU9BgVS266eY9/q2Kafbl
-                   XNowD9FCuWjRSER6cMXe8TSS5duNGcahMLOAyLwLHwUs1kAB7UQKB+o/TiOl
-                   wQzQmemiPko4ShJVSMUJTQy6pgL0FpY/f6AoJ6YGUAvK3cfkLjihvSGqoWW+
-                   A14Cn/LzC0v4dJTlah/3+UJMlFrpfiBeQwMfCOSgCqZ2fTvx1eaRWmebQPgR
-                   73oMg835Oh5cdLP3GVekoFGogUnOLPuJcURHItdmsw4j984hwy5l2ibvuBwP
-                   35glcmKcBL+ALf+d+zeakV8xq5M2LJwrrZF597wPTfK0N3rgzfCOGh51nEPT
-                   JvmIXzSgNHi8WnjUNxbJ/gUaqfgCjwaSeWnvPlhhHgrhfS0g"
-  }
-}
-          </pre>
-
+          <p class="informative">
+Examples of the `proofValue` for all the cryptosuites defined in this
+specification can be found in appendix [[[#TestVectors]]].
+          </p>
         </section>
       </section>
     </section>
 
     <section id="Algorithms">
       <h2>Algorithms</h2>
-<!-- **TODO**: Update this introductory text. -->
       <p>
 The following sections describe multiple Data Integrity cryptographic suites
 that utilize quantum safe signature algorithms at different claimed security
