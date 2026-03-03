@@ -387,7 +387,7 @@ The `publicKeyMultibase` property represents a Multibase-encoded Multikey
 expression of a public key.
           </p>
 
-          <table class="data">
+          <table class="data numbered">
             <caption><em>Public Key Summary, all sizes in bytes.</em></caption>
             <thead>
               <tr>
@@ -404,7 +404,7 @@ expression of a public key.
                 <td>0x9024</td>
                 <td>1312</td>
               </tr>
-              <tr>
+              <!-- <tr>
                 <td>ML-DSA-65</td>
                 <td>0x1211</td>
                 <td>0x9124</td>
@@ -415,14 +415,14 @@ expression of a public key.
                 <td>0x1212</td>
                 <td>0x9224</td>
                 <td>2592</td>
-              </tr>
+              </tr> -->
               <tr>
               <td>SLH-DSA-SHA2-128s</td>
               <td>0x1220</td>
               <td>0xa024</td>
               <td>32</td>
             </tr>
-            <tr>
+            <!-- <tr>
               <td>SLH-DSA-SHA2-192s</td>
               <td>0x1224</td>
               <td>0xa424</td>
@@ -433,7 +433,7 @@ expression of a public key.
               <td>0x1228</td>
               <td>0xa824</td>
               <td>64</td>
-            </tr>
+            </tr> -->
             </tbody>
           </table>
 
@@ -484,10 +484,11 @@ The `type` property of the proof MUST be `DataIntegrityProof`.
           </p>
           <p>
 The `cryptosuite` property of the proof MUST be one of the following values from
-<a href="#TableCS>Table CS</a>.
+[[[#CryptosuiteTable]]].
           </p>
-          <table class="data">
-            <caption id="TableCS">Table CS. <em>Cryptosuites.</em> </caption>
+
+          <table id="CryptosuiteTable" class="data numbered">
+            <caption><em>Cryptosuites.</em> </caption>
             <thead>
               <tr>
                 <th>Name</th>
@@ -506,7 +507,7 @@ The `cryptosuite` property of the proof MUST be one of the following values from
                 <td>ML-DSA-44</td>
                 <td>2420</td>
               </tr>
-              <tr>
+              <!-- <tr>
                 <td>`mldsa65-rdfc-2024`</td>
                 <td>ML-DSA-65</td>
                 <td>3309</td>
@@ -525,7 +526,7 @@ The `cryptosuite` property of the proof MUST be one of the following values from
                 <td>`mldsa87-jcs-2024`</td>
                 <td>ML-DSA-87</td>
                 <td>4627</td>
-              </tr>
+              </tr> -->
               <tr>
                 <td>`slhdsa128-rdfc-2024`</td>
                 <td>SLH-DSA-SHA2-128s</td>
@@ -536,7 +537,7 @@ The `cryptosuite` property of the proof MUST be one of the following values from
                 <td>SLH-DSA-SHA2-128s</td>
                 <td>7856</td>
               </tr>
-              <tr>
+              <!-- <tr>
                 <td>`slhdsa192-rdfc-2024`</td>
                 <td>SLH-DSA-SHA2-192s</td>
                 <td>16224</td>
@@ -555,12 +556,14 @@ The `cryptosuite` property of the proof MUST be one of the following values from
                 <td>`slhdsa256-jcs-2024`</td>
                 <td>SLH-DSA-SHA2-256s</td>
                 <td>29792</td>
-              </tr>
+              </tr> -->
             </tbody>
           </table>
+
           <p>
 The value of the `proofValue` property of the proof MUST be a signature produced
-by the signature algorithm corresponding to the `cryptosuite` given in Table CS.
+by the signature algorithm corresponding to the `cryptosuite` given in
+[[[#CryptosuiteTable]]].
 This signature is produced according to using the algorithms specified in section
 [[[#Algorithms]]], then encoded using the base-64-url-nopad header and
 alphabet as described in the
@@ -587,10 +590,10 @@ MUST be use in the [[[#HashingAlg]]].
 From NIST SP 800-57pt1r6 ipd (Initial Public Draft) December 2025,
 Section 4.6.1.4 on the "Security Strengths of Hash Functions, XOFs, and Their
 Applications," the following hash function are chosen for use with digital
-signatures in Table 1.
+signatures in [[[#HashSigTable]]].
       </p>
-      <table class="data">
-        <caption>Table 1 <em>Hashes for Signatures.</em> </caption>
+      <table id="HashSigTable" class="data numbered">
+        <caption><em>Hashes for Signatures.</em> </caption>
         <thead>
           <tr>
             <th>Security Strength</th>
@@ -618,7 +621,7 @@ Canonicalization Algorithm [[RDF-CANON]], `rdfc` and JSON Canonicalization
 Scheme [[RFC8785]], `jcs`. When the RDF Dataset Canonicalization Algorithm
 [[RDF-CANON]] is used with the [[[#ProofConfigurationAlg]]] and [[[#TransformationAlg]]]
 algorithms the cryptographic hashing function that is passed to the
-algorithm MUST be from Table 1 appropriate for the claimed security of the
+algorithm MUST be from [[[#HashSigTable]]] appropriate for the claimed security of the
 signature scheme.
       </p>
       <p>
@@ -1007,10 +1010,10 @@ Return |cryptosuite|.
 The Module-Lattice-Based Digital Signature Standard defined in [[[FIPS-204]]] [[FIPS-204]]
 defines parameter sets for three different claimed security strengths. The
 claimed security strengths, private key, public key, and signature sizes are
-summarized in Table 2.
+summarized in [[[#MLSummaryTable]]].
         </p>
-        <table class="complex data">
-          <caption>Table 2 <em>ML-DSA Signatures Summary, all sizes in bytes.</em> </caption>
+        <table id="MLSummaryTable" class="data numbered">
+          <caption><em>ML-DSA Signatures Summary, all sizes in bytes.</em> </caption>
           <thead>
             <tr>
               <th>Name</th>
@@ -1047,15 +1050,16 @@ summarized in Table 2.
 
         <p>
 Supporting both the Universal RDF Dataset Canonicalization Algorithm [[RDF-CANON]],
-"`rdfc`", and the JSON Canonicalization Scheme [[RFC8785]], "`jcs`", leads to the
-family of ML-DSA cryptosuites given in Table 3.
+"`rdfc`", the JSON Canonicalization Scheme [[RFC8785]], "`jcs`", and a maximum
+security category of 2, leads to the
+family of ML-DSA cryptosuites given in [[[#MLSuitesTable]]].
         </p>
-        <table class="complex data">
-          <caption id="Table3">Table 3 <em>ML-DSA Cryptosuites.</em> </caption>
+        <table id="MLSuitesTable" class="data numbered">
+          <caption><em>Supported ML-DSA Cryptosuites.</em> </caption>
           <thead>
             <tr>
               <th>Name</th>
-              <th>Canonizalization</th>
+              <th>Canonalization</th>
               <th>Signature/Verification</th>
               <th>Hash</th>
             </tr>
@@ -1073,7 +1077,7 @@ family of ML-DSA cryptosuites given in Table 3.
               <td>ML-DSA-44</td>
               <td>SHA-256</td>
             </tr>
-            <tr>
+            <!-- <tr>
               <td>`mldsa65-rdfc-2024`</td>
               <td>RDFC</td>
               <td>ML-DSA-65</td>
@@ -1096,7 +1100,7 @@ family of ML-DSA cryptosuites given in Table 3.
               <td>JCS</td>
               <td>ML-DSA-87</td>
               <td>SHA-512</td>
-            </tr>
+            </tr> -->
           </tbody>
         </table>
         <section>
@@ -1105,9 +1109,9 @@ family of ML-DSA cryptosuites given in Table 3.
           <p>
 The following algorithm specifies how to create a [=data integrity proof=] given
 an <a>unsecured data document</a> and an ML-DSA cyphersuite chosen from
-Table 3. The choice of cyphersuite sets the values of |canonScheme|,
-|hashName|, |sigFunc|, and |verifyFunc| per Table 3, which are used in the
-algorithm below. Additional required inputs are an
+[[[#MLSuitesTable]]]. The choice of cyphersuite sets the values of |canonScheme|,
+|hashName|, |sigFunc|, and |verifyFunc| per [[[#MLSuitesTable]]], which are used
+in the algorithm below. Additional required inputs are an
 <a>unsecured data document</a> ([=map=] |unsecuredDocument|), and a set of proof
 options ([=map=] |options|). A [=data integrity proof=] ([=map=]), or an error,
 is produced as output.
@@ -1180,9 +1184,9 @@ removed.
           </li>
           <li>
 Set |cyphersuiteName| to |securedDocument|.|proof|.|cyphersuite|,
-which must be one of those listed in Table 3.
+which must be one of those listed in [[[#MLSuitesTable]]].
 From |cyphersuiteName|, set the values of |canonScheme|, |hashName|,
-and |verifyFunc|, as found in Table 3.
+and |verifyFunc|, as found in [[[#MLSuitesTable]]].
           </li>
           <li>
 Let |proofBytes| be the
@@ -1228,22 +1232,15 @@ Return a [=verification result=] with [=struct/items=]:
       <section id="SLHDSA_Cyphersuites">
         <h3>SLH-DSA Cyphersuites</h3>
         <p>
-The `experimental-shs-2025` cryptographic suite takes an
-input document, canonicalizes the document using the Universal RDF Dataset
-Canonicalization Algorithm [[RDF-CANON]], and then cryptographically hashes and
-signs the output resulting in the production of a data integrity proof. The
-algorithms in this section also include the verification of such a data
-integrity proof.
-        </p>
-        <p>
 The Stateless Hash-Based Digital Signature Standard defined in [[FIPS-205]]
 defines parameter sets for three different claimed security strengths,
-optimized for size or speed, and a specified hash function family. This specification chooses a subset
+optimized for size or speed, and a specified hash function family. This
+specification considers a subset
 of these parameter sets, optimized for smaller size, and based on the SHA2 hash
-function family, as shown in Table 4.
+function family, as shown in [[[#SLHSigTable]]].
         </p>
-        <table class="complex data">
-          <caption>Table 4 <em>Supported SLH-DSA Signatures Summary, all sizes in bytes.</em> </caption>
+        <table id="SLHSigTable" class="data numbered">
+          <caption><em>SLH-DSA Signatures Summary, all sizes in bytes.</em> </caption>
           <thead>
             <tr>
               <th>Name</th>
@@ -1280,11 +1277,12 @@ function family, as shown in Table 4.
 
         <p>
 Supporting both Universal RDF Dataset Canonicalization Algorithm [[RDF-CANON]],
-"`rdfc`", and JSON Canonicalization Scheme [[RFC8785]], "`jcs`", leads to the
-family of ML-DSA cryptosuites given in Table 5.
+"`rdfc`", JSON Canonicalization Scheme [[RFC8785]], "`jcs`", and a maximum
+security category of 1, leads to the
+family of ML-DSA cryptosuites given in [[[#SLHSuiteTable]]].
         </p>
-        <table class="complex data">
-          <caption id="Table5">Table 5 <em>SLH-DSA Cryptosuites.</em> </caption>
+        <table id="SLHSuiteTable" class="data numbered">
+          <caption><em>Supported SLH-DSA Cryptosuites.</em> </caption>
           <thead>
             <tr>
               <th>Name</th>
@@ -1306,7 +1304,7 @@ family of ML-DSA cryptosuites given in Table 5.
               <td>SLH-DSA-SHA2-128s</td>
               <td>SHA-256</td>
             </tr>
-            <tr>
+            <!-- <tr>
               <td>`slhdsa192-rdfc-2024`</td>
               <td>RDFC</td>
               <td>SLH-DSA-SHA2-192s</td>
@@ -1329,7 +1327,7 @@ family of ML-DSA cryptosuites given in Table 5.
               <td>JCS</td>
               <td>SLH-DSA-SHA2-256s</td>
               <td>SHA-512</td>
-            </tr>
+            </tr> -->
           </tbody>
         </table>
 
@@ -1339,9 +1337,9 @@ family of ML-DSA cryptosuites given in Table 5.
           <p>
 The following algorithm specifies how to create a [=data integrity proof=] given
 an <a>unsecured data document</a> and an SLH-DSA cyphersuite chosen from
-Table 4. The choice of cyphersuite sets the values of |canonScheme|,
-|hashName|, |sigFunc|, and |verifyFunc| as found in Table 5, for use in the
-algorithm below. Additional required inputs are an
+[[[#SLHSuiteTable]]]. The choice of cyphersuite sets the values of |canonScheme|,
+|hashName|, |sigFunc|, and |verifyFunc| as found in [[[#SLHSuiteTable]]], for
+use in the algorithm below. Additional required inputs are an
 <a>unsecured data document</a> ([=map=] |unsecuredDocument|), and a set of proof
 options ([=map=] |options|). A [=data integrity proof=] ([=map=]), or an error,
 is produced as output.
@@ -1414,9 +1412,9 @@ removed.
           </li>
           <li>
 Set |cyphersuiteName| to |securedDocument|.|proof|.|cypnersuite|,
-it must be one of those listed in Table 5.
+it must be one of those listed in [[[#SLHSuiteTable]]].
 From |cyphersuiteName| set the values of |canonScheme|, |hashName|,
-and |verifyFunc| per Table 5.
+and |verifyFunc| per [[[#SLHSuiteTable]]].
           </li>
           <li>
 Let |proofBytes| be the
