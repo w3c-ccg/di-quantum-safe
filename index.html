@@ -1997,34 +1997,50 @@ privacy assumptions.
       <h2>Test Vectors</h2>
       <section>
         <h4>Test Vector Common Inputs</h4>
-        <p class="ednote">Proof Options, Unsigned Document, and keys will be
+        <p>
+Inputs used in two or more test vectors are given in this section. They include
+the unsigned document, general proof options, and cryptographic keys.
           shown here.
         </p>
-        <p class="ednote">Test vector "outputs" for common algorithms are reused
-          as inputs to cyphersuite specific test vectors.
-        </p>
+
         <section>
-          <h5>Unsigned Document</h5>
+          <h5>Unsecured Data Document</h5>
+          <p>
+The common <a>unsecured data document</a> used for generating all test vectors
+that require this input is given below.
+          </p>
           <pre class="example nohighlight" title="Unsigned Document"
           data-include="testVectors/inputs/employmentAuth.json"
           data-include-format="text">
         </section>
         <section>
           <h5>Proof Options</h5>
-
+          <p>
+A general template for the <em>proof options</em> used by test vectors that
+require this input is given below.
+          </p>
           <pre class="example nohighlight" title="Proof Options (general)"
           data-include="testVectors/inputs/proofOptions-general.json"
           data-include-format="text">
           </pre>
-
+          <p>
+For each specific test case the `cryptosuite` and `verificationMethod` fields
+need to be set. For example, for the `slhdsa128-rdfc-2024` using the appropriate
+public key information from section [[[#TestKeys]]] is given below.
+          </p>
           <pre class="example nohighlight" title="Proof Options (slhdsa128-rdfc-2024 example)"
           data-include="testVectors/inputs/proofOptions-slhdsa128-rdfc-2024.json"
           data-include-format="text">
           </pre>
         </section>
 
-        <section>
+        <section id="TestKeys">
           <h5>Example Cryptographic Keys</h5>
+          <p>
+Cryptographic keys for specific signature suites are given below. This includes
+public and private (secret) keys in hexadeximal format and the public key as a
+`publicKeyMultibase`.
+          </p>
           <pre class="example nohighlight" title="Private and Public keys for ML-DSA-44"
           data-include="testVectors/inputs/KeysMLDSA.json"
           data-include-format="text">
@@ -2038,6 +2054,11 @@ privacy assumptions.
       </section>
       <section>
           <h4>Common Algorithms: Proof Configuration</h4>
+          <p>
+The Proof Configuration algorithm output is dependent on the specific <em>proof
+options</em> as well as the parameters, hence the output for Proof Configuration
+is given for each supported `cyphersuite`.
+          </p>
         <section>
           <h5>Proof Configuration (`rdfc`, `sha-256`)</h5>
           <pre class="example nohighlight" title="Proof Configuration mldsa44-rdfc-2024"
