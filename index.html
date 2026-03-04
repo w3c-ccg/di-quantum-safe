@@ -1997,53 +1997,110 @@ privacy assumptions.
       <h2>Test Vectors</h2>
       <section>
         <h4>Test Vector Common Inputs</h4>
-        <p class="ednote">Proof Options, Unsigned Document will be shown here.
+        <p class="ednote">Proof Options, Unsigned Document, and keys will be
+          shown here.
         </p>
         <p class="ednote">Test vector "outputs" for common algorithms are reused
           as inputs to cyphersuite specific test vectors.
         </p>
+        <section>
+          <h5>Unsigned Document</h5>
+          <pre class="example nohighlight" title="Unsigned Document"
+          data-include="testVectors/inputs/employmentAuth.json"
+          data-include-format="text">
+        </section>
+        <section>
+          <h5>Proof Options</h5>
+
+          <pre class="example nohighlight" title="Proof Options (general)"
+          data-include="testVectors/inputs/proofOptions-general.json"
+          data-include-format="text">
+          </pre>
+
+          <pre class="example nohighlight" title="Proof Options (slhdsa128-rdfc-2024 example)"
+          data-include="testVectors/inputs/proofOptions-slhdsa128-rdfc-2024.json"
+          data-include-format="text">
+          </pre>
+        </section>
+
+        <section>
+          <h5>Example Cryptographic Keys</h5>
+          <pre class="example nohighlight" title="Private and Public keys for ML-DSA-44"
+          data-include="testVectors/inputs/KeysMLDSA.json"
+          data-include-format="text">
+          </pre>
+
+          <pre class="example nohighlight" title="Private and Public keys for SLH-DSA-SHA2-128s"
+          data-include="testVectors/inputs/KeysSLHDSA.json"
+          data-include-format="text">
+          </pre>
+        </section>
       </section>
       <section>
           <h4>Common Algorithms: Proof Configuration</h4>
         <section>
           <h5>Proof Configuration (`rdfc`, `sha-256`)</h5>
-        </section>
-        <section>
-          <h5>Proof Configuration (`rdfc`, `sha-384`)</h5>
-        </section>
-        <section>
-          <h5>Proof Configuration (`rdfc`, `sha-512`)</h5>
+          <pre class="example nohighlight" title="Proof Configuration mldsa44-rdfc-2024"
+          data-include="testVectors/commonAlgs/proofConfig-mldsa44-rdfc-2024.txt"
+          data-include-format="text">
+          </pre>
+
+          <pre class="example nohighlight" title="Proof Configuration slhdsa128-rdfc-2024"
+          data-include="testVectors/commonAlgs/proofConfig-slhdsa128-rdfc-2024.txt"
+          data-include-format="text">
+          </pre>
         </section>
         <section>
           <h5>Proof Configuration (`jcs`)</h5>
+
+          <pre class="example nohighlight" title="Proof Configuration mldsa44-jcs-2024"
+          data-include="testVectors/commonAlgs/proofConfig-mldsa44-jcs-2024.txt"
+          data-include-format="text">
+          </pre>
+
+          <pre class="example nohighlight" title="Proof Configuration slhdsa128-jcs-2024"
+          data-include="testVectors/commonAlgs/proofConfig-slhdsa128-jcs-2024.txt"
+          data-include-format="text">
+          </pre>
         </section>
       </section>
       <section>
         <h4>Common Algorithms: Transform</h4>
         <section>
           <h5>Transform (`rdfc`, `sha-256`)</h5>
+          <pre class="example nohighlight" title="Transform SHA-256"
+          data-include="testVectors/commonAlgs/transform-rdfc-sha256.txt"
+          data-include-format="text">
+          </pre>
         </section>
         <section>
           <h5>Transform (`rdfc`, `sha-384`)</h5>
+          <pre class="example nohighlight" title="Transform SHA-384"
+          data-include="testVectors/commonAlgs/transform-rdfc-sha384.txt"
+          data-include-format="text">
+          </pre>
         </section>
         <section>
           <h5>Transform (`rdfc`, `sha-512`)</h5>
+          <pre class="example nohighlight" title="Transform SHA-512"
+          data-include="testVectors/commonAlgs/transform-rdfc-sha512.txt"
+          data-include-format="text">
+          </pre>
         </section>
         <section>
           <h5>Transform (`jcs`)</h5>
+          <pre class="example nohighlight" title="Transform JCS"
+          data-include="testVectors/commonAlgs/transform-jcs-sha256.txt"
+          data-include-format="text">
+          </pre>
         </section>
       </section>
       <section>
         <h4>Common Algorithms: Hashing</h4>
-        <section>
-          <h5>Hashing (`sha-256`)</h5>
-        </section>
-        <section>
-          <h5>Hashing (`sha-384`)</h5>
-        </section>
-        <section>
-          <h5>Hashing (`sha-512`)</h5>
-        </section>
+        <pre class="example nohighlight" title="Hashing (combined)"
+        data-include="testVectors/commonAlgs/hashing-combined.json"
+        data-include-format="text">
+        </pre>
       </section>
 
       <section id="TV-ML-DSA">
@@ -2051,43 +2108,35 @@ privacy assumptions.
         <p class="ednote">Only one test vector will be shown for each
           cyphersuite, building on common algorithm outputs.</p>
         <section>
-          <h5>ML-DSA Test Vector Key Material</h5>
-        </section>
-        <section>
           <h5>Cyphersuite `mldsa44-rdfc-2024`</h5>
+          <pre class="example nohighlight" title="Signed credential `mldsa44-rdfc-2024`"
+          data-include="testVectors/mldsa44-rdfc-2024/signed-mldsa44-rdfc-2024.json"
+          data-include-format="text">
+          </pre>
         </section>
         <section>
           <h5>Cyphersuite `mldsa44-jcs-2024`</h5>
-        </section>
-        <section>
-          <h5>Cyphersuite `mldsa65-rdfc-2024`</h5>
-        </section>
-        <section>
-          <h5>Cyphersuite `mldsa65-jcs-2024`</h5>
-        </section>
-        <section>
-          <h5>Cyphersuite `mldsa87-rdfc-2024`</h5>
-        </section>
-        <section>
-          <h5>Cyphersuite `mldsa87-jcs-2024`</h5>
+          <pre class="example nohighlight" title="Signed credential `mldsa44-jcs-2024`"
+          data-include="testVectors/mldsa44-jcs-2024/signed-mldsa44-jcs-2024.json"
+          data-include-format="text">
+          </pre>
         </section>
       </section>
       <section>
         <h4>SLH-DSA Cyphersuites</h4>
         <section>
-          <h5>SLH-DSA Test Vector Key Material</h5>
-        </section>
-        <section>
           <h5>Cyphersuite `slhdsa128-rdfc-2024`</h5>
+          <pre class="example nohighlight" title="Signed credential `slhdsa128-rdfc-2024`"
+          data-include="testVectors/slhdsa128-rdfc-2024/signed-slhdsa128-rdfc-2024.json"
+          data-include-format="text">
+          </pre>
         </section>
         <section>
           <h5>Cyphersuite `slhdsa128-jcs-2024`</h5>
-        </section>
-        <section>
-          <h5>Cyphersuite `slhdsa192-rdfc-2024`</h5>
-        </section>
-        <section>
-          <h5>Cyphersuite `slhdsa192-jcs-2024`</h5>
+          <pre class="example nohighlight" title="Signed credential `slhdsa128-jcs-2024`"
+          data-include="testVectors/slhdsa128-jcs-2024/signed-slhdsa128-jcs-2024.json"
+          data-include-format="text">
+          </pre>
         </section>
       </section>
     </section>

@@ -1,0 +1,7 @@
+{
+  "type": "DataIntegrityProof",
+  "cryptosuite": "slhdsa128-rdfc-2024",
+  "created": "2023-02-24T23:36:38Z",
+  "verificationMethod": "did:key:uoCRINKVf8moX85R6JlvEIQk6Yp0uhjOB-Pn21k9wfPLpWw",
+  "proofPurpose": "assertionMethod"
+}
