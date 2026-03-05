@@ -1915,97 +1915,192 @@ privacy assumptions.
       <h2>Test Vectors</h2>
       <section>
         <h4>Test Vector Common Inputs</h4>
-        <p class="ednote">Proof Options, Unsigned Document will be shown here.
+        <p>
+Inputs used in two or more test vectors are given in this section. They include
+the unsigned document, general proof options, and cryptographic keys.
         </p>
-        <p class="ednote">Test vector "outputs" for common algorithms are reused
-          as inputs to cyphersuite specific test vectors.
-        </p>
+
+        <section>
+          <h5>Unsecured Data Document</h5>
+          <p>
+The common <a>unsecured data document</a> used for generating all test vectors
+that require this input is given below.
+          </p>
+          <pre class="example nohighlight" title="Unsigned Document"
+          data-include="testVectors/inputs/employmentAuth.json"
+          data-include-format="text">
+        </section>
+        <section>
+          <h5>Proof Options</h5>
+          <p>
+A general template for the <em>proof options</em> used by test vectors that
+require this input is given below.
+          </p>
+          <pre class="example nohighlight" title="Proof Options (general)"
+          data-include="testVectors/inputs/proofOptions-general.json"
+          data-include-format="text">
+          </pre>
+          <p>
+For each specific test case the `cryptosuite` and `verificationMethod` fields
+need to be set. For example, for the `slhdsa128-rdfc-2024` cryptosuite using the
+appropriate public key information from section [[[#TestKeys]]] the specific
+proof options is given below.
+          </p>
+          <pre class="example nohighlight" title="Proof Options (slhdsa128-rdfc-2024 example)"
+          data-include="testVectors/inputs/proofOptions-slhdsa128-rdfc-2024.json"
+          data-include-format="text">
+          </pre>
+        </section>
+
+        <section id="TestKeys">
+          <h5>Example Cryptographic Keys</h5>
+          <p>
+Cryptographic keys for used to generate output for specific signature suites are
+given below. This includes public and private (secret) keys in hexadeximal
+format and the public key as a `publicKeyMultibase`.
+          </p>
+          <pre class="example nohighlight" title="Private and Public keys for ML-DSA-44"
+          data-include="testVectors/inputs/KeysMLDSA.json"
+          data-include-format="text">
+          </pre>
+
+          <pre class="example nohighlight" title="Private and Public keys for SLH-DSA-SHA2-128s"
+          data-include="testVectors/inputs/KeysSLHDSA.json"
+          data-include-format="text">
+          </pre>
+        </section>
       </section>
       <section>
           <h4>Common Algorithms: Proof Configuration</h4>
+          <p>
+The Proof Configuration algorithm output is dependent on the specific <em>proof
+options</em> as well as the parameters, hence an output test vector for Proof
+Configuration is given for each supported `cyphersuite`.
+          </p>
         <section>
           <h5>Proof Configuration (`rdfc`, `sha-256`)</h5>
-        </section>
-        <section>
-          <h5>Proof Configuration (`rdfc`, `sha-384`)</h5>
-        </section>
-        <section>
-          <h5>Proof Configuration (`rdfc`, `sha-512`)</h5>
+          <pre class="example nohighlight" title="Proof Configuration mldsa44-rdfc-2024"
+          data-include="testVectors/commonAlgs/proofConfig-mldsa44-rdfc-2024.txt"
+          data-include-format="text">
+          </pre>
+
+          <pre class="example nohighlight" title="Proof Configuration slhdsa128-rdfc-2024"
+          data-include="testVectors/commonAlgs/proofConfig-slhdsa128-rdfc-2024.txt"
+          data-include-format="text">
+          </pre>
         </section>
         <section>
           <h5>Proof Configuration (`jcs`)</h5>
+
+          <pre class="example nohighlight" title="Proof Configuration mldsa44-jcs-2024"
+          data-include="testVectors/commonAlgs/proofConfig-mldsa44-jcs-2024.txt"
+          data-include-format="text">
+          </pre>
+
+          <pre class="example nohighlight" title="Proof Configuration slhdsa128-jcs-2024"
+          data-include="testVectors/commonAlgs/proofConfig-slhdsa128-jcs-2024.txt"
+          data-include-format="text">
+          </pre>
         </section>
       </section>
       <section>
         <h4>Common Algorithms: Transform</h4>
+        <p>
+In addition to the common <a>unsecured data document</a> the Transform algorithm
+takes parameters |canonScheme| and |hashName|. Only in the case of |canonScheme|
+equal to `rdfc` does the |hashName| parameter matter. This is reflected in the
+set of Transformation output test vectors given below.
+        </p>
         <section>
           <h5>Transform (`rdfc`, `sha-256`)</h5>
+          <pre class="example nohighlight" title="Transform RDFC, SHA-256"
+          data-include="testVectors/commonAlgs/transform-rdfc-sha256.txt"
+          data-include-format="text">
+          </pre>
         </section>
         <section>
           <h5>Transform (`rdfc`, `sha-384`)</h5>
+          <pre class="example nohighlight" title="Transform RDFC, SHA-384"
+          data-include="testVectors/commonAlgs/transform-rdfc-sha384.txt"
+          data-include-format="text">
+          </pre>
         </section>
         <section>
           <h5>Transform (`rdfc`, `sha-512`)</h5>
+          <pre class="example nohighlight" title="Transform RDFC, SHA-512"
+          data-include="testVectors/commonAlgs/transform-rdfc-sha512.txt"
+          data-include-format="text">
+          </pre>
         </section>
         <section>
           <h5>Transform (`jcs`)</h5>
+          <pre class="example nohighlight" title="Transform JCS"
+          data-include="testVectors/commonAlgs/transform-jcs-sha256.txt"
+          data-include-format="text">
+          </pre>
         </section>
       </section>
       <section>
         <h4>Common Algorithms: Hashing</h4>
-        <section>
-          <h5>Hashing (`sha-256`)</h5>
-        </section>
-        <section>
-          <h5>Hashing (`sha-384`)</h5>
-        </section>
-        <section>
-          <h5>Hashing (`sha-512`)</h5>
-        </section>
+        <p>
+The <em>Hashing</em> algorithm takes as inputs the results of the <em>Proof
+Configuration</em> and <em>Transformation</em> algorithms. Since the <em>Proof
+Configuration</em> algorithm output is cyphersuite specific the <em>Hashing</em>
+algorithm output is given for each cyphersuite test case. The <em>Hashing</em>
+output for each cyphersuite test case is given in hexadecimal format below.
+        </p>
+        <p class="note">
+The first half of the hexadecimal <em>Hashing</em> result is the hash of the
+output of the <em>Proof Configuration</em> algorithm, while the second half of
+the hexidecimal value is the hash of the output from the <em>Transformation</em>
+algorithm and both can be useful information when debugging.
+        </p>
+        <pre class="example nohighlight" title="Hashing (combined)"
+        data-include="testVectors/commonAlgs/hashing-combined.json"
+        data-include-format="text">
+        </pre>
       </section>
 
-      <section id="TV-ML-DSA">
-        <h4>ML-DSA Cyphersuites</h4>
-        <p class="ednote">Only one test vector will be shown for each
-          cyphersuite, building on common algorithm outputs.</p>
-        <section>
-          <h5>ML-DSA Test Vector Key Material</h5>
-        </section>
+      <section id="TV-Create-Proof">
+        <h4>Create Proof</h4>
+        <p>
+The <em>Create Proof</em> algorithm output is cyphersuite specific and uses the
+outputs of the <em>Proof Configuration</em>, <em>Transformation</em>,
+<em>Hashing</em>, and <em>Proof Serialization</em> algorithms. The output for
+each cyphersuite test case is given below.
+        </p>
+        <p class="note">
+The output of the <em>Proof Serialization</em> common algorithm is not given
+separately since it is contained in the `proofValue` attribute in the following
+examples and can be quite lengthy for some quantum safe signature algorithms.
+        </p>
         <section>
           <h5>Cyphersuite `mldsa44-rdfc-2024`</h5>
+          <pre class="example nohighlight" title="Signed credential `mldsa44-rdfc-2024`"
+          data-include="testVectors/mldsa44-rdfc-2024/signed-mldsa44-rdfc-2024.json"
+          data-include-format="text">
+          </pre>
         </section>
         <section>
           <h5>Cyphersuite `mldsa44-jcs-2024`</h5>
-        </section>
-        <section>
-          <h5>Cyphersuite `mldsa65-rdfc-2024`</h5>
-        </section>
-        <section>
-          <h5>Cyphersuite `mldsa65-jcs-2024`</h5>
-        </section>
-        <section>
-          <h5>Cyphersuite `mldsa87-rdfc-2024`</h5>
-        </section>
-        <section>
-          <h5>Cyphersuite `mldsa87-jcs-2024`</h5>
-        </section>
-      </section>
-      <section>
-        <h4>SLH-DSA Cyphersuites</h4>
-        <section>
-          <h5>SLH-DSA Test Vector Key Material</h5>
+          <pre class="example nohighlight" title="Signed credential `mldsa44-jcs-2024`"
+          data-include="testVectors/mldsa44-jcs-2024/signed-mldsa44-jcs-2024.json"
+          data-include-format="text">
+          </pre>
         </section>
         <section>
           <h5>Cyphersuite `slhdsa128-rdfc-2024`</h5>
+          <pre class="example nohighlight" title="Signed credential `slhdsa128-rdfc-2024`"
+          data-include="testVectors/slhdsa128-rdfc-2024/signed-slhdsa128-rdfc-2024.json"
+          data-include-format="text">
+          </pre>
         </section>
         <section>
           <h5>Cyphersuite `slhdsa128-jcs-2024`</h5>
-        </section>
-        <section>
-          <h5>Cyphersuite `slhdsa192-rdfc-2024`</h5>
-        </section>
-        <section>
-          <h5>Cyphersuite `slhdsa192-jcs-2024`</h5>
+          <pre class="example nohighlight" title="Signed credential `slhdsa128-jcs-2024`"
+          data-include="testVectors/slhdsa128-jcs-2024/signed-slhdsa128-jcs-2024.json"
+          data-include-format="text">
+          </pre>
         </section>
       </section>
     </section>
