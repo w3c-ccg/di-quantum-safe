@@ -301,12 +301,6 @@ This specification is experimental, do not use it in any production setting.
 
     <section>
       <h2>Introduction</h2>
-      <p class="ednote">
-Need to update to include high level descriptions of signature suites, their
-supported "flavors" (parameter sets), security categories, and corresponding
-hash functions. As in other VC DI cryptosuite specifications, this draft
-considers both RDF canonicalization and JCS canonicalization where appropriate.
-      </p>
       <p>
 This specification defines several cryptographic suites for the purposes of
 creating and verifying proofs for Post-Quantum signatures, in conformance with
@@ -315,8 +309,11 @@ the Data Integrity [[VC-DATA-INTEGRITY]] specification.
       <p>
 This specification uses either the RDF Dataset Canonicalization Algorithm
 [[RDF-CANON]] or the JSON Canonicalization Scheme [[RFC8785]] to transform the
-input document into its canonical form. It uses SHA-256 [[RFC6234]] as the
-message digest algorithm and ML-DSA-44 as the signature algorithm.
+input document into its canonical form. It uses a security category appropriate
+SHA-2 [[RFC6234]] based hash as the message digest algorithm and supports a
+number of different Post Quantum signature algorithms with varying properties
+such as public key size, signature size, computational and implementation
+complexity.
       </p>
 
       <section id="terminology">
@@ -907,9 +904,6 @@ Return |verificationResult| as the <em>verification result</em>.
       </section>
       <section id="InstantiateCryptosuite">
         <h3>Instantiate Cryptosuite</h3>
-        <p class="ednote">
-To do: update to deal with all the cryptosuite flavors.
-        </p>
         <p>
 This algorithm is used to configure a cryptographic suite to be used by the
 <a data-cite="VC-DATA-INTEGRITY#add-proof">Add Proof</a> and
