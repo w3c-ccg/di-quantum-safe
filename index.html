@@ -335,7 +335,7 @@ Terminology used throughout this document is defined in the
 A <dfn>conforming proof</dfn> is any concrete expression of the data model
 that complies with the normative statements in this specification. Specifically,
 all relevant normative statements in Sections [[[#data-model]]] and
-[[[#algorithms]]] of this document MUST be enforced.
+[[[#Algorithms]]] of this document MUST be enforced.
         </p>
 
         <p>
@@ -366,11 +366,6 @@ data integrity proofs, such as digital signatures.
 
       <section id="VerificationMethods">
         <h3>Verification Methods</h3>
-        <p class="ednote">
-This section defines the general approach to `publicKeyMultibase` format for
-quantum safe algorithms in this specification with details for each signature
-suite given by a table entry.
-        </p>
         <p>
 These verification methods are used to verify Data Integrity Proofs
 [[VC-DATA-INTEGRITY]] produced using the cryptographic key material for the
@@ -475,11 +470,6 @@ this specification.
 
         <section id="DataIntegrityProof">
           <h4>DataIntegrityProof</h4>
-          <p class="ednote">
-This section gives general information on cryptosuites and `proofValue` with
-specifics given in a table. Additional suites are easily added via additional
-table entries (and corresponding algorithms sections).
-          </p>
           <p>
 A proof contains the attributes specified in the
 <a href="https://www.w3.org/TR/vc-data-integrity/#proofs">Proofs section</a>
@@ -936,49 +926,35 @@ Initialize |cryptosuite| to an empty [=struct=].
           <li>
 If |options|.|type| does not equal `DataIntegrityProof`, return |cryptosuite|.
           </li>
+
           <li>
-If |options|.|cryptosuite| is `experimental-mldsa44-2024` then:
+If |options|.|cryptosuite| is `mldsa44-rdfc-2024` or `mldsa44-jcs-2024` then:
             <ol class="algorithm">
               <li>
 Set |cryptosuite|.|createProof| to the algorithm in Section
-[[[#create-proof-experimental-mldsa44-2024]]].
+[[[#create-proof-ml-dsa]]].
               </li>
               <li>
 Set |cryptosuite|.|verifyProof| to the algorithm in Section
-[[[#proof-verification-experimental-mldsa44-2024]]].
+[[[#verify-proof-ml-dsa]]].
               </li>
             </ol>
           </li>
           <li>
-If |options|.|cryptosuite| is `experimental-mldsa-2024` then:
-            <ol class="algorithm">
-              <li>
-Set |cryptosuite|.|createProof| to the result of running the algorithm in Section
-[[[#create-proof-experimental-mldsa44-2024]]].
-              </li>
-              <li>
-Set |cryptosuite|.|verifyProof| to the algorithm in Section
-[[[#proof-verification-experimental-mldsa44-2024]]].
-              </li>
-            </ol>
-          </li>
-          <li>
-            <li>
-              If |options|.|cryptosuite| is `experimental-shs-2025` then:
+If |options|.|cryptosuite| is `slhdsa128-rdfc-2024` or `slhdsa128-jcs-2024` then:
             <ol class="algorithm">
               <li>
 Set |cryptosuite|.|createProof| to the algorithm in Section
-[[[#create-proof-experimental-shs-2025]]].
+[[[#create-proof-slh-dsa]]].
               </li>
               <li>
 Set |cryptosuite|.|verifyProof| to the algorithm in Section
-[[[#proof-verification-experimental-shs-2025]]].
+[[[#verify-proof-slh-dsa]]].
               </li>
             </ol>
           </li>
           <li>
-            <li>
-              If |options|.|cryptosuite| is `experimental-falcon-2025` then:
+If |options|.|cryptosuite| is `experimental-falcon-2025` then:
             <ol class="algorithm">
               <li>
 Set |cryptosuite|.|createProof| to the algorithm in Section
@@ -991,8 +967,7 @@ Set |cryptosuite|.|verifyProof| to the algorithm in Section
             </ol>
           </li>
           <li>
-            <li>
-              If |options|.|cryptosuite| is `experimental-sqi-2025` then:
+If |options|.|cryptosuite| is `experimental-sqi-2025` then:
             <ol class="algorithm">
               <li>
 Set |cryptosuite|.|createProof| to the algorithm in Section
