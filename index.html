@@ -66,6 +66,9 @@
           company: "Digital Bazaar",
           companyURL: "https://digitalbazaar.com/",
           w3cid: 41758
+        }, {
+          name: "Greg Bernstein", url: "https://www.grotto-networking.com/",
+          company: "Invited Expert", w3cid: 140479
         }],
 
         // authors, add as many as you like.
@@ -100,6 +103,9 @@
           company: "Digital Bazaar",
           companyURL: "https://digitalbazaar.com/",
           w3cid: 41758
+        }, {
+          name: "Greg Bernstein", url: "https://www.grotto-networking.com/",
+          company: "Invited Expert", w3cid: 140479
         }],
 
         // extend the bibliography entries
@@ -295,12 +301,6 @@ This specification is experimental, do not use it in any production setting.
 
     <section>
       <h2>Introduction</h2>
-      <p class="ednote">
-Need to update to include high level descriptions of signature suites, their
-supported "flavors" (parameter sets), security categories, and corresponding
-hash functions. As in other VC DI cryptosuite specifications, this draft
-considers both RDF canonicalization and JCS canonicalization where appropriate.
-      </p>
       <p>
 This specification defines several cryptographic suites for the purposes of
 creating and verifying proofs for Post-Quantum signatures, in conformance with
@@ -309,8 +309,11 @@ the Data Integrity [[VC-DATA-INTEGRITY]] specification.
       <p>
 This specification uses either the RDF Dataset Canonicalization Algorithm
 [[RDF-CANON]] or the JSON Canonicalization Scheme [[RFC8785]] to transform the
-input document into its canonical form. It uses SHA-256 [[RFC6234]] as the
-message digest algorithm and ML-DSA-44 as the signature algorithm.
+input document into its canonical form. It uses a security category appropriate
+SHA-2 [[RFC6234]] based hash as the message digest algorithm and supports a
+number of different Post Quantum signature algorithms with varying properties
+such as public key size, signature size, computational and implementation
+complexity.
       </p>
 
       <section id="terminology">
@@ -329,7 +332,7 @@ Terminology used throughout this document is defined in the
 A <dfn>conforming proof</dfn> is any concrete expression of the data model
 that complies with the normative statements in this specification. Specifically,
 all relevant normative statements in Sections [[[#data-model]]] and
-[[[#algorithms]]] of this document MUST be enforced.
+[[[#Algorithms]]] of this document MUST be enforced.
         </p>
 
         <p>
@@ -360,11 +363,6 @@ data integrity proofs, such as digital signatures.
 
       <section id="VerificationMethods">
         <h3>Verification Methods</h3>
-        <p class="ednote">
-This section defines the general approach to `publicKeyMultibase` format for
-quantum safe algorithms in this specification with details for each signature
-suite given by a table entry.
-        </p>
         <p>
 These verification methods are used to verify Data Integrity Proofs
 [[VC-DATA-INTEGRITY]] produced using the cryptographic key material for the
@@ -469,11 +467,6 @@ this specification.
 
         <section id="DataIntegrityProof">
           <h4>DataIntegrityProof</h4>
-          <p class="ednote">
-This section gives general information on cryptosuites and `proofValue` with
-specifics given in a table. Additional suites are easily added via additional
-table entries (and corresponding algorithms sections).
-          </p>
           <p>
 A proof contains the attributes specified in the
 <a href="https://www.w3.org/TR/vc-data-integrity/#proofs">Proofs section</a>
@@ -616,7 +609,7 @@ signatures in [[[#HashSigTable]]].
         </tbody>
       </table>
       <p>
-This specification supports cyphersuites based on both the Universal RDF Dataset
+This specification supports cryptosuites based on both the Universal RDF Dataset
 Canonicalization Algorithm [[RDF-CANON]], `rdfc` and JSON Canonicalization
 Scheme [[RFC8785]], `jcs`. When the RDF Dataset Canonicalization Algorithm
 [[RDF-CANON]] is used with the [[[#ProofConfigurationAlg]]] and [[[#TransformationAlg]]]
@@ -911,9 +904,6 @@ Return |verificationResult| as the <em>verification result</em>.
       </section>
       <section id="InstantiateCryptosuite">
         <h3>Instantiate Cryptosuite</h3>
-        <p class="ednote">
-To do: update to deal with all the cryptosuite flavors.
-        </p>
         <p>
 This algorithm is used to configure a cryptographic suite to be used by the
 <a data-cite="VC-DATA-INTEGRITY#add-proof">Add Proof</a> and
@@ -930,49 +920,35 @@ Initialize |cryptosuite| to an empty [=struct=].
           <li>
 If |options|.|type| does not equal `DataIntegrityProof`, return |cryptosuite|.
           </li>
+
           <li>
-If |options|.|cryptosuite| is `experimental-mldsa44-2024` then:
+If |options|.|cryptosuite| is `mldsa44-rdfc-2024` or `mldsa44-jcs-2024` then:
             <ol class="algorithm">
               <li>
 Set |cryptosuite|.|createProof| to the algorithm in Section
-[[[#create-proof-experimental-mldsa44-2024]]].
+[[[#create-proof-ml-dsa]]].
               </li>
               <li>
 Set |cryptosuite|.|verifyProof| to the algorithm in Section
-[[[#proof-verification-experimental-mldsa44-2024]]].
+[[[#verify-proof-ml-dsa]]].
               </li>
             </ol>
           </li>
           <li>
-If |options|.|cryptosuite| is `experimental-mldsa-2024` then:
-            <ol class="algorithm">
-              <li>
-Set |cryptosuite|.|createProof| to the result of running the algorithm in Section
-[[[#create-proof-experimental-mldsa44-2024]]].
-              </li>
-              <li>
-Set |cryptosuite|.|verifyProof| to the algorithm in Section
-[[[#proof-verification-experimental-mldsa44-2024]]].
-              </li>
-            </ol>
-          </li>
-          <li>
-            <li>
-              If |options|.|cryptosuite| is `experimental-shs-2025` then:
+If |options|.|cryptosuite| is `slhdsa128-rdfc-2024` or `slhdsa128-jcs-2024` then:
             <ol class="algorithm">
               <li>
 Set |cryptosuite|.|createProof| to the algorithm in Section
-[[[#create-proof-experimental-shs-2025]]].
+[[[#create-proof-slh-dsa]]].
               </li>
               <li>
 Set |cryptosuite|.|verifyProof| to the algorithm in Section
-[[[#proof-verification-experimental-shs-2025]]].
+[[[#verify-proof-slh-dsa]]].
               </li>
             </ol>
           </li>
           <li>
-            <li>
-              If |options|.|cryptosuite| is `experimental-falcon-2025` then:
+If |options|.|cryptosuite| is `experimental-falcon-2025` then:
             <ol class="algorithm">
               <li>
 Set |cryptosuite|.|createProof| to the algorithm in Section
@@ -985,8 +961,7 @@ Set |cryptosuite|.|verifyProof| to the algorithm in Section
             </ol>
           </li>
           <li>
-            <li>
-              If |options|.|cryptosuite| is `experimental-sqi-2025` then:
+If |options|.|cryptosuite| is `experimental-sqi-2025` then:
             <ol class="algorithm">
               <li>
 Set |cryptosuite|.|createProof| to the algorithm in Section
@@ -1005,7 +980,7 @@ Return |cryptosuite|.
 
       </section>
       <section id="MLDSA_Cypthersuites">
-        <h3>ML-DSA Cyphersuites</h3>
+        <h3>ML-DSA Cryptosuites</h3>
         <p>
 The Module-Lattice-Based Digital Signature Standard defined in [[[FIPS-204]]] [[FIPS-204]]
 defines parameter sets for three different claimed security strengths. The
@@ -1108,8 +1083,8 @@ family of ML-DSA cryptosuites given in [[[#MLSuitesTable]]].
 
           <p>
 The following algorithm specifies how to create a [=data integrity proof=] given
-an <a>unsecured data document</a> and an ML-DSA cyphersuite chosen from
-[[[#MLSuitesTable]]]. The choice of cyphersuite sets the values of |canonScheme|,
+an <a>unsecured data document</a> and an ML-DSA cryptosuite chosen from
+[[[#MLSuitesTable]]]. The choice of cryptosuite sets the values of |canonScheme|,
 |hashName|, |sigFunc|, and |verifyFunc| per [[[#MLSuitesTable]]], which are used
 in the algorithm below. Additional required inputs are an
 <a>unsecured data document</a> ([=map=] |unsecuredDocument|), and a set of proof
@@ -1183,9 +1158,9 @@ Let |proofOptions| be a copy of |securedDocument|.|proof| with `proofValue`
 removed.
           </li>
           <li>
-Set |cyphersuiteName| to |securedDocument|.|proof|.|cyphersuite|,
+Set |cryptosuiteName| to |securedDocument|.|proof|.|cryptosuite|,
 which must be one of those listed in [[[#MLSuitesTable]]].
-From |cyphersuiteName|, set the values of |canonScheme|, |hashName|,
+From |cryptosuiteName|, set the values of |canonScheme|, |hashName|,
 and |verifyFunc|, as found in [[[#MLSuitesTable]]].
           </li>
           <li>
@@ -1229,8 +1204,8 @@ Return a [=verification result=] with [=struct/items=]:
         </section>
 
       </section>
-      <section id="SLHDSA_Cyphersuites">
-        <h3>SLH-DSA Cyphersuites</h3>
+      <section id="SLHDSA_Cryptosuites">
+        <h3>SLH-DSA Cryptosuites</h3>
         <p>
 The Stateless Hash-Based Digital Signature Standard defined in [[FIPS-205]]
 defines parameter sets for three different claimed security strengths,
@@ -1336,8 +1311,8 @@ family of ML-DSA cryptosuites given in [[[#SLHSuiteTable]]].
 
           <p>
 The following algorithm specifies how to create a [=data integrity proof=] given
-an <a>unsecured data document</a> and an SLH-DSA cyphersuite chosen from
-[[[#SLHSuiteTable]]]. The choice of cyphersuite sets the values of |canonScheme|,
+an <a>unsecured data document</a> and an SLH-DSA cryptosuite chosen from
+[[[#SLHSuiteTable]]]. The choice of cryptosuite sets the values of |canonScheme|,
 |hashName|, |sigFunc|, and |verifyFunc| as found in [[[#SLHSuiteTable]]], for
 use in the algorithm below. Additional required inputs are an
 <a>unsecured data document</a> ([=map=] |unsecuredDocument|), and a set of proof
@@ -1411,9 +1386,9 @@ Let |proofOptions| be a copy of |securedDocument|.|proof| with `proofValue`
 removed.
           </li>
           <li>
-Set |cyphersuiteName| to |securedDocument|.|proof|.|cypnersuite|,
+Set |cryptosuiteName| to |securedDocument|.|proof|.|cypnersuite|,
 it must be one of those listed in [[[#SLHSuiteTable]]].
-From |cyphersuiteName| set the values of |canonScheme|, |hashName|,
+From |cryptosuiteName| set the values of |canonScheme|, |hashName|,
 and |verifyFunc| per [[[#SLHSuiteTable]]].
           </li>
           <li>
@@ -1458,7 +1433,7 @@ Return a [=verification result=] with [=struct/items=]:
         </section>
       </section>
 
-      <section id="Falcon_Cyphersuites">
+      <section id="Falcon_Cryptosuites">
         <h3>experimental-falcon-2025</h3>
 <!-- **TODO**: Update and broaden, Maybe wait for FIPS-206 to come out
  Want this to deal with a "Group" of cryptosuites based on FALCON at three
@@ -1669,7 +1644,7 @@ Return |verificationResult| as the <em>verification result</em>.
       </section>
 
 
-      <section id="SQISign_Cyphersuites">
+      <section id="SQISign_Cryptosuites">
         <h3>experimental-sqi-2025</h3>
 
         <p>
@@ -1975,7 +1950,7 @@ format and the public key as a `publicKeyMultibase`.
           <p>
 The Proof Configuration algorithm output is dependent on the specific <em>proof
 options</em> as well as the parameters, hence an output test vector for Proof
-Configuration is given for each supported `cyphersuite`.
+Configuration is given for each supported `cryptosuite`.
           </p>
         <section>
           <h5>Proof Configuration (`rdfc`, `sha-256`)</h5>
@@ -2045,9 +2020,9 @@ set of Transformation output test vectors given below.
         <p>
 The <em>Hashing</em> algorithm takes as inputs the results of the <em>Proof
 Configuration</em> and <em>Transformation</em> algorithms. Since the <em>Proof
-Configuration</em> algorithm output is cyphersuite specific the <em>Hashing</em>
-algorithm output is given for each cyphersuite test case. The <em>Hashing</em>
-output for each cyphersuite test case is given in hexadecimal format below.
+Configuration</em> algorithm output is cryptosuite specific the <em>Hashing</em>
+algorithm output is given for each cryptosuite test case. The <em>Hashing</em>
+output for each cryptosuite test case is given in hexadecimal format below.
         </p>
         <p class="note">
 The first half of the hexadecimal <em>Hashing</em> result is the hash of the
@@ -2064,10 +2039,10 @@ algorithm and both can be useful information when debugging.
       <section id="TV-Create-Proof">
         <h4>Create Proof</h4>
         <p>
-The <em>Create Proof</em> algorithm output is cyphersuite specific and uses the
+The <em>Create Proof</em> algorithm output is cryptosuite specific and uses the
 outputs of the <em>Proof Configuration</em>, <em>Transformation</em>,
 <em>Hashing</em>, and <em>Proof Serialization</em> algorithms. The output for
-each cyphersuite test case is given below.
+each cryptosuite test case is given below.
         </p>
         <p class="note">
 The output of the <em>Proof Serialization</em> common algorithm is not given
@@ -2075,28 +2050,28 @@ separately since it is contained in the `proofValue` attribute in the following
 examples and can be quite lengthy for some quantum safe signature algorithms.
         </p>
         <section>
-          <h5>Cyphersuite `mldsa44-rdfc-2024`</h5>
+          <h5>Cryptosuite `mldsa44-rdfc-2024`</h5>
           <pre class="example nohighlight" title="Signed credential `mldsa44-rdfc-2024`"
           data-include="testVectors/mldsa44-rdfc-2024/signed-mldsa44-rdfc-2024.json"
           data-include-format="text">
           </pre>
         </section>
         <section>
-          <h5>Cyphersuite `mldsa44-jcs-2024`</h5>
+          <h5>Cryptosuite `mldsa44-jcs-2024`</h5>
           <pre class="example nohighlight" title="Signed credential `mldsa44-jcs-2024`"
           data-include="testVectors/mldsa44-jcs-2024/signed-mldsa44-jcs-2024.json"
           data-include-format="text">
           </pre>
         </section>
         <section>
-          <h5>Cyphersuite `slhdsa128-rdfc-2024`</h5>
+          <h5>Cryptosuite `slhdsa128-rdfc-2024`</h5>
           <pre class="example nohighlight" title="Signed credential `slhdsa128-rdfc-2024`"
           data-include="testVectors/slhdsa128-rdfc-2024/signed-slhdsa128-rdfc-2024.json"
           data-include-format="text">
           </pre>
         </section>
         <section>
-          <h5>Cyphersuite `slhdsa128-jcs-2024`</h5>
+          <h5>Cryptosuite `slhdsa128-jcs-2024`</h5>
           <pre class="example nohighlight" title="Signed credential `slhdsa128-jcs-2024`"
           data-include="testVectors/slhdsa128-jcs-2024/signed-slhdsa128-jcs-2024.json"
           data-include-format="text">
