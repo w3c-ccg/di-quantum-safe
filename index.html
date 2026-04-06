@@ -385,7 +385,7 @@ The `publicKeyMultibase` property represents a Multibase-encoded Multikey
 expression of a public key.
           </p>
 
-          <table class="data numbered">
+          <table class="data numbered"  id="MultiKeyTable">
             <caption><em>Public Key Summary, all sizes in bytes.</em></caption>
             <thead>
               <tr>
@@ -415,11 +415,11 @@ expression of a public key.
                 <td>2592</td>
               </tr> -->
               <tr>
-              <td>SLH-DSA-SHA2-128s</td>
-              <td>0x1220</td>
-              <td>0xa024</td>
-              <td>32</td>
-            </tr>
+                <td>SLH-DSA-SHA2-128s</td>
+                <td>0x1220</td>
+                <td>0xa024</td>
+                <td>32</td>
+              </tr>
             <!-- <tr>
               <td>SLH-DSA-SHA2-192s</td>
               <td>0x1224</td>
@@ -432,13 +432,25 @@ expression of a public key.
               <td>0xa824</td>
               <td>64</td>
             </tr> -->
+              <tr>
+                <td>FALCON-512<sup>*</sup></td>
+                <td>0x122c</td>
+                <td>0xac24</td>
+                <td>897</td>
+              </tr>
+              <tr>
+                <td>SQIsign-I<sup>*</sup></td>
+                <td>0x122e</td>
+                <td>0xae24</td>
+                <td>65</td>
+              </tr>
             </tbody>
           </table>
 
           <p>
 The Multikey encoding of a public key for a signature supported by this
 specification MUST start with the corresponding multi-byte prefix for the
-signature named the previous table followed by the raw public key bytes.
+signature named in [[[#MultiKeyTable]]] followed by the raw public key bytes.
 This multi-byte prefix is the varint expression of the varint code
 given in the previous table.
 The resulting value will have a byte length given by the raw public key size in
@@ -452,6 +464,13 @@ Multibase header (`u`).
           <p class="informative">
 Examples of all the `publicKeyMultibase` encodings defined in this specification
 can be found in appendix [[[#TestVectors]]].
+          </p>
+          <p class="ednote">
+Note*: The codes given in [[[#MultiKeyTable]]] for FALCON-512  and SQIsign-I are 
+preliminary and not currently registered with 
+<a href="https://github.com/multiformats/multicodec/blob/master/table.csv">
+multicodecs</a>. When these signature schemes are formalized by NIST or other 
+SDOs these values should be updated/registered.
           </p>
         </section>
 
@@ -1958,6 +1977,16 @@ format and the public key as a `publicKeyMultibase`.
           data-include="testVectors/inputs/KeysSLHDSA.json"
           data-include-format="text">
           </pre>
+
+          <pre class="example nohighlight" title="Private and Public keys for FALCON-512"
+          data-include="testVectors/inputs/KeysFALCON.json"
+          data-include-format="text">
+          </pre>
+
+          <pre class="example nohighlight" title="Private and Public keys for SQIsign-I"
+          data-include="testVectors/inputs/KeysSQIsign.json"
+          data-include-format="text">
+          </pre>
         </section>
       </section>
       <section>
@@ -1978,6 +2007,16 @@ Configuration is given for each supported `cryptosuite`.
           data-include="testVectors/commonAlgs/proofConfig-slhdsa128-rdfc-2024.txt"
           data-include-format="text">
           </pre>
+
+          <pre class="example nohighlight" title="Proof Configuration falcon512-rdfc-2024"
+          data-include="testVectors/commonAlgs/proofConfig-falcon512-rdfc-2024.txt"
+          data-include-format="text">
+          </pre>
+
+          <pre class="example nohighlight" title="Proof Configuration sqisign1-rdfc-2024"
+          data-include="testVectors/commonAlgs/proofConfig-sqisign1-rdfc-2024.txt"
+          data-include-format="text">
+          </pre>
         </section>
         <section>
           <h5>Proof Configuration (`jcs`)</h5>
@@ -1989,6 +2028,16 @@ Configuration is given for each supported `cryptosuite`.
 
           <pre class="example nohighlight" title="Proof Configuration slhdsa128-jcs-2024"
           data-include="testVectors/commonAlgs/proofConfig-slhdsa128-jcs-2024.txt"
+          data-include-format="text">
+          </pre>
+
+          <pre class="example nohighlight" title="Proof Configuration falcon512-jcs-2024"
+          data-include="testVectors/commonAlgs/proofConfig-falcon512-jcs-2024.txt"
+          data-include-format="text">
+          </pre>
+
+          <pre class="example nohighlight" title="Proof Configuration sqisign1-jcs-2024"
+          data-include="testVectors/commonAlgs/proofConfig-sqisign1-jcs-2024.txt"
           data-include-format="text">
           </pre>
         </section>
@@ -2089,6 +2138,35 @@ examples and can be quite lengthy for some quantum safe signature algorithms.
           <h5>Cryptosuite `slhdsa128-jcs-2024`</h5>
           <pre class="example nohighlight" title="Signed credential `slhdsa128-jcs-2024`"
           data-include="testVectors/slhdsa128-jcs-2024/signed-slhdsa128-jcs-2024.json"
+          data-include-format="text">
+          </pre>
+        </section>
+        <section>
+          <h5>Cryptosuite `falcon512-rdfc-2024`</h5>
+          <pre class="example nohighlight" title="Signed credential `falcon512-rdfc-2024`"
+          data-include="testVectors/falcon512-rdfc-2024/signed-falcon512-rdfc-2024.json"
+          data-include-format="text">
+          </pre>
+        </section>
+        <section>
+          <h5>Cryptosuite `falcon512-jcs-2024`</h5>
+          <pre class="example nohighlight" title="Signed credential `falcon512-jcs-2024`"
+          data-include="testVectors/falcon512-jcs-2024/signed-falcon512-jcs-2024.json"
+          data-include-format="text">
+          </pre>
+        </section>
+
+        <section>
+          <h5>Cryptosuite `sqisign1-rdfc-2024`</h5>
+          <pre class="example nohighlight" title="Signed credential `sqisign1-rdfc-2024`"
+          data-include="testVectors/sqisign1-rdfc-2024/signed-sqisign1-rdfc-2024.json"
+          data-include-format="text">
+          </pre>
+        </section>
+        <section>
+          <h5>Cryptosuite `sqisign1-jcs-2024`</h5>
+          <pre class="example nohighlight" title="Signed credential `sqisign1-jcs-2024`"
+          data-include="testVectors/sqisign1-jcs-2024/signed-sqisign1-jcs-2024.json"
           data-include-format="text">
           </pre>
         </section>

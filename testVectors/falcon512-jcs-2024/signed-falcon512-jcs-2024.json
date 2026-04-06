@@ -1,0 +1,46 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://w3id.org/citizenship/v4rc1"
+  ],
+  "type": [
+    "VerifiableCredential",
+    "EmploymentAuthorizationDocumentCredential"
+  ],
+  "issuer": {
+    "id": "did:key:zDnaegE6RR3atJtHKwTRTWHsJ3kNHqFwv7n9YjTgmU7TyfU76",
+    "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NgUPr/HwADaAIhG61j/AAAAABJRU5ErkJggg=="
+  },
+  "credentialSubject": {
+    "type": [
+      "Person",
+      "EmployablePerson"
+    ],
+    "givenName": "JOHN",
+    "additionalName": "JACOB",
+    "familyName": "SMITH",
+    "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2Ng+M/wHwAEAQH/7yMK/gAAAABJRU5ErkJggg==",
+    "gender": "Male",
+    "residentSince": "2015-01-01",
+    "birthCountry": "Bahamas",
+    "birthDate": "1999-07-17",
+    "employmentAuthorizationDocument": {
+      "type": "EmploymentAuthorizationDocument",
+      "identifier": "83627465",
+      "lprCategory": "C09",
+      "lprNumber": "999-999-999"
+    }
+  },
+  "name": "Employment Authorization Document",
+  "description": "Example Employment Authorization Document.",
+  "validFrom": "2019-12-03T00:00:00Z",
+  "validUntil": "2029-12-03T00:00:00Z",
+  "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "falcon512-jcs-2024",
+    "created": "2023-02-24T23:36:38Z",
+    "verificationMethod": "did:key:urCQJjNUc-k6X0bvWIxp2p3VqhYLhiZ7dAxp1O4sgNX5mEBNFZ3iYopETaw3ZUtHfZbycHmQl_Rjgj1-cUNpQeAwYl2gW9QYtQCQBT1DdocpQxApos-ZLBpqvGcvGHxnKUlrugOYXwe_4LpOkhLIMAsXeiSTVPaXVmii_cruYp98AE0WVFU6hpbnNlCOKBkxFqdW19QZ8qR51qoJqMKGeTIqmJCF50I2CsCm2eRq60JUcN7dk3cazXoMtKU_YOA8vA_2X2qNPHrhpuXtPw4Qbom0mOandM51FO47rakCoGMgXg7l_vcC38KvDkKyIJPsnpbzmiDoJZK9iWYdGCiruOZlx8VMDqpyd7shQYXw5njUi5Z0DOZU8Kk9MFiiG9PwAAMcdad9nfFEGTaD7sjfV4BIcBzWE4H4euWenzpbvnERQN2RtsnM-SZo9zWQdljcRZyBeYkD8MIDrkk1Z05njmgw_IK4jgludKBj7ihrEzlOaq8mxLEOi_P3q62F5mgRm8FnG-GexQZQDbjGqzcPSJGw9kEo3sB7g2A3s97iszIxQoSrna8Rdl3r6mdWX-TIydwqLIRGhrfJhKk8XQnrXyt1SySEEG6YM2ON2oVy1E1Nxv36rYoRc379Fp-OtYcCwWn1nTMayRq07p8wHqJ9OncHi1ytgTQN7myPxHzzqhyvue7BkzDEcUy25bfmhQicmTy3Upw1IgDrJXMKrb68t1aJ1Ypc5nAI1kfscrSbAAOCDwUSgNTbpL2mQhhaRNSnRlXCRNcptbn9d7TkCcO7yDBQdgeDrtlT5K0nDISZJsPNGCk0nNU2sgZwH2mbqfdaEGoNSYPE0eRCRpbJYloZrx7rlx7MVxteToF7iGNsjLqEGNTjiuG_AXxWXmuS1bSbLtEThADQUdjymUzDkarmbH_xY4X13f-KCUejGl8YEmFw60imKKBmpvaklKYnTNYjN5_WR8mYihBDiqbApYumnQCM7vIQDGuOFsxW5vGkeiWKYnPmw94brGf3q9E6SOSlFTGHiw_KdthKAAA3UYv6axebtIxl2KtHDzSqnSV4FrBI8JRSn2MhrP5VYnXh9nA9F3eEUx-Eme6JOZeIZGpde2dXXxg2sSoVFP1eNNkZhBf1lu414-KI41p8rDeuagkSekThSi7sdxzeF49bMiN1zJg3aNgEfQ0Fhm8Wm7TdNVeowG8k",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "uOQsNa2vrNpLO7zr2FtOMZELtKKrlLkihlXOTLzkXam8svZ29h9-XHfqDGW8cWX257d9GlpnxlV1ZjDoI4_R1aXk6jxxWsVSnZJEGy-NiMtZI5UHhwK_dvLGHZj4RfHXvQTKCSzKNcW0t6BM-g2itNcQTUmLVxHV9fhvfl85DtpvtUEoeE9Zh8snDTKHcZ5AGD7hQHAT1x4YbHOTGWdLFm1IFwvRBKulmBisAh-vqujSt86IkvGQyq4OItE1upZtydy7r8ZXhY97_RrXTPJgUum-zLDK8O1HiwiNx5htjBbiJGmv3lXma2XaG95DRrN5SDQCLx1CcmYmRMfqL7TS0v_6MuKDyFiQfGkJJZm4nMTKTBi846HJrpBbXVrFb_ZC0n06v-75nVxi76ATR94JqMJW2c7CeWboU_LEuvbhMNzyoMpUDf0hIdx2tbLop5tOwc3psxTzMbpLu3q7CtNL3D88CODS7uT86DMhKzY_xMYAVLOHXqKnYHGbGshmUal7A6keM2FMoeuc1fHgStter_lxSpZ7nkOxVEEs1smCJCErr0FwlNG47Ased1h28rJo6EdyWYthIM3EyoTkQ3tFa4UnlZzdxYqDvSMLTqCFXRi9p-qdLYr2k-yNiWjdMEM27lv1dlg5wR6NJwjE5BmONxkgYfSOdeVhQOCOgR2VZmuNiQFwBO3cko5lcwRNFClvF2qcDqKzIKrzquZIz4xZaJml8fe57TOoVKmDQluRSdlJlPxygZwwSJUmvIATKv0RjJw-jkJrxFu8n73Cqof_VVU2wOO6e1ii2SRtW_U5ikGXlae39Vmxan2I6LEFwN9pu9V0JcMx7dPkj2vuTvwjMOk_1sIBvnZjVHsjW09JGKTGAAAAAAAAAAAAA"
+  }
+}
