@@ -210,19 +210,25 @@
             publisher: "Federal Information Processing Standards",
             href: "https://csrc.nist.gov/pubs/fips/205/final"
           },
-          "FALCON": {
-            title: "Fast-Fourier Lattice-based Compact Signatures over NTRU",
-            authors: [],
-            // date: "August 2024",
-            // publisher: "",
-            href: "https://falcon-sign.info/"
-          },
           "SQISIGN": {
             title: "SQI Sign",
             authors: [],
             // date: "August 2024",
             // publisher: "",
             href: "https://sqisign.org/"
+          },
+          "BUFF":  {
+            title: "BUFFing signature schemes beyond unforgeability and the case of post-quantum signatures",
+            authors:  ["C. Cremers", "S. Düzlü", "R. Fiedler", "M. Fischlin", "C. Janson"],
+            date: "2020",
+            href: "https://eprint.iacr.org/2020/1525"
+          },
+          Provable_Ed25519: {
+            authors: ["Jacqueline Brendel", "Cas Cremers", "Dennis Jackson", "Mang Zhao"],
+            title: "The Provable Security of Ed25519: Theory and Practice",
+            publisher: "Cryptology ePrint Archive, Paper 2020/823",
+            date: "2020",
+            href: "https://eprint.iacr.org/2020/823"
           }
         },
         xref: ["INFRA", "VC-DATA-MODEL-2.0", "VC-DATA-INTEGRITY"],
@@ -1919,9 +1925,278 @@ Security Considerations section of the Data Integrity specification</a>.
 
       <p>
 The following section describes security considerations that developers
-implementing this specification should be aware of in order to avoid violating
-security assumptions.
+implementing this specification should be aware of in order to create secure
+software or protocols based on verifiable credentials signed using the
+cryptosuites defined here.
       </p>
+      <section id="SigSecProps">
+        <h3>Signature Security Properties</h3>
+        <p>All signature suites in this specification are designed to satisfy 
+either <em>existential unforgeability under chosen-message attacks</em> 
+(EUF-CMA) or <em>strong unforgeability under chosen message attacks</em> 
+(SUF-CMA) or both as defined below.
+        </p>
+        <p>
+<strong>EUF-CMA</strong> (<em>existential unforgeability under
+chosen message attacks</em>) is usually the minimal security property required
+of a signature scheme. It guarantees that any efficient adversary who has the
+public key
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+  <mstyle displaystyle="true" scriptlevel="0">
+    <mrow data-mjx-texclass="ORD">
+      <mtable rowspacing=".5em" columnspacing="1em" displaystyle="true">
+        <mtr>
+          <mtd>
+            <mi>p</mi>
+            <mi>k</mi>
+          </mtd>
+        </mtr>
+      </mtable>
+    </mrow>
+  </mstyle>
+</math> of the signer and received an arbitrary number of signatures on
+messages of its choice (in an adaptive manner):
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+  <mstyle displaystyle="true" scriptlevel="0">
+    <mrow data-mjx-texclass="ORD">
+      <mtable rowspacing=".5em" columnspacing="1em" displaystyle="true">
+        <mtr>
+          <mtd>
+            <mo fence="false" stretchy="false">{</mo>
+            <msub>
+              <mi>m</mi>
+              <mi>i</mi>
+            </msub>
+            <mo>,</mo>
+            <msub>
+              <mi>&#x3C3;</mi>
+              <mi>i</mi>
+            </msub>
+            <msubsup>
+              <mo fence="false" stretchy="false">}</mo>
+              <mrow data-mjx-texclass="ORD">
+                <mi>i</mi>
+                <mo>=</mo>
+                <mn>1</mn>
+              </mrow>
+              <mi>N</mi>
+            </msubsup>
+          </mtd>
+        </mtr>
+      </mtable>
+    </mrow>
+  </mstyle>
+</math>,
+cannot output a valid signature
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+  <mstyle displaystyle="true" scriptlevel="0">
+    <mrow data-mjx-texclass="ORD">
+      <mtable rowspacing=".5em" columnspacing="1em" displaystyle="true">
+        <mtr>
+          <mtd>
+            <msup>
+              <mi>&#x3C3;</mi>
+              <mo>&#x2217;</mo>
+            </msup>
+          </mtd>
+        </mtr>
+      </mtable>
+    </mrow>
+  </mstyle>
+</math>
+for a new message
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+  <mstyle displaystyle="true" scriptlevel="0">
+    <mrow data-mjx-texclass="ORD">
+      <mtable rowspacing=".5em" columnspacing="1em" displaystyle="true">
+        <mtr>
+          <mtd>
+            <msup>
+              <mi>m</mi>
+              <mo>&#x2217;</mo>
+            </msup>
+            <mo>&#x2209;</mo>
+            <mo fence="false" stretchy="false">{</mo>
+            <msub>
+              <mi>m</mi>
+              <mi>i</mi>
+            </msub>
+            <msubsup>
+              <mo fence="false" stretchy="false">}</mo>
+              <mrow data-mjx-texclass="ORD">
+                <mi>i</mi>
+                <mo>=</mo>
+                <mn>1</mn>
+              </mrow>
+              <mi>N</mi>
+            </msubsup>
+          </mtd>
+        </mtr>
+      </mtable>
+    </mrow>
+  </mstyle>
+</math>
+(except with negligible probability). If the attacker outputs a valid
+signature on a new message:
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+  <mstyle displaystyle="true" scriptlevel="0">
+    <mrow data-mjx-texclass="ORD">
+      <mtable rowspacing=".5em" columnspacing="1em" displaystyle="true">
+        <mtr>
+          <mtd>
+            <mo stretchy="false">(</mo>
+            <msup>
+              <mi>m</mi>
+              <mo>&#x2217;</mo>
+            </msup>
+            <mo>,</mo>
+            <msup>
+              <mi>&#x3C3;</mi>
+              <mo>&#x2217;</mo>
+            </msup>
+            <mo stretchy="false">)</mo>
+          </mtd>
+        </mtr>
+      </mtable>
+    </mrow>
+  </mstyle>
+</math>,
+it is called an <em>existential
+forgery</em>.
+          </p>
+          <p>
+<strong>SUF-CMA</strong> (<em>strong unforgeability under chosen
+message attacks</em>) is a stronger notion than <em>EUF-CMA</em>. It guarantees
+that for any efficient adversary who has the public key
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+  <mstyle displaystyle="true" scriptlevel="0">
+    <mrow data-mjx-texclass="ORD">
+      <mtable rowspacing=".5em" columnspacing="1em" displaystyle="true">
+        <mtr>
+          <mtd>
+            <mi>p</mi>
+            <mi>k</mi>
+          </mtd>
+        </mtr>
+      </mtable>
+    </mrow>
+  </mstyle>
+</math>
+of the signer and
+received an arbitrary number of signatures on messages of its choice:
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+  <mstyle displaystyle="true" scriptlevel="0">
+    <mrow data-mjx-texclass="ORD">
+      <mtable rowspacing=".5em" columnspacing="1em" displaystyle="true">
+        <mtr>
+          <mtd>
+            <mo fence="false" stretchy="false">{</mo>
+            <msub>
+              <mi>m</mi>
+              <mi>i</mi>
+            </msub>
+            <mo>,</mo>
+            <msub>
+              <mi>&#x3C3;</mi>
+              <mi>i</mi>
+            </msub>
+            <msubsup>
+              <mo fence="false" stretchy="false">}</mo>
+              <mrow data-mjx-texclass="ORD">
+                <mi>i</mi>
+                <mo>=</mo>
+                <mn>1</mn>
+              </mrow>
+              <mi>N</mi>
+            </msubsup>
+          </mtd>
+        </mtr>
+      </mtable>
+    </mrow>
+  </mstyle>
+</math>,
+it cannot output a new valid signature pair
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+  <mstyle displaystyle="true" scriptlevel="0">
+    <mrow data-mjx-texclass="ORD">
+      <mtable rowspacing=".5em" columnspacing="1em" displaystyle="true">
+        <mtr>
+          <mtd>
+            <mo stretchy="false">(</mo>
+            <msup>
+              <mi>m</mi>
+              <mo>&#x2217;</mo>
+            </msup>
+            <mo>,</mo>
+            <msup>
+              <mi>&#x3C3;</mi>
+              <mo>&#x2217;</mo>
+            </msup>
+            <mo stretchy="false">)</mo>
+          </mtd>
+        </mtr>
+      </mtable>
+    </mrow>
+  </mstyle>
+</math>,
+such that
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+  <mstyle displaystyle="true" scriptlevel="0">
+    <mrow data-mjx-texclass="ORD">
+      <mtable rowspacing=".5em" columnspacing="1em" displaystyle="true">
+        <mtr>
+          <mtd>
+            <mo stretchy="false">(</mo>
+            <msup>
+              <mi>m</mi>
+              <mo>&#x2217;</mo>
+            </msup>
+            <mo>,</mo>
+            <msup>
+              <mi>&#x3C3;</mi>
+              <mo>&#x2217;</mo>
+            </msup>
+            <mo stretchy="false">)</mo>
+            <mo>&#x2209;</mo>
+            <mo fence="false" stretchy="false">{</mo>
+            <msup>
+              <mi>m</mi>
+              <mi>i</mi>
+            </msup>
+            <mo>,</mo>
+            <msup>
+              <mi>&#x3C3;</mi>
+              <mi>i</mi>
+            </msup>
+            <msubsup>
+              <mo fence="false" stretchy="false">}</mo>
+              <mrow data-mjx-texclass="ORD">
+                <mi>i</mi>
+                <mo>=</mo>
+                <mn>1</mn>
+              </mrow>
+              <mi>N</mi>
+            </msubsup>
+          </mtd>
+        </mtr>
+      </mtable>
+    </mrow>
+  </mstyle>
+</math>
+(except with negligible probability). Strong unforgeability implies that an
+adversary not only cannot sign new messages, but also cannot find a new signature
+on an old message. See [[Provable_Ed25519]] for a real world attack that would
+have been circumvented with SUF-CMA security over EUF-CMA security.
+          </p>
+          <p>
+Besides EUF-CMA and SUF-CMA there are additional properties a digital signature
+scheme can possess that may be essential for overall software or protocol
+security. These are discussed in [[BUFF]], which is also referenced by 
+[[FIPS-204]] and [[FIPS-205]]. These additional properties are known as: 
+<em>exclusive ownership</em>, <em>message-bound signatures</em>, and 
+<em>non re-signability</em>.
+          </p>
+      </section>
 
     </section>
 
