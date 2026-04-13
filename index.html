@@ -1913,7 +1913,7 @@ Return a [=verification result=] with [=struct/items=]:
         </section>
       </section>
     </section>
-    <section class="informative">
+    <section class="informative" id="SecurityConsiderations">
       <h2>Security Considerations</h2>
 
       <p class="advisement">
@@ -2191,11 +2191,79 @@ have been circumvented with SUF-CMA security over EUF-CMA security.
           <p>
 Besides EUF-CMA and SUF-CMA there are additional properties a digital signature
 scheme can possess that may be essential for overall software or protocol
-security. These are discussed in [[BUFF]], which is also referenced by 
-[[FIPS-204]] and [[FIPS-205]]. These additional properties are known as: 
+security depending on the application. These are discussed in [[BUFF]], which is 
+also referenced by [[FIPS-204]] and [[FIPS-205]]. These additional properties 
+are defined in  [[BUFF]] as: 
 <em>exclusive ownership</em>, <em>message-bound signatures</em>, and 
 <em>non re-signability</em>.
           </p>
+          <p>
+<strong>Exclusive Ownership (EO)</strong>: the property that a signature only 
+verifies under a single public key.
+          </p>
+          <p>
+<strong>Message-Bound Signatures (MBS)</strong>: the property that a signature is only
+ valid for a unique message.
+          </p>
+          <p>
+<strong>Non Re-signability (NR)</strong>: meaning that one cannot produce a signature 
+under another key given a signature for some unknown message m.
+          </p>
+          <p class="ednote">
+Add explanatory text to the above definitions. In particular, why these are
+beyond the EUF-CMA and SUF-CMA notions, in terms of attacks prevented.
+          </p>
+          <table id="SecurityProperties" class="data numbered">
+            <caption><em>Security Properties of Signature Schemes.</em> </caption>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>EUF-CMA</th>
+            <th>SUF-CMA</th>
+            <th>EO</th>
+            <th>MBS</th>
+            <th>NR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ML-DSA</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td>SLH-DSA</td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>Unknown</td>
+            <td>Yes</td>
+            <td>Unknown</td>
+          </tr>
+          <tr>
+            <td>FALCON<sup>*</sup></td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>No</td>
+            <td>Yes</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td>SQIsign</td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+          </tr>
+        </tbody>
+        </table>
+        <p class="note">
+<sup>*</sup>Note: This is based on the "third round FALCON" currently used hear 
+and according to [[BUFF]] will be updated when FIPS-206 is released.
+        </p>
       </section>
 
     </section>
