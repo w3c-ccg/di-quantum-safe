@@ -2199,19 +2199,31 @@ are defined in  [[BUFF]] as:
           </p>
           <p>
 <strong>Exclusive Ownership (EO)</strong>: the property that a signature only 
-verifies under a single public key.
+verifies under a single public key. Without this property a system could be 
+vunerable to an attack that allows constructing another key pair under which a 
+given signature verifies, but never breaks the EUF-CMA property. Such an attack
+is documented in both [[BUFF]] and in [[Provable_Ed25519]] where it is called a
+"key substitution attack".
           </p>
           <p>
-<strong>Message-Bound Signatures (MBS)</strong>: the property that a signature is only
- valid for a unique message.
+<strong>Message-Bound Signatures (MBS)</strong>: the property that a signature 
+is only valid for a unique message. This property is key for data integrity and
+all signature schemes chosen here currently support it. From [[BUFF]]: 
+"A possible cause can be the presence of weak keys that verify multiple or even 
+all messages. The absence of this property can lead to problems in protocols 
+that depend on uniqueness properties in the presence of adversarially chosen 
+keys."
           </p>
           <p>
 <strong>Non Re-signability (NR)</strong>: meaning that one cannot produce a signature 
-under another key given a signature for some unknown message m.
+under another key given a signature for some unknown message m, i.e., that an
+adversary cannot produce a legitimate signature verifying under its public key 
+for a message it does not know. See [[BUFF]] for an example of a system that 
+could be vulnerable without this property.
           </p>
-          <p class="ednote">
-Add explanatory text to the above definitions. In particular, why these are
-beyond the EUF-CMA and SUF-CMA notions, in terms of attacks prevented.
+          <p>
+In [[[#SecurityProperties]]] we summarize the known security properties of the
+signature schemes in this specification.
           </p>
           <table id="SecurityProperties" class="data numbered">
             <caption><em>Security Properties of Signature Schemes.</em> </caption>
@@ -2261,7 +2273,7 @@ beyond the EUF-CMA and SUF-CMA notions, in terms of attacks prevented.
         </tbody>
         </table>
         <p class="note">
-<sup>*</sup>Note: This is based on the "third round FALCON" currently used hear 
+Note<sup>*</sup>: This is based on the "third round FALCON" currently used hear 
 and according to [[BUFF]] will be updated when FIPS-206 is released.
         </p>
       </section>
