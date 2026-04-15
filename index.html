@@ -161,12 +161,12 @@
             date: "February 2023",
             publisher: "National Institute of Standards and Technology"
           },
-          "NIST-SP-800-57-Part-1": {
-            title: "Recommendation for Key Management: Part 1 – General",
+          "NIST-SP-800-57-Part-1R6": {
+            title: "Recommendation for Key Management: Part 1r6 ipd -- General",
             authors: ["Elaine Barker"],
-            date: "May 2020",
+            date: "December 2025",
             publisher: "National Institute of Standards and Technology",
-            href: "https://doi.org/10.6028/NIST.SP.800-57pt1r5"
+            href: "https://doi.org/10.6028/NIST.SP.800-57pt1r6.ipd"
           },
           "FIPS-204": {
             title: "Module-Lattice-Based Digital Signature Standard",
@@ -210,19 +210,25 @@
             publisher: "Federal Information Processing Standards",
             href: "https://csrc.nist.gov/pubs/fips/205/final"
           },
-          "FALCON": {
-            title: "Fast-Fourier Lattice-based Compact Signatures over NTRU",
-            authors: [],
-            // date: "August 2024",
-            // publisher: "",
-            href: "https://falcon-sign.info/"
-          },
           "SQISIGN": {
             title: "SQI Sign",
             authors: [],
             // date: "August 2024",
             // publisher: "",
             href: "https://sqisign.org/"
+          },
+          "BUFF":  {
+            title: "BUFFing signature schemes beyond unforgeability and the case of post-quantum signatures",
+            authors:  ["C. Cremers", "S. Düzlü", "R. Fiedler", "M. Fischlin", "C. Janson"],
+            date: "2020",
+            href: "https://eprint.iacr.org/2020/1525"
+          },
+          Provable_Ed25519: {
+            authors: ["Jacqueline Brendel", "Cas Cremers", "Dennis Jackson", "Mang Zhao"],
+            title: "The Provable Security of Ed25519: Theory and Practice",
+            publisher: "Cryptology ePrint Archive, Paper 2020/823",
+            date: "2020",
+            href: "https://eprint.iacr.org/2020/823"
           }
         },
         xref: ["INFRA", "VC-DATA-MODEL-2.0", "VC-DATA-INTEGRITY"],
@@ -569,6 +575,26 @@ The `cryptosuite` property of the proof MUST be one of the following values from
                 <td>SLH-DSA-SHA2-256s</td>
                 <td>29792</td>
               </tr> -->
+              <tr>
+                <td>`falcon512-rdfc-2024`</td>
+                <td>FALCON-512</td>
+                <td>666</td>
+              </tr>
+              <tr>
+                <td>`falcon512-jcs-2024`</td>
+                <td>FALCON-512</td>
+                <td>666</td>
+              </tr>
+              <tr>
+                <td>`sqisign1-rdfc-2024`</td>
+                <td>SQIsign-I</td>
+                <td>148</td>
+              </tr>
+              <tr>
+                <td>`sqisign1-jcs-2024`</td>
+                <td>SQIsign-I</td>
+                <td>148</td>
+              </tr>
             </tbody>
           </table>
 
@@ -599,7 +625,7 @@ categories. For a given claimed security category, an appropriate hash function
 MUST be use in the [[[#HashingAlg]]].
       </p>
       <p>
-From NIST SP 800-57pt1r6 ipd (Initial Public Draft) December 2025,
+From [[[NIST-SP-800-57-Part-1R6]]],
 Section 4.6.1.4 on the "Security Strengths of Hash Functions, XOFs, and Their
 Applications," the following hash function are chosen for use with digital
 signatures in [[[#HashSigTable]]].
@@ -967,28 +993,29 @@ Set |cryptosuite|.|verifyProof| to the algorithm in Section
             </ol>
           </li>
           <li>
-If |options|.|cryptosuite| is `experimental-falcon-2025` then:
+If |options|.|cryptosuite| is `falcon512-rdfc-2024` or `falcon512-jcs-2024` 
+then:
             <ol class="algorithm">
               <li>
 Set |cryptosuite|.|createProof| to the algorithm in Section
-[[[#create-proof-experimental-falcon-2025]]].
+[[[#create-proof-falcon]]].
               </li>
               <li>
 Set |cryptosuite|.|verifyProof| to the algorithm in Section
-[[[#proof-verification-experimental-falcon-2025]]].
+[[[#verify-proof-falcon]]].
               </li>
             </ol>
           </li>
           <li>
-If |options|.|cryptosuite| is `experimental-sqi-2025` then:
+If |options|.|cryptosuite| is `sqisign1-rdfc-2024` or  `sqisign1-jcs-2024` then:
             <ol class="algorithm">
               <li>
 Set |cryptosuite|.|createProof| to the algorithm in Section
-[[[#create-proof-experimental-sqi-2025]]].
+[[[#create-proof-sqisign]]].
               </li>
               <li>
 Set |cryptosuite|.|verifyProof| to the algorithm in Section
-[[[#proof-verification-experimental-sqi-2025]]].
+[[[#verify-proof-sqisign]]].
               </li>
             </ol>
           </li>
@@ -1001,10 +1028,10 @@ Return |cryptosuite|.
       <section id="MLDSA_Cypthersuites">
         <h3>ML-DSA Cryptosuites</h3>
         <p>
-The Module-Lattice-Based Digital Signature Standard defined in [[[FIPS-204]]] [[FIPS-204]]
-defines parameter sets for three different claimed security strengths. The
-claimed security strengths, private key, public key, and signature sizes are
-summarized in [[[#MLSummaryTable]]].
+The Module-Lattice-Based Digital Signature Standard defined in [[[FIPS-204]]] 
+[[FIPS-204]] defines parameter sets for three different claimed security 
+strengths. The claimed security strengths, private key, public key, and 
+signature sizes are summarized in [[[#MLSummaryTable]]].
         </p>
         <table id="MLSummaryTable" class="data numbered">
           <caption><em>ML-DSA Signatures Summary, all sizes in bytes.</em> </caption>
@@ -1226,7 +1253,8 @@ Return a [=verification result=] with [=struct/items=]:
       <section id="SLHDSA_Cryptosuites">
         <h3>SLH-DSA Cryptosuites</h3>
         <p>
-The Stateless Hash-Based Digital Signature Standard defined in [[FIPS-205]]
+The Stateless Hash-Based Digital Signature Standard defined in [[[FIPS-205]]] 
+[[FIPS-205]]
 defines parameter sets for three different claimed security strengths,
 optimized for size or speed, and a specified hash function family. This
 specification considers a subset
@@ -1455,7 +1483,7 @@ Return a [=verification result=] with [=struct/items=]:
       <section id="Falcon_Cryptosuites">
         <h3>FALCON Cryptosuites</h3>
         <p  class="ednote">
-The <a href="https://falcon-sign.info/">FALCON</a> signature algorithm is 
+The [[FALCON]] signature algorithm is 
 undergoing standardization by NIST. The information presented here is based on
 the 
 <a href="https://csrc.nist.gov/projects/post-quantum-cryptography/post-quantum-cryptography-standardization/round-3-submissions">
@@ -1463,7 +1491,7 @@ Post-Quantum Cryptography Round 3 Submission</a> information. This section will
 be updated when the NIST specification is issued.
         </p>
         <p>
-FALCON is a lattice-based signature scheme. It stands for the following acronym:
+[[FALCON]] is a lattice-based signature scheme. It stands for the following acronym:
 <u>FA</u>st Fourier <u>L</u>attice-based <u>CO</u>mpact signatures over 
 <u>N</u>TRU. FALCON defines parameter sets for two different claimed security
 strengths. The
@@ -1885,7 +1913,7 @@ Return a [=verification result=] with [=struct/items=]:
         </section>
       </section>
     </section>
-    <section class="informative">
+    <section class="informative" id="SecurityConsiderations">
       <h2>Security Considerations</h2>
 
       <p class="advisement">
@@ -1897,9 +1925,358 @@ Security Considerations section of the Data Integrity specification</a>.
 
       <p>
 The following section describes security considerations that developers
-implementing this specification should be aware of in order to avoid violating
-security assumptions.
+implementing this specification should be aware of in order to create secure
+software or protocols based on verifiable credentials signed using the
+cryptosuites defined here.
       </p>
+      <section id="SigSecProps">
+        <h3>Signature Security Properties</h3>
+        <p>All signature suites in this specification are designed to satisfy 
+either <em>existential unforgeability under chosen-message attacks</em> 
+(EUF-CMA) or <em>strong unforgeability under chosen message attacks</em> 
+(SUF-CMA) or both as defined below.
+        </p>
+        <p>
+<strong>EUF-CMA</strong> (<em>existential unforgeability under
+chosen message attacks</em>) is usually the minimal security property required
+of a signature scheme. It guarantees that any efficient adversary who has the
+public key
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+  <mstyle displaystyle="true" scriptlevel="0">
+    <mrow data-mjx-texclass="ORD">
+      <mtable rowspacing=".5em" columnspacing="1em" displaystyle="true">
+        <mtr>
+          <mtd>
+            <mi>p</mi>
+            <mi>k</mi>
+          </mtd>
+        </mtr>
+      </mtable>
+    </mrow>
+  </mstyle>
+</math> of the signer and received an arbitrary number of signatures on
+messages of its choice (in an adaptive manner):
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+  <mstyle displaystyle="true" scriptlevel="0">
+    <mrow data-mjx-texclass="ORD">
+      <mtable rowspacing=".5em" columnspacing="1em" displaystyle="true">
+        <mtr>
+          <mtd>
+            <mo fence="false" stretchy="false">{</mo>
+            <msub>
+              <mi>m</mi>
+              <mi>i</mi>
+            </msub>
+            <mo>,</mo>
+            <msub>
+              <mi>&#x3C3;</mi>
+              <mi>i</mi>
+            </msub>
+            <msubsup>
+              <mo fence="false" stretchy="false">}</mo>
+              <mrow data-mjx-texclass="ORD">
+                <mi>i</mi>
+                <mo>=</mo>
+                <mn>1</mn>
+              </mrow>
+              <mi>N</mi>
+            </msubsup>
+          </mtd>
+        </mtr>
+      </mtable>
+    </mrow>
+  </mstyle>
+</math>,
+cannot output a valid signature
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+  <mstyle displaystyle="true" scriptlevel="0">
+    <mrow data-mjx-texclass="ORD">
+      <mtable rowspacing=".5em" columnspacing="1em" displaystyle="true">
+        <mtr>
+          <mtd>
+            <msup>
+              <mi>&#x3C3;</mi>
+              <mo>&#x2217;</mo>
+            </msup>
+          </mtd>
+        </mtr>
+      </mtable>
+    </mrow>
+  </mstyle>
+</math>
+for a new message
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+  <mstyle displaystyle="true" scriptlevel="0">
+    <mrow data-mjx-texclass="ORD">
+      <mtable rowspacing=".5em" columnspacing="1em" displaystyle="true">
+        <mtr>
+          <mtd>
+            <msup>
+              <mi>m</mi>
+              <mo>&#x2217;</mo>
+            </msup>
+            <mo>&#x2209;</mo>
+            <mo fence="false" stretchy="false">{</mo>
+            <msub>
+              <mi>m</mi>
+              <mi>i</mi>
+            </msub>
+            <msubsup>
+              <mo fence="false" stretchy="false">}</mo>
+              <mrow data-mjx-texclass="ORD">
+                <mi>i</mi>
+                <mo>=</mo>
+                <mn>1</mn>
+              </mrow>
+              <mi>N</mi>
+            </msubsup>
+          </mtd>
+        </mtr>
+      </mtable>
+    </mrow>
+  </mstyle>
+</math>
+(except with negligible probability). If the attacker outputs a valid
+signature on a new message:
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+  <mstyle displaystyle="true" scriptlevel="0">
+    <mrow data-mjx-texclass="ORD">
+      <mtable rowspacing=".5em" columnspacing="1em" displaystyle="true">
+        <mtr>
+          <mtd>
+            <mo stretchy="false">(</mo>
+            <msup>
+              <mi>m</mi>
+              <mo>&#x2217;</mo>
+            </msup>
+            <mo>,</mo>
+            <msup>
+              <mi>&#x3C3;</mi>
+              <mo>&#x2217;</mo>
+            </msup>
+            <mo stretchy="false">)</mo>
+          </mtd>
+        </mtr>
+      </mtable>
+    </mrow>
+  </mstyle>
+</math>,
+it is called an <em>existential
+forgery</em>.
+          </p>
+          <p>
+<strong>SUF-CMA</strong> (<em>strong unforgeability under chosen
+message attacks</em>) is a stronger notion than <em>EUF-CMA</em>. It guarantees
+that for any efficient adversary who has the public key
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+  <mstyle displaystyle="true" scriptlevel="0">
+    <mrow data-mjx-texclass="ORD">
+      <mtable rowspacing=".5em" columnspacing="1em" displaystyle="true">
+        <mtr>
+          <mtd>
+            <mi>p</mi>
+            <mi>k</mi>
+          </mtd>
+        </mtr>
+      </mtable>
+    </mrow>
+  </mstyle>
+</math>
+of the signer and
+received an arbitrary number of signatures on messages of its choice:
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+  <mstyle displaystyle="true" scriptlevel="0">
+    <mrow data-mjx-texclass="ORD">
+      <mtable rowspacing=".5em" columnspacing="1em" displaystyle="true">
+        <mtr>
+          <mtd>
+            <mo fence="false" stretchy="false">{</mo>
+            <msub>
+              <mi>m</mi>
+              <mi>i</mi>
+            </msub>
+            <mo>,</mo>
+            <msub>
+              <mi>&#x3C3;</mi>
+              <mi>i</mi>
+            </msub>
+            <msubsup>
+              <mo fence="false" stretchy="false">}</mo>
+              <mrow data-mjx-texclass="ORD">
+                <mi>i</mi>
+                <mo>=</mo>
+                <mn>1</mn>
+              </mrow>
+              <mi>N</mi>
+            </msubsup>
+          </mtd>
+        </mtr>
+      </mtable>
+    </mrow>
+  </mstyle>
+</math>,
+it cannot output a new valid signature pair
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+  <mstyle displaystyle="true" scriptlevel="0">
+    <mrow data-mjx-texclass="ORD">
+      <mtable rowspacing=".5em" columnspacing="1em" displaystyle="true">
+        <mtr>
+          <mtd>
+            <mo stretchy="false">(</mo>
+            <msup>
+              <mi>m</mi>
+              <mo>&#x2217;</mo>
+            </msup>
+            <mo>,</mo>
+            <msup>
+              <mi>&#x3C3;</mi>
+              <mo>&#x2217;</mo>
+            </msup>
+            <mo stretchy="false">)</mo>
+          </mtd>
+        </mtr>
+      </mtable>
+    </mrow>
+  </mstyle>
+</math>,
+such that
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+  <mstyle displaystyle="true" scriptlevel="0">
+    <mrow data-mjx-texclass="ORD">
+      <mtable rowspacing=".5em" columnspacing="1em" displaystyle="true">
+        <mtr>
+          <mtd>
+            <mo stretchy="false">(</mo>
+            <msup>
+              <mi>m</mi>
+              <mo>&#x2217;</mo>
+            </msup>
+            <mo>,</mo>
+            <msup>
+              <mi>&#x3C3;</mi>
+              <mo>&#x2217;</mo>
+            </msup>
+            <mo stretchy="false">)</mo>
+            <mo>&#x2209;</mo>
+            <mo fence="false" stretchy="false">{</mo>
+            <msup>
+              <mi>m</mi>
+              <mi>i</mi>
+            </msup>
+            <mo>,</mo>
+            <msup>
+              <mi>&#x3C3;</mi>
+              <mi>i</mi>
+            </msup>
+            <msubsup>
+              <mo fence="false" stretchy="false">}</mo>
+              <mrow data-mjx-texclass="ORD">
+                <mi>i</mi>
+                <mo>=</mo>
+                <mn>1</mn>
+              </mrow>
+              <mi>N</mi>
+            </msubsup>
+          </mtd>
+        </mtr>
+      </mtable>
+    </mrow>
+  </mstyle>
+</math>
+(except with negligible probability). Strong unforgeability implies that an
+adversary not only cannot sign new messages, but also cannot find a new signature
+on an old message. See [[Provable_Ed25519]] for a real world attack that would
+have been circumvented with SUF-CMA security over EUF-CMA security.
+          </p>
+          <p>
+Besides EUF-CMA and SUF-CMA there are additional properties a digital signature
+scheme can possess that may be essential for overall software or protocol
+security depending on the application. These are discussed in [[BUFF]], which is 
+also referenced by [[FIPS-204]] and [[FIPS-205]]. These additional properties 
+are defined in  [[BUFF]] as: 
+<em>exclusive ownership</em>, <em>message-bound signatures</em>, and 
+<em>non re-signability</em>.
+          </p>
+          <p>
+<strong>Exclusive Ownership (EO)</strong>: the property that a signature only 
+verifies under a single public key. Without this property a system could be 
+vunerable to an attack that allows constructing another key pair under which a 
+given signature verifies, but never breaks the EUF-CMA property. Such an attack
+is documented in both [[BUFF]] and in [[Provable_Ed25519]] where it is called a
+"key substitution attack".
+          </p>
+          <p>
+<strong>Message-Bound Signatures (MBS)</strong>: the property that a signature 
+is only valid for a unique message. This property is key for data integrity and
+all signature schemes chosen here currently support it. From [[BUFF]]: 
+"A possible cause can be the presence of weak keys that verify multiple or even 
+all messages. The absence of this property can lead to problems in protocols 
+that depend on uniqueness properties in the presence of adversarially chosen 
+keys."
+          </p>
+          <p>
+<strong>Non Re-signability (NR)</strong>: meaning that one cannot produce a signature 
+under another key given a signature for some unknown message m, i.e., that an
+adversary cannot produce a legitimate signature verifying under its public key 
+for a message it does not know. See [[BUFF]] for an example of a system that 
+could be vulnerable without this property.
+          </p>
+          <p>
+In [[[#SecurityProperties]]] we summarize the known security properties of the
+signature schemes in this specification.
+          </p>
+          <table id="SecurityProperties" class="data numbered">
+            <caption><em>Security Properties of Signature Schemes.</em> </caption>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>EUF-CMA</th>
+            <th>SUF-CMA</th>
+            <th>EO</th>
+            <th>MBS</th>
+            <th>NR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ML-DSA</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td>SLH-DSA</td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>Unknown</td>
+            <td>Yes</td>
+            <td>Unknown</td>
+          </tr>
+          <tr>
+            <td>FALCON<sup>*</sup></td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>No</td>
+            <td>Yes</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td>SQIsign</td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+          </tr>
+        </tbody>
+        </table>
+        <p class="note">
+Note<sup>*</sup>: This is based on the "third round FALCON" currently used hear 
+and according to [[BUFF]] will be updated when FIPS-206 is released.
+        </p>
+      </section>
 
     </section>
 
