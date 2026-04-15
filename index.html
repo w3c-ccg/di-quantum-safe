@@ -2295,6 +2295,26 @@ The following section describes privacy considerations that developers
 implementing this specification should be aware of in order to avoid violating
 privacy assumptions.
       </p>
+      <section>
+      <h3>Selective and Unlinkable Disclosure</h3>
+
+      <p>
+The cryptographic suites described in this specification do not support
+[=selective disclosure=] or [=unlinkable disclosure=]. If
+[=selective disclosure=] is a desired feature, readers might find the
+[[[?VC-DI-ECDSA]]] specification useful. If [=unlinkable disclosure=] is of
+interest, the [[[?VC-DI-BBS]]] specification provides an unlinkable digital
+signature mechanism.
+      </p>
+      <p class="ednote">
+A relatively efficient selective disclosure, but not unlinkable disclosure
+mechanism can be created utilizing the selective disclosure functions defined in
+[[[?VC-DI-ECDSA]]] combined with the "salted hash" approach of 
+<a href="https://www.rfc-editor.org/rfc/rfc9901.html">SD-JWT</a> if
+there is sufficient interest.
+      </p>
+
+    </section>
 
     </section>
     <section class="appendix informative" id="TestVectors">
