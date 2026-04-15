@@ -605,7 +605,7 @@ by the signature algorithm corresponding to the `cryptosuite` given in
 This signature is produced according to using the algorithms specified in section
 [[[#Algorithms]]], then encoded using the base-64-url-nopad header and
 alphabet as described in the
-<a href="https://www.w3.org/TR/vc-data-integrity/#multibase-0">
+<a href="https://www.w3.org/TR/cid-1.0/#multibase-0">
 Multibase section</a> of [[VC-DATA-INTEGRITY]].
           </p>
           <p class="informative">
@@ -951,8 +951,8 @@ Return |verificationResult| as the <em>verification result</em>.
         <h3>Instantiate Cryptosuite</h3>
         <p>
 This algorithm is used to configure a cryptographic suite to be used by the
-<a data-cite="VC-DATA-INTEGRITY#add-proof">Add Proof</a> and
-<a href="VC-DATA-INTEGRITY#verify-proof">Verify Proof</a>
+<a data-cite="vc-data-integrity#add-proof">Add Proof</a> and
+<a data-cite="vc-data-integrity#verify-proof">Verify Proof</a>
 functions in [[[VC-DATA-INTEGRITY]]]. The algorithm takes an options object
 ([=map=] |options|) as input and returns a [=data integrity cryptographic suite
 instance|cryptosuite instance=] ([=struct=] |cryptosuite|).
