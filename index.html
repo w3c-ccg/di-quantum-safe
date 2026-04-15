@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Quantum-Safe Cryptosuites v0.3</title>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
     <!--
       === NOTA BENE ===
       For the three scripts below, if your spec resides on dev.w3 you can check them
@@ -10,7 +10,7 @@
      -->
     <script src="//www.w3.org/Tools/respec/respec-w3c" class="remove"></script>
 
-    <script type="text/javascript" class="remove">
+    <script class="remove">
       var respecConfig = {
         subtitle: "Achieving Data Integrity using Post-Quantum Cryptography",
         // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
@@ -2300,24 +2300,24 @@ privacy assumptions.
     <section class="appendix informative" id="TestVectors">
       <h2>Test Vectors</h2>
       <section>
-        <h4>Test Vector Common Inputs</h4>
+        <h3>Test Vector Common Inputs</h3>
         <p>
 Inputs used in two or more test vectors are given in this section. They include
 the unsigned document, general proof options, and cryptographic keys.
         </p>
 
         <section>
-          <h5>Unsecured Data Document</h5>
+          <h4>Unsecured Data Document</h4>
           <p>
 The common <a>unsecured data document</a> used for generating all test vectors
 that require this input is given below.
           </p>
           <pre class="example nohighlight" title="Unsigned Document"
           data-include="testVectors/inputs/employmentAuth.json"
-          data-include-format="text">
+          data-include-format="text"></pre>
         </section>
         <section>
-          <h5>Proof Options</h5>
+          <h4>Proof Options</h4>
           <p>
 A general template for the <em>proof options</em> used by test vectors that
 require this input is given below.
@@ -2367,14 +2367,14 @@ format and the public key as a `publicKeyMultibase`.
         </section>
       </section>
       <section>
-          <h4>Common Algorithms: Proof Configuration</h4>
+          <h3>Common Algorithms: Proof Configuration</h3>
           <p>
 The Proof Configuration algorithm output is dependent on the specific <em>proof
 options</em> as well as the parameters, hence an output test vector for Proof
 Configuration is given for each supported `cryptosuite`.
           </p>
         <section>
-          <h5>Proof Configuration (`rdfc`, `sha-256`)</h5>
+          <h4>Proof Configuration (`rdfc`, `sha-256`)</h4>
           <pre class="example nohighlight" title="Proof Configuration mldsa44-rdfc-2024"
           data-include="testVectors/commonAlgs/proofConfig-mldsa44-rdfc-2024.txt"
           data-include-format="text">
@@ -2420,7 +2420,7 @@ Configuration is given for each supported `cryptosuite`.
         </section>
       </section>
       <section>
-        <h4>Common Algorithms: Transform</h4>
+        <h3>Common Algorithms: Transform</h3>
         <p>
 In addition to the common <a>unsecured data document</a> the Transform algorithm
 takes parameters |canonScheme| and |hashName|. Only in the case of |canonScheme|
@@ -2428,7 +2428,7 @@ equal to `rdfc` does the |hashName| parameter matter. This is reflected in the
 set of Transformation output test vectors given below.
         </p>
         <section>
-          <h5>Transform (`rdfc`, `sha-256`)</h5>
+          <h4>Transform (`rdfc`, `sha-256`)</h4>
           <pre class="example nohighlight" title="Transform RDFC, SHA-256"
           data-include="testVectors/commonAlgs/transform-rdfc-sha256.txt"
           data-include-format="text">
@@ -2457,7 +2457,7 @@ set of Transformation output test vectors given below.
         </section>
       </section>
       <section>
-        <h4>Common Algorithms: Hashing</h4>
+        <h3>Common Algorithms: Hashing</h3>
         <p>
 The <em>Hashing</em> algorithm takes as inputs the results of the <em>Proof
 Configuration</em> and <em>Transformation</em> algorithms. Since the <em>Proof
@@ -2478,7 +2478,7 @@ algorithm and both can be useful information when debugging.
       </section>
 
       <section id="TV-Create-Proof">
-        <h4>Create Proof</h4>
+        <h3>Create Proof</h3>
         <p>
 The <em>Create Proof</em> algorithm output is cryptosuite specific and uses the
 outputs of the <em>Proof Configuration</em>, <em>Transformation</em>,
@@ -2491,42 +2491,42 @@ separately since it is contained in the `proofValue` attribute in the following
 examples and can be quite lengthy for some quantum safe signature algorithms.
         </p>
         <section>
-          <h5>Cryptosuite `mldsa44-rdfc-2024`</h5>
+          <h4>Cryptosuite `mldsa44-rdfc-2024`</h4>
           <pre class="example nohighlight" title="Signed credential `mldsa44-rdfc-2024`"
           data-include="testVectors/mldsa44-rdfc-2024/signed-mldsa44-rdfc-2024.json"
           data-include-format="text">
           </pre>
         </section>
         <section>
-          <h5>Cryptosuite `mldsa44-jcs-2024`</h5>
+          <h4>Cryptosuite `mldsa44-jcs-2024`</h4>
           <pre class="example nohighlight" title="Signed credential `mldsa44-jcs-2024`"
           data-include="testVectors/mldsa44-jcs-2024/signed-mldsa44-jcs-2024.json"
           data-include-format="text">
           </pre>
         </section>
         <section>
-          <h5>Cryptosuite `slhdsa128-rdfc-2024`</h5>
+          <h4>Cryptosuite `slhdsa128-rdfc-2024`</h4>
           <pre class="example nohighlight" title="Signed credential `slhdsa128-rdfc-2024`"
           data-include="testVectors/slhdsa128-rdfc-2024/signed-slhdsa128-rdfc-2024.json"
           data-include-format="text">
           </pre>
         </section>
         <section>
-          <h5>Cryptosuite `slhdsa128-jcs-2024`</h5>
+          <h4>Cryptosuite `slhdsa128-jcs-2024`</h4>
           <pre class="example nohighlight" title="Signed credential `slhdsa128-jcs-2024`"
           data-include="testVectors/slhdsa128-jcs-2024/signed-slhdsa128-jcs-2024.json"
           data-include-format="text">
           </pre>
         </section>
         <section>
-          <h5>Cryptosuite `falcon512-rdfc-2024`</h5>
+          <h4>Cryptosuite `falcon512-rdfc-2024`</h4>
           <pre class="example nohighlight" title="Signed credential `falcon512-rdfc-2024`"
           data-include="testVectors/falcon512-rdfc-2024/signed-falcon512-rdfc-2024.json"
           data-include-format="text">
           </pre>
         </section>
         <section>
-          <h5>Cryptosuite `falcon512-jcs-2024`</h5>
+          <h4>Cryptosuite `falcon512-jcs-2024`</h4>
           <pre class="example nohighlight" title="Signed credential `falcon512-jcs-2024`"
           data-include="testVectors/falcon512-jcs-2024/signed-falcon512-jcs-2024.json"
           data-include-format="text">
@@ -2534,14 +2534,14 @@ examples and can be quite lengthy for some quantum safe signature algorithms.
         </section>
 
         <section>
-          <h5>Cryptosuite `sqisign1-rdfc-2024`</h5>
+          <h4>Cryptosuite `sqisign1-rdfc-2024`</h4>
           <pre class="example nohighlight" title="Signed credential `sqisign1-rdfc-2024`"
           data-include="testVectors/sqisign1-rdfc-2024/signed-sqisign1-rdfc-2024.json"
           data-include-format="text">
           </pre>
         </section>
         <section>
-          <h5>Cryptosuite `sqisign1-jcs-2024`</h5>
+          <h4>Cryptosuite `sqisign1-jcs-2024`</h4>
           <pre class="example nohighlight" title="Signed credential `sqisign1-jcs-2024`"
           data-include="testVectors/sqisign1-jcs-2024/signed-sqisign1-jcs-2024.json"
           data-include-format="text">
