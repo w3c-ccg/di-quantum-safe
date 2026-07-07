@@ -448,6 +448,89 @@ preliminary and not currently registered with
 multicodecs</a>. When these signature schemes are formalized by NIST or other
 SDOs these values should be updated/registered.
           </p>
+
+          <p>
+The `secretKeyMultibase` property represents a Multibase-encoded Multikey
+expression of a secret key (also sometimes referred to as a
+private key).
+          </p>
+          <table class="data numbered" id="SecretMultiKeyTable">
+            <caption><em>Secret Key Summary, all sizes in bytes.</em></caption>
+            <thead>
+              <tr>
+                <th>Signature Name</th>
+                <th>Varint Code</th>
+                <th>Multi-Byte Prefix</th>
+                <th>Raw Secret Size</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ML-DSA-44 key<sup>1</sup></td>
+                <td>0x1317</td>
+                <td>0x9726</td>
+                <td>2560</td>
+              </tr>
+              <tr>
+                <td>ML-DSA-44 seed<sup>1</sup></td>
+                <td>0x131a</td>
+                <td>0x9a26</td>
+                <td>32</td>
+              </tr>
+              <tr>
+                <td>SLH-DSA-SHA2-128s</td>
+                <td>0x131d</td>
+                <td>0x9d26</td>
+                <td>64</td>
+              </tr>
+              <tr>
+                <td>FALCON-512<sup>**</sup></td>
+                <td>0x1321</td> <!--Not submitted to multicoded yet -->
+                <td>0xa126</td>
+                <td>1281</td>
+              </tr>
+              <tr>
+                <td>SQIsign-I<sup>**</sup></td>
+                <td>0x1322</td> <!--Not submitted to multicoded yet -->
+                <td>0xa226</td>
+                <td>353</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="note">
+Note<sup>1</sup>: For ML-DSA signatures, the private key is generated from a 
+private seed. Whether one retains the full private key or regenerates it from
+the corresponding seed is an implementation decision.
+          </p>
+          <p>
+The Multikey encoding of a secret key for a signature supported by this
+specification MUST start with the corresponding multi-byte prefix for the
+signature named in [[[#SecretMultiKeyTable]]] followed by the raw public key bytes.
+This multi-byte prefix is the varint expression of the varint code
+given in the previous table.
+The resulting value will have a byte length given by the raw public key size in
+the table plus the length of the multi-byte prefix. This value MUST then be
+encoded
+using the base-64-url alphabet, according to the
+<a data-cite="CID#multibase-0">Multibase section</a> of
+[[[CID]]] and then prepended with the base-64-url
+Multibase header (`u`).
+          </p>
+          <p class="ednote">
+Note**: The codes given in [[[#SecretMultiKeyTable]]] for  
+FALCON-512, and SQIsign-I are
+preliminary and not currently registered with
+<a href="https://github.com/multiformats/multicodec/blob/master/table.csv">
+multicodecs</a>. When these signature schemes are formalized by NIST or other
+SDOs, these values should be updated/registered.
+          </p>
+
+
+          <p class="advisement">
+            Developers are advised to prevent accidental publication of a representation of a secret
+            key, and to not export the `secretKeyMultibase` property by default, when serializing
+            key pairs as Multikey.
+          </p>
         </section>
 
       </section>
