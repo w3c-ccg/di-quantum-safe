@@ -201,7 +201,7 @@
             href: "https://eprint.iacr.org/2020/823"
           }
         },
-        xref: ["INFRA", "VC-DATA-MODEL-2.0", "VC-DATA-INTEGRITY"],
+        xref: ["INFRA", "VC-DATA-MODEL-2.0", "VC-DATA-INTEGRITY-1.1"],
         lint: { "informative-dfn": false },
         otherLinks: [{
           key: "Related Specifications",
@@ -732,6 +732,11 @@ by default, and abort processing upon detection.
 
       <section id="CommonAlgorithms">
         <h3>Common Algorithms</h3>
+        <p class="ednote">
+Both the detailed algorithms (hash, transform, etc) and the high level algorithms
+are now defined in VC-Data-Integrity-1.1 and this section should just mention 
+that and we need to remove the definitions here.
+        </p>
         <section id="HashingAlg">
           <h4>Hashing</h4>
 
@@ -1003,6 +1008,10 @@ Return |verificationResult| as the <em>verification result</em>.
       </section>
       <section id="InstantiateCryptosuite">
         <h3>Instantiate Cryptosuite</h3>
+        <p class="ednote">
+Update to reference VC-DI-1.1 algorithms and getting parameters from the 
+specific sections in this document that define the cryptosuite parameters.
+        </p>
         <p>
 This algorithm is used to configure a cryptographic suite to be used by the
 <a data-cite="vc-data-integrity#add-proof">Add Proof</a> and
@@ -1180,7 +1189,7 @@ family of ML-DSA cryptosuites given in [[[#MLSuitesTable]]].
         </table>
         <section>
           <h4>Create Proof (ML-DSA)</h4>
-
+<p class="ednote">To be removed.</p>
           <p>
 The following algorithm specifies how to create a [=data integrity proof=] given
 an <a>unsecured data document</a> and an ML-DSA cryptosuite chosen from
@@ -1230,7 +1239,7 @@ Return |proof| as the [=data integrity proof=].
 
         <section>
           <h4>Verify Proof (ML-DSA)</h4>
-
+<p class="ednote">To be removed.</p>
           <p>
 The following algorithm specifies how to verify a [=data integrity proof=] given
 an <a>secured data document</a>. Required inputs are an
@@ -1409,7 +1418,7 @@ family of ML-DSA cryptosuites given in [[[#SLHSuiteTable]]].
 
         <section>
           <h4>Create Proof (SLH-DSA)</h4>
-
+<p class="ednote">To be removed.</p>
           <p>
 The following algorithm specifies how to create a [=data integrity proof=] given
 an <a>unsecured data document</a> and an SLH-DSA cryptosuite chosen from
@@ -1459,7 +1468,7 @@ Return |proof| as the [=data integrity proof=].
 
         <section>
           <h4>Verify Proof (SLH-DSA)</h4>
-
+<p class="ednote">To be removed.</p>
           <p>
 The following algorithm specifies how to verify a [=data integrity proof=] given
 an <a>secured data document</a>. Required inputs are an
@@ -1632,7 +1641,7 @@ family of FALCON cryptosuites given in [[[#FALCONSuitesTable]]].
         </table>
         <section>
           <h4>Create Proof (FALCON)</h4>
-
+<p class="ednote">To be removed.</p>
           <p>
 The following algorithm specifies how to create a [=data integrity proof=] given
 an <a>unsecured data document</a> and a FALCON cryptosuite chosen from
@@ -1682,7 +1691,7 @@ Return |proof| as the [=data integrity proof=].
 
         <section>
           <h4>Verify Proof (FALCON)</h4>
-
+<p class="ednote">To be removed.</p>
           <p>
 The following algorithm specifies how to verify a [=data integrity proof=] given
 an <a>secured data document</a>. Required inputs are an
@@ -1842,7 +1851,7 @@ family of SQIsign cryptosuites given in [[[#SQISuitesTable]]].
         </table>
         <section>
           <h4>Create Proof (SQIsign)</h4>
-
+<p class="ednote">To be removed.</p>
           <p>
 The following algorithm specifies how to create a [=data integrity proof=] given
 an <a>unsecured data document</a> and a SQIsign cryptosuite chosen from
@@ -1892,7 +1901,7 @@ Return |proof| as the [=data integrity proof=].
 
         <section>
           <h4>Verify Proof (SQIsign)</h4>
-
+<p class="ednote">To be removed.</p>
           <p>
 The following algorithm specifies how to verify a [=data integrity proof=] given
 an <a>secured data document</a>. Required inputs are an
