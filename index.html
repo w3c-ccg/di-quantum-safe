@@ -748,10 +748,7 @@ base64-url-encoded Multibase encoding</a>.
       </section>
       <section id="InstantiateCryptosuite">
         <h3>Instantiate Cryptosuite</h3>
-        <p class="ednote">
-Update to reference VC-DI-1.1 algorithms and getting parameters from the 
-specific sections in this document that define the cryptosuite parameters.
-        </p>
+
         <p>
 This algorithm is used to configure a cryptographic suite to be used by the
 <a data-cite="vc-data-integrity#add-proof">Add Proof</a> and
@@ -769,59 +766,27 @@ Initialize |cryptosuite| to an empty [=struct=].
 If |options|.|type| does not equal `DataIntegrityProof`, return |cryptosuite|.
           </li>
 
+
+
           <li>
-If |options|.|cryptosuite| is `mldsa44-rdfc-2024` or `mldsa44-jcs-2024` then:
+If |options|.|cryptosuite| is listed in [[[#CryptosuiteTable]]] then:
             <ol class="algorithm">
               <li>
+Set the values of the parameters `canonScheme`, `hashName`, `sigFunc`, and
+`verifyFunc`,  as indicated in the section corresponding to the "Details" 
+column in the [[[#CryptosuiteTable]]] with  `proofEncoding`  set to `base64`.
+              </li>
+              <li>
 Set |cryptosuite|.|createProof| to the algorithm in Section
-[[[#create-proof-ml-dsa]]].
+[[[VC-DATA-INTEGRITY-1.1#create-proof]]] passing in the above parameters.
               </li>
               <li>
 Set |cryptosuite|.|verifyProof| to the algorithm in Section
-[[[#verify-proof-ml-dsa]]].
+[[[VC-DATA-INTEGRITY-1.1#verify-proof-0]]] passing in the above parameters.
               </li>
             </ol>
           </li>
-          <li>
-If |options|.|cryptosuite| is `slhdsa128-rdfc-2024` or `slhdsa128-jcs-2024` then:
-            <ol class="algorithm">
-              <li>
-Set |cryptosuite|.|createProof| to the algorithm in Section
-[[[#create-proof-slh-dsa]]].
-              </li>
-              <li>
-Set |cryptosuite|.|verifyProof| to the algorithm in Section
-[[[#verify-proof-slh-dsa]]].
-              </li>
-            </ol>
-          </li>
-          <li>
-If |options|.|cryptosuite| is `falcon512-rdfc-2024` or `falcon512-jcs-2024`
-then:
-            <ol class="algorithm">
-              <li>
-Set |cryptosuite|.|createProof| to the algorithm in Section
-[[[#create-proof-falcon]]].
-              </li>
-              <li>
-Set |cryptosuite|.|verifyProof| to the algorithm in Section
-[[[#verify-proof-falcon]]].
-              </li>
-            </ol>
-          </li>
-          <li>
-If |options|.|cryptosuite| is `sqisign1-rdfc-2024` or  `sqisign1-jcs-2024` then:
-            <ol class="algorithm">
-              <li>
-Set |cryptosuite|.|createProof| to the algorithm in Section
-[[[#create-proof-sqisign]]].
-              </li>
-              <li>
-Set |cryptosuite|.|verifyProof| to the algorithm in Section
-[[[#verify-proof-sqisign]]].
-              </li>
-            </ol>
-          </li>
+
           <li>
 Return |cryptosuite|.
           </li>
