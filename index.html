@@ -1079,7 +1079,7 @@ Return |cryptosuite|.
         </ol>
 
       </section>
-      <section id="MLDSA_Cypthersuites">
+      <section id="MLDSA_Cryptosuites">
         <h3>ML-DSA Cryptosuites</h3>
         <p>
 The Module-Lattice-Based Digital Signature Standard defined in [[[FIPS-204]]]
@@ -1199,13 +1199,13 @@ Let |proof| be a clone of the proof options, |options|.
             <li>
 Let |proofConfig| be the result of running the algorithm in
 Section [[[#ProofConfigurationAlg]]] with
-|options|, the |cypherSuiteName|, |canonScheme|, and |hashName|
+|options|, the |cryptosuiteName|, |canonScheme|, and |hashName|
 passed as parameters.
             </li>
             <li>
 Let |transformedData| be the result of running the algorithm in Section
 [[[#TransformationAlg]]] with |unsecuredDocument|, |options|, the
-|cypherSuiteName|, |canonScheme|, and |hashName| passed as parameters.
+|cryptosuiteName|, |canonScheme|, and |hashName| passed as parameters.
             </li>
             <li>
 Let |hashData| be the result of running the algorithm in Section
@@ -1271,12 +1271,12 @@ value</a> in |securedDocument|.|proof|.|proofValue|.
           <li>
 Let |transformedData| be the result of running the algorithm in Section
 [[[#TransformationAlg]]] with |unsecuredDocument|,
-and |cypherSuiteName|,
+and |cryptosuiteName|,
 |canonScheme|, and |hashName| |proofOptions| passed as parameters.
           </li>
           <li>
 Let |proofConfig| be the result of running the algorithm in
-Section [[[#ProofConfigurationAlg]]] with |options|, |cypherSuiteName|,
+Section [[[#ProofConfigurationAlg]]] with |options|, |cryptosuiteName|,
 |canonScheme|, and |hashName| passed as parameters.
           </li>
           <li>
@@ -1428,13 +1428,13 @@ Let |proof| be a clone of the proof options, |options|.
             <li>
 Let |proofConfig| be the result of running the algorithm in
 Section [[[#ProofConfigurationAlg]]] with
-|options|, the |cypherSuiteName|, |canonScheme|, and |hashName|
+|options|, the |cryptosuiteName|, |canonScheme|, and |hashName|
 passed as parameters.
             </li>
             <li>
 Let |transformedData| be the result of running the algorithm in Section
 [[[#TransformationAlg]]] with |unsecuredDocument|, |options|,
-|cypherSuiteName|, |canonScheme|, and |hashName| passed as parameters.
+|cryptosuiteName|, |canonScheme|, and |hashName| passed as parameters.
             </li>
             <li>
 Let |hashData| be the result of running the algorithm in Section
@@ -1487,7 +1487,7 @@ Let |proofOptions| be a copy of |securedDocument|.|proof| with `proofValue`
 removed.
           </li>
           <li>
-Set |cryptosuiteName| to |securedDocument|.|proof|.|cypnersuite|,
+Set |cryptosuiteName| to |securedDocument|.|proof|.|cryptosuite|,
 it must be one of those listed in [[[#SLHSuiteTable]]].
 From |cryptosuiteName| set the values of |canonScheme|, |hashName|,
 and |verifyFunc| per [[[#SLHSuiteTable]]].
@@ -1501,11 +1501,11 @@ decoding</a> of |securedDocument|.|proof|.|proofValue|.
 Let |transformedData| be the result of running the algorithm in Section
 [[[#TransformationAlg]]] with |unsecuredDocument|,
 |proofOptions|,
-|cypherSuiteName|, |canonScheme|, and |hashName| passed as parameters.
+|cryptosuiteName|, |canonScheme|, and |hashName| passed as parameters.
           </li>
           <li>
 Let |proofConfig| be the result of running the algorithm in
-Section [[[#ProofConfigurationAlg]]] with |options| |cypherSuiteName|,
+Section [[[#ProofConfigurationAlg]]] with |options| |cryptosuiteName|,
 |canonScheme|, and |hashName| passed as parameters.
           </li>
           <li>
@@ -1651,13 +1651,13 @@ Let |proof| be a clone of the proof options, |options|.
             <li>
 Let |proofConfig| be the result of running the algorithm in
 Section [[[#ProofConfigurationAlg]]] with
-|options|, the |cypherSuiteName|, |canonScheme|, and |hashName|
+|options|, the |cryptosuiteName|, |canonScheme|, and |hashName|
 passed as parameters.
             </li>
             <li>
 Let |transformedData| be the result of running the algorithm in Section
 [[[#TransformationAlg]]] with |unsecuredDocument|, |options|, the
-|cypherSuiteName|, |canonScheme|, and |hashName| passed as parameters.
+|cryptosuiteName|, |canonScheme|, and |hashName| passed as parameters.
             </li>
             <li>
 Let |hashData| be the result of running the algorithm in Section
@@ -1723,12 +1723,12 @@ value</a> in |securedDocument|.|proof|.|proofValue|.
           <li>
 Let |transformedData| be the result of running the algorithm in Section
 [[[#TransformationAlg]]] with |unsecuredDocument|,
-and |cypherSuiteName|,
+and |cryptosuiteName|,
 |canonScheme|, and |hashName| |proofOptions| passed as parameters.
           </li>
           <li>
 Let |proofConfig| be the result of running the algorithm in
-Section [[[#ProofConfigurationAlg]]] with |options|, |cypherSuiteName|,
+Section [[[#ProofConfigurationAlg]]] with |options|, |cryptosuiteName|,
 |canonScheme|, and |hashName| passed as parameters.
           </li>
           <li>
@@ -1861,13 +1861,13 @@ Let |proof| be a clone of the proof options, |options|.
             <li>
 Let |proofConfig| be the result of running the algorithm in
 Section [[[#ProofConfigurationAlg]]] with
-|options|, the |cypherSuiteName|, |canonScheme|, and |hashName|
+|options|, the |cryptosuiteName|, |canonScheme|, and |hashName|
 passed as parameters.
             </li>
             <li>
 Let |transformedData| be the result of running the algorithm in Section
 [[[#TransformationAlg]]] with |unsecuredDocument|, |options|, the
-|cypherSuiteName|, |canonScheme|, and |hashName| passed as parameters.
+|cryptosuiteName|, |canonScheme|, and |hashName| passed as parameters.
             </li>
             <li>
 Let |hashData| be the result of running the algorithm in Section
@@ -1933,12 +1933,12 @@ value</a> in |securedDocument|.|proof|.|proofValue|.
           <li>
 Let |transformedData| be the result of running the algorithm in Section
 [[[#TransformationAlg]]] with |unsecuredDocument|,
-and |cypherSuiteName|,
+and |cryptosuiteName|,
 |canonScheme|, and |hashName| |proofOptions| passed as parameters.
           </li>
           <li>
 Let |proofConfig| be the result of running the algorithm in
-Section [[[#ProofConfigurationAlg]]] with |options|, |cypherSuiteName|,
+Section [[[#ProofConfigurationAlg]]] with |options|, |cryptosuiteName|,
 |canonScheme|, and |hashName| passed as parameters.
           </li>
           <li>
