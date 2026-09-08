@@ -775,6 +775,29 @@ Set |cryptosuite|.|verifyProof| to the algorithm in Section
           </li>
 
           <li>
+If |options|.|cryptosuite| is listed in [[[#SDCryptosuiteTable]]] then:
+            <ol class="algorithm">
+              <li>
+Set the values of the parameters `approach`, `hashName`, `sigFunc`, and
+`verifyFunc`, as indicated in the corresponding
+column in the [[[#SDCryptosuiteTable]]].
+              </li>
+              <li>
+Set |cryptosuite|.|createBaseProof| to the algorithm in Section
+[[[VC-DATA-INTEGRITY-1.1#create-base-proof]]] passing in the above parameters.
+              </li>
+              <li>
+Set |cryptosuite|.|addDerivedProof| to the algorithm in Section
+[[[VC-DATA-INTEGRITY-1.1#add-derived-proof]]] passing in the above parameters.
+              </li>
+              <li>
+Set |cryptosuite|.|verifyDerivedProof| to the algorithm in Section
+[[[VC-DATA-INTEGRITY-1.1#verify-derived-proof]]] passing in the above parameters.
+              </li>
+            </ol>
+          </li>
+
+          <li>
 Return |cryptosuite|.
           </li>
         </ol>
